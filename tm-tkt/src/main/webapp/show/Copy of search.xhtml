@@ -56,16 +56,10 @@
 							<h:message for="showBeanExampleDirectorName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="From:"/>
+						<h:outputLabel for="showBeanExampleDescription" value="Description:"/>
 						<h:panelGroup>
-							<h:inputText id="showBeanExampleFirstEventDate" maxLength="45" value="#{showBean.example.firstEventDate}"/>
-							<h:message for="showBeanExampleFirstEventDate" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="To:"/>
-						<h:panelGroup>
-							<h:inputText id="showBeanExampleLastEventDate" maxLength="45" value="#{showBean.example.lastEventDate}"/>
-							<h:message for="showBeanExampleLastEventDate" styleClass="error"/>
+							<h:inputText id="showBeanExampleDescription" maxLength="65535" value="#{showBean.example.description}"/>
+							<h:message for="showBeanExampleDescription" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>

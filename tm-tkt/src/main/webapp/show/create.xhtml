@@ -70,6 +70,22 @@
 					<h:message for="showBeanShowDescription" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="showBeanShowFirstEventDate" value="First Event Date:"/>
+				<h:panelGroup>
+					<h:inputText id="showBeanShowFirstEventDate" maxLength="10" value="#{showBean.show.firstEventDate}">
+						<f:convertDateTime type="date"/>
+					</h:inputText>
+					<h:message for="showBeanShowFirstEventDate" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="showBeanShowLastEventDate" value="Last Event Date:"/>
+				<h:panelGroup>
+					<h:inputText id="showBeanShowLastEventDate" maxLength="10" value="#{showBean.show.lastEventDate}">
+						<f:convertDateTime type="date"/>
+					</h:inputText>
+					<h:message for="showBeanShowLastEventDate" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
 				<h:outputLabel for="showBeanShowEvents" value="Events:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{showBean.show.events}"/>

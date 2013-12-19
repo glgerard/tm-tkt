@@ -43,6 +43,16 @@
 			<h:outputLabel for="showBeanShowDescription" value="Description:"/>
 			<h:outputText id="showBeanShowDescription" value="#{showBean.show.description}"/>
 			<h:outputText/>
+			<h:outputLabel for="showBeanShowFirstEventDate" value="First Event Date:"/>
+			<h:outputText id="showBeanShowFirstEventDate" value="#{showBean.show.firstEventDate}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="showBeanShowLastEventDate" value="Last Event Date:"/>
+			<h:outputText id="showBeanShowLastEventDate" value="#{showBean.show.lastEventDate}">
+				<f:convertDateTime type="date"/>
+			</h:outputText>
+			<h:outputText/>
 			<h:outputLabel for="showBeanShowEvents" value="Events:"/>
 			<h:dataTable id="showBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(showBean.show.events)}" var="_item">
 				<h:column>
