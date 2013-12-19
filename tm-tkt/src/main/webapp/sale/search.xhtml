@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{saleBean.page}"/>
+		<f:event type="preRenderView" listener="#{saleBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Sale entities"/>
+
+	<ui:define name="header">
+		Sale
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Sale entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="saleBeanExampleCustomer" value="Customer:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{customerBean.converter}" id="saleBeanExampleCustomer" value="#{saleBean.example.customer}">
+								<f:selectItem/>
+								<f:selectItems value="#{customerBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="saleBeanExampleCustomer" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="saleBeanExamplePayment" value="Payment:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanExamplePayment" value="#{saleBean.example.payment}">
+								<f:selectItem/>
+								<f:selectItems value="#{paymentBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="saleBeanExamplePayment" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="saleBeanExamplePriceScheme" value="Price Scheme:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="saleBeanExamplePriceScheme" value="#{saleBean.example.priceScheme}">
+								<f:selectItem/>
+								<f:selectItems value="#{priceSchemeBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="saleBeanExamplePriceScheme" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{saleBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{saleBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="saleBeanPageItems" styleClass="data-table" value="#{saleBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Customer"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Payment"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemPayment" value="#{_item.payment}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Price Scheme"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemPriceScheme" value="#{_item.priceScheme}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{saleBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{priceSchemeBean.id}"/>
+		<f:event type="preRenderView" listener="#{priceSchemeBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create Price Scheme"/>
+
+	<ui:define name="header">
+		Price Scheme
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty priceSchemeBean.id}">
+				Edit existing Price Scheme
+			</c:when>
+			<c:otherwise>
+				Create a new Price Scheme
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="priceSchemeBeanPriceSchemeSeason" value="Season:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{seasonBean.converter}" id="priceSchemeBeanPriceSchemeSeason" value="#{priceSchemeBean.priceScheme.season}">
+						<f:selectItem/>
+						<f:selectItems value="#{seasonBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="priceSchemeBeanPriceSchemeSeason" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemeGenre" value="Genre:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{genreBean.converter}" id="priceSchemeBeanPriceSchemeGenre" value="#{priceSchemeBean.priceScheme.genre}">
+						<f:selectItem/>
+						<f:selectItems value="#{genreBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="priceSchemeBeanPriceSchemeGenre" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemeSector" value="Sector:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{sectorBean.converter}" id="priceSchemeBeanPriceSchemeSector" value="#{priceSchemeBean.priceScheme.sector}">
+						<f:selectItem/>
+						<f:selectItems value="#{sectorBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="priceSchemeBeanPriceSchemeSector" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemeTimeofday" value="Timeofday:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{timeofdayBean.converter}" id="priceSchemeBeanPriceSchemeTimeofday" value="#{priceSchemeBean.priceScheme.timeofday}">
+						<f:selectItem/>
+						<f:selectItems value="#{timeofdayBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="priceSchemeBeanPriceSchemeTimeofday" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemeDayofweek" value="Dayofweek:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{dayofweekBean.converter}" id="priceSchemeBeanPriceSchemeDayofweek" value="#{priceSchemeBean.priceScheme.dayofweek}">
+						<f:selectItem/>
+						<f:selectItems value="#{dayofweekBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="priceSchemeBeanPriceSchemeDayofweek" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemePrice" value="Price:"/>
+				<h:panelGroup>
+					<h:inputText id="priceSchemeBeanPriceSchemePrice" required="true" value="#{priceSchemeBean.priceScheme.price}"/>
+					<h:message for="priceSchemeBeanPriceSchemePrice" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemeSales" value="Sales:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{priceSchemeBean.priceScheme.sales}"/>
+					<h:dataTable id="priceSchemeBeanPriceSchemeSales" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Customer"/>
+							</f:facet>
+							<h:link outcome="/sale/view">
+								<f:param name="id" value="#{_item.saleId}"/>
+								<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{customerBean.converter}" id="saleBeanAddCustomer" value="#{saleBean.add.customer}">
+									<f:selectItem/>
+									<f:selectItems value="#{customerBean.all}"/>
+								</h:selectOneMenu>
+								<h:message for="saleBeanAddCustomer" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Payment"/>
+							</f:facet>
+							<h:link outcome="/sale/view">
+								<f:param name="id" value="#{_item.saleId}"/>
+								<h:outputText id="itemPayment" value="#{_item.payment}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanAddPayment" value="#{saleBean.add.payment}">
+									<f:selectItem/>
+									<f:selectItems value="#{paymentBean.all}"/>
+								</h:selectOneMenu>
+								<h:message for="saleBeanAddPayment" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(saleBean.added)}" id="priceSchemeBeanPriceSchemeSalesAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{saleBean.add.priceScheme}" value="#{priceSchemeBean.priceScheme}"/>
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action="#{priceSchemeBean.update}" styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test="#{!empty priceSchemeBean.id}">
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value="#{priceSchemeBean.id}"/>
+						</h:link>
+						<h:commandLink value="Delete" action="#{priceSchemeBean.delete}" styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

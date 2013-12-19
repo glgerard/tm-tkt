@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{seasonBean.page}"/>
+		<f:event type="preRenderView" listener="#{seasonBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Season entities"/>
+
+	<ui:define name="header">
+		Season
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Season entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="seasonBeanExampleEndDate" value="End Date:"/>
+						<h:panelGroup>
+							<h:inputText id="seasonBeanExampleEndDate" maxLength="45" value="#{seasonBean.example.endDate}"/>
+							<h:message for="seasonBeanExampleEndDate" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{seasonBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{seasonBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="seasonBeanPageItems" styleClass="data-table" value="#{seasonBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Start Date"/>
+					</f:facet>
+					<h:link outcome="/season/view">
+						<f:param name="id" value="#{_item.seasonId}"/>
+						<h:outputText id="itemStartDate" value="#{_item.startDate}">
+							<f:convertDateTime type="date"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="End Date"/>
+					</f:facet>
+					<h:link outcome="/season/view">
+						<f:param name="id" value="#{_item.seasonId}"/>
+						<h:outputText id="itemEndDate" value="#{_item.endDate}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{seasonBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

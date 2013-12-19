@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{eventBean.id}"/>
+		<f:event type="preRenderView" listener="#{eventBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Event"/>
+
+	<ui:define name="header">
+		Event
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Event
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="eventBeanEventShow" value="Show:"/>
+			<h:link id="eventBeanEventShow" outcome="/show/view" value="#{eventBean.event.show}">
+				<f:param name="id" value="#{eventBean.event.show.showId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="eventBeanEventDatetime" value="Datetime:"/>
+			<h:outputText id="eventBeanEventDatetime" value="#{eventBean.event.datetime}">
+				<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
+			</h:outputText>
+			<h:outputText/>
+			<h:outputLabel for="eventBeanEventBookings" value="Bookings:"/>
+			<h:dataTable id="eventBeanEventBookings" styleClass="data-table" value="#{forgeview:asList(eventBean.event.bookings)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemSale" value="#{_item.sale}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

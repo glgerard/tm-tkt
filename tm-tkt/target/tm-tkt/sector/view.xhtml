@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{sectorBean.id}"/>
+		<f:event type="preRenderView" listener="#{sectorBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Sector"/>
+
+	<ui:define name="header">
+		Sector
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Sector
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="sectorBeanSectorSectorId" value="Sector Id:"/>
+			<h:outputText id="sectorBeanSectorSectorId" value="#{sectorBean.sector.sectorId}"/>
+			<h:outputText/>
+			<h:outputLabel for="sectorBeanSectorSectorName" value="Sector Name:"/>
+			<h:outputText id="sectorBeanSectorSectorName" value="#{sectorBean.sector.sectorName}"/>
+			<h:outputText/>
+			<h:outputLabel for="sectorBeanSectorSeats" value="Seats:"/>
+			<h:dataTable id="sectorBeanSectorSeats" styleClass="data-table" value="#{forgeview:asList(sectorBean.sector.seats)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat Id"/>
+					</f:facet>
+					<h:link outcome="/seat/view">
+						<f:param name="id" value="#{_item.seatId}"/>
+						<h:outputText id="itemSeatId" value="#{_item.seatId}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+			<h:outputLabel for="sectorBeanSectorPriceSchemes" value="Price Schemes:"/>
+			<h:dataTable id="sectorBeanSectorPriceSchemes" styleClass="data-table" value="#{forgeview:asList(sectorBean.sector.priceSchemes)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Price"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemPrice" value="#{_item.price}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{saleBean.id}"/>
+		<f:event type="preRenderView" listener="#{saleBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Sale"/>
+
+	<ui:define name="header">
+		Sale
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Sale
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="saleBeanSaleCustomer" value="Customer:"/>
+			<h:link id="saleBeanSaleCustomer" outcome="/customer/view" value="#{saleBean.sale.customer}">
+				<f:param name="id" value="#{saleBean.sale.customer.customerId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="saleBeanSalePayment" value="Payment:"/>
+			<h:link id="saleBeanSalePayment" outcome="/payment/view" value="#{saleBean.sale.payment}">
+				<f:param name="id" value="#{saleBean.sale.payment.paymentId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="saleBeanSalePriceScheme" value="Price Scheme:"/>
+			<h:link id="saleBeanSalePriceScheme" outcome="/priceScheme/view" value="#{saleBean.sale.priceScheme}">
+				<f:param name="id" value="#{saleBean.sale.priceScheme.priceSchemeId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="saleBeanSaleBookings" value="Bookings:"/>
+			<h:dataTable id="saleBeanSaleBookings" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.bookings)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Event"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemEvent" value="#{_item.event}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+			<h:outputLabel for="saleBeanSaleTickets" value="Tickets:"/>
+			<h:dataTable id="saleBeanSaleTickets" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.tickets)}" var="_item"/>
+			<h:outputText/>
+			<h:outputLabel for="saleBeanSaleSubscriptions" value="Subscriptions:"/>
+			<h:dataTable id="saleBeanSaleSubscriptions" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.subscriptions)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Type"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="itemType" value="#{_item.type}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

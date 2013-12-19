@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{rowBean.page}"/>
+		<f:event type="preRenderView" listener="#{rowBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Row entities"/>
+
+	<ui:define name="header">
+		Row
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Row entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="rowBeanExampleRowId" value="Row Id:"/>
+						<h:panelGroup>
+							<h:inputText id="rowBeanExampleRowId" value="#{rowBean.example.rowId}"/>
+							<h:message for="rowBeanExampleRowId" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="rowBeanExampleRowName" value="Row Name:"/>
+						<h:panelGroup>
+							<h:inputText id="rowBeanExampleRowName" maxLength="45" value="#{rowBean.example.rowName}"/>
+							<h:message for="rowBeanExampleRowName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{rowBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{rowBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="rowBeanPageItems" styleClass="data-table" value="#{rowBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Row Id"/>
+					</f:facet>
+					<h:link outcome="/row/view">
+						<f:param name="id" value="#{_item.rowId}"/>
+						<h:outputText id="itemRowId" value="#{_item.rowId}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{rowBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

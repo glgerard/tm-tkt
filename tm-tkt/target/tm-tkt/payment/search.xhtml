@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{paymentBean.page}"/>
+		<f:event type="preRenderView" listener="#{paymentBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Payment entities"/>
+
+	<ui:define name="header">
+		Payment
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Payment entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="paymentBeanExampleTransactionId" value="Transaction Id:"/>
+						<h:panelGroup>
+							<h:inputText id="paymentBeanExampleTransactionId" maxLength="45" value="#{paymentBean.example.transactionId}"/>
+							<h:message for="paymentBeanExampleTransactionId" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="paymentBeanExampleInvoiceNumber" value="Invoice Number:"/>
+						<h:panelGroup>
+							<h:inputText id="paymentBeanExampleInvoiceNumber" maxLength="45" value="#{paymentBean.example.invoiceNumber}"/>
+							<h:message for="paymentBeanExampleInvoiceNumber" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="paymentBeanExamplePaymentMethod" value="Payment Method:"/>
+						<h:panelGroup>
+							<h:inputText id="paymentBeanExamplePaymentMethod" maxLength="45" value="#{paymentBean.example.paymentMethod}"/>
+							<h:message for="paymentBeanExamplePaymentMethod" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{paymentBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{paymentBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="paymentBeanPageItems" styleClass="data-table" value="#{paymentBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Transaction Id"/>
+					</f:facet>
+					<h:link outcome="/payment/view">
+						<f:param name="id" value="#{_item.paymentId}"/>
+						<h:outputText id="itemTransactionId" value="#{_item.transactionId}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Payment Method"/>
+					</f:facet>
+					<h:link outcome="/payment/view">
+						<f:param name="id" value="#{_item.paymentId}"/>
+						<h:outputText id="itemPaymentMethod" value="#{_item.paymentMethod}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{paymentBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

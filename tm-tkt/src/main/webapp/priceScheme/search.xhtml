@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{priceSchemeBean.page}"/>
+		<f:event type="preRenderView" listener="#{priceSchemeBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Price Scheme entities"/>
+
+	<ui:define name="header">
+		Price Scheme
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Price Scheme entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="priceSchemeBeanExampleSeason" value="Season:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{seasonBean.converter}" id="priceSchemeBeanExampleSeason" value="#{priceSchemeBean.example.season}">
+								<f:selectItem/>
+								<f:selectItems value="#{seasonBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleSeason" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="priceSchemeBeanExampleGenre" value="Genre:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{genreBean.converter}" id="priceSchemeBeanExampleGenre" value="#{priceSchemeBean.example.genre}">
+								<f:selectItem/>
+								<f:selectItems value="#{genreBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleGenre" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="priceSchemeBeanExampleSector" value="Sector:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{sectorBean.converter}" id="priceSchemeBeanExampleSector" value="#{priceSchemeBean.example.sector}">
+								<f:selectItem/>
+								<f:selectItems value="#{sectorBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleSector" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="priceSchemeBeanExampleTimeofday" value="Timeofday:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{timeofdayBean.converter}" id="priceSchemeBeanExampleTimeofday" value="#{priceSchemeBean.example.timeofday}">
+								<f:selectItem/>
+								<f:selectItems value="#{timeofdayBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleTimeofday" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="priceSchemeBeanExampleDayofweek" value="Dayofweek:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{dayofweekBean.converter}" id="priceSchemeBeanExampleDayofweek" value="#{priceSchemeBean.example.dayofweek}">
+								<f:selectItem/>
+								<f:selectItems value="#{dayofweekBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleDayofweek" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{priceSchemeBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{priceSchemeBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="priceSchemeBeanPageItems" styleClass="data-table" value="#{priceSchemeBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Price"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemPrice" value="#{_item.price}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{priceSchemeBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

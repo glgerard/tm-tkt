@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{priceSchemeBean.id}"/>
+		<f:event type="preRenderView" listener="#{priceSchemeBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Price Scheme"/>
+
+	<ui:define name="header">
+		Price Scheme
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Price Scheme
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="priceSchemeBeanPriceSchemeSeason" value="Season:"/>
+			<h:link id="priceSchemeBeanPriceSchemeSeason" outcome="/season/view" value="#{priceSchemeBean.priceScheme.season}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.season.seasonId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeGenre" value="Genre:"/>
+			<h:link id="priceSchemeBeanPriceSchemeGenre" outcome="/genre/view" value="#{priceSchemeBean.priceScheme.genre}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.genre.genreId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeSector" value="Sector:"/>
+			<h:link id="priceSchemeBeanPriceSchemeSector" outcome="/sector/view" value="#{priceSchemeBean.priceScheme.sector}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.sector.sectorId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeTimeofday" value="Timeofday:"/>
+			<h:link id="priceSchemeBeanPriceSchemeTimeofday" outcome="/timeofday/view" value="#{priceSchemeBean.priceScheme.timeofday}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.timeofday.timeofdayId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeDayofweek" value="Dayofweek:"/>
+			<h:link id="priceSchemeBeanPriceSchemeDayofweek" outcome="/dayofweek/view" value="#{priceSchemeBean.priceScheme.dayofweek}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.dayofweek.dayofweekId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemePrice" value="Price:"/>
+			<h:outputText id="priceSchemeBeanPriceSchemePrice" value="#{priceSchemeBean.priceScheme.price}"/>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeSales" value="Sales:"/>
+			<h:dataTable id="priceSchemeBeanPriceSchemeSales" styleClass="data-table" value="#{forgeview:asList(priceSchemeBean.priceScheme.sales)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Customer"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Payment"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemPayment" value="#{_item.payment}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="page" value="#{bookingBean.page}"/>
+		<f:event type="preRenderView" listener="#{bookingBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Booking entities"/>
+
+	<ui:define name="header">
+		Booking
+	</ui:define>
+
+	<ui:define name="subheader">
+		Search Booking entities
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="bookingBeanExampleSeat" value="Seat:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanExampleSeat" value="#{bookingBean.example.seat}">
+								<f:selectItem/>
+								<f:selectItems value="#{seatBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="bookingBeanExampleSeat" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="bookingBeanExampleSale" value="Sale:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{saleBean.converter}" id="bookingBeanExampleSale" value="#{bookingBean.example.sale}">
+								<f:selectItem/>
+								<f:selectItems value="#{saleBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="bookingBeanExampleSale" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="bookingBeanExampleEvent" value="Event:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanExampleEvent" value="#{bookingBean.example.event}">
+								<f:selectItem/>
+								<f:selectItems value="#{eventBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="bookingBeanExampleEvent" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{bookingBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{bookingBean.create}" styleClass="btn btn-primary"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="bookingBeanPageItems" styleClass="data-table" value="#{bookingBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemSale" value="#{_item.sale}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Event"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.bookingId}"/>
+						<h:outputText id="itemEvent" value="#{_item.event}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{bookingBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>
