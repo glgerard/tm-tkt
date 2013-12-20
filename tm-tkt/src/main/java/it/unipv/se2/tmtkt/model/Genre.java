@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 19, 2013 10:08:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 20, 2013 9:12:30 AM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -83,9 +83,7 @@ public class Genre  implements java.io.Serializable {
         this.priceSchemes = priceSchemes;
     }
 
-    public String toString() {
-    	return this.getName();
-    }
+
 
 
 }

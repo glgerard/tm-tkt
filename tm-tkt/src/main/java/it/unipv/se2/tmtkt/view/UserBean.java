@@ -24,15 +24,15 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import it.unipv.se2.tmtkt.model.Customer;
-import it.unipv.se2.tmtkt.model.CustomerCategory;
+import it.unipv.se2.tmtkt.model.User;
 import it.unipv.se2.tmtkt.model.Sale;
+import it.unipv.se2.tmtkt.model.UserCategory;
 import java.util.Iterator;
 
 /**
- * Backing bean for Customer entities.
+ * Backing bean for User entities.
  * <p>
- * This class provides CRUD functionality for all Customer entities. It focuses
+ * This class provides CRUD functionality for all User entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -42,13 +42,13 @@ import java.util.Iterator;
 @Named
 @Stateful
 @ConversationScoped
-public class CustomerBean implements Serializable
+public class UserBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving Customer entities
+    * Support creating and retrieving User entities
     */
 
    private Integer id;
@@ -63,11 +63,11 @@ public class CustomerBean implements Serializable
       this.id = id;
    }
 
-   private Customer customer;
+   private User user;
 
-   public Customer getCustomer()
+   public User getUser()
    {
-      return this.customer;
+      return this.user;
    }
 
    @Inject
@@ -98,22 +98,22 @@ public class CustomerBean implements Serializable
 
       if (this.id == null)
       {
-         this.customer = this.example;
+         this.user = this.example;
       }
       else
       {
-         this.customer = findById(getId());
+         this.user = findById(getId());
       }
    }
 
-   public Customer findById(Integer id)
+   public User findById(Integer id)
    {
 
-      return this.entityManager.find(Customer.class, id);
+      return this.entityManager.find(User.class, id);
    }
 
    /*
-    * Support updating and deleting Customer entities
+    * Support updating and deleting User entities
     */
 
    public String update()
@@ -124,13 +124,13 @@ public class CustomerBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.customer);
+            this.entityManager.persist(this.user);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.customer);
-            return "view?faces-redirect=true&id=" + this.customer.getCustomerId();
+            this.entityManager.merge(this.user);
+            return "view?faces-redirect=true&id=" + this.user.getUserId();
          }
       }
       catch (Exception e)
@@ -146,16 +146,16 @@ public class CustomerBean implements Serializable
 
       try
       {
-         Customer deletableEntity = findById(getId());
-         CustomerCategory customerCategory = deletableEntity.getCustomerCategory();
-         customerCategory.getCustomers().remove(deletableEntity);
-         deletableEntity.setCustomerCategory(null);
-         this.entityManager.merge(customerCategory);
+         User deletableEntity = findById(getId());
+         UserCategory userCategory = deletableEntity.getUserCategory();
+         userCategory.getUsers().remove(deletableEntity);
+         deletableEntity.setUserCategory(null);
+         this.entityManager.merge(userCategory);
          Iterator<Sale> iterSales = deletableEntity.getSales().iterator();
          for (; iterSales.hasNext();)
          {
             Sale nextInSales = iterSales.next();
-            nextInSales.setCustomer(null);
+            nextInSales.setUser(null);
             iterSales.remove();
             this.entityManager.merge(nextInSales);
          }
@@ -171,14 +171,14 @@ public class CustomerBean implements Serializable
    }
 
    /*
-    * Support searching Customer entities with pagination
+    * Support searching User entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Customer> pageItems;
+   private List<User> pageItems;
 
-   private Customer example = new Customer();
+   private User example = new User();
 
    public int getPage()
    {
@@ -195,12 +195,12 @@ public class CustomerBean implements Serializable
       return 10;
    }
 
-   public Customer getExample()
+   public User getExample()
    {
       return this.example;
    }
 
-   public void setExample(Customer example)
+   public void setExample(User example)
    {
       this.example = example;
    }
@@ -218,7 +218,7 @@ public class CustomerBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Customer> root = countCriteria.from(Customer.class);
+      Root<User> root = countCriteria.from(User.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -226,25 +226,25 @@ public class CustomerBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
-      root = criteria.from(Customer.class);
-      TypedQuery<Customer> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<User> criteria = builder.createQuery(User.class);
+      root = criteria.from(User.class);
+      TypedQuery<User> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Customer> root)
+   private Predicate[] getSearchPredicates(Root<User> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      CustomerCategory customerCategory = this.example.getCustomerCategory();
-      if (customerCategory != null)
+      UserCategory userCategory = this.example.getUserCategory();
+      if (userCategory != null)
       {
-         predicatesList.add(builder.equal(root.get("customerCategory"), customerCategory));
+         predicatesList.add(builder.equal(root.get("userCategory"), userCategory));
       }
       String firstName = this.example.getFirstName();
       if (firstName != null && !"".equals(firstName))
@@ -270,7 +270,7 @@ public class CustomerBean implements Serializable
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Customer> getPageItems()
+   public List<User> getPageItems()
    {
       return this.pageItems;
    }
@@ -281,17 +281,17 @@ public class CustomerBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Customer entities (e.g. from inside an
+    * Support listing and POSTing back User entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Customer> getAll()
+   public List<User> getAll()
    {
 
-      CriteriaQuery<Customer> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Customer.class);
+      CriteriaQuery<User> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(User.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Customer.class))).getResultList();
+            criteria.select(criteria.from(User.class))).getResultList();
    }
 
    @Resource
@@ -300,7 +300,7 @@ public class CustomerBean implements Serializable
    public Converter getConverter()
    {
 
-      final CustomerBean ejbProxy = this.sessionContext.getBusinessObject(CustomerBean.class);
+      final UserBean ejbProxy = this.sessionContext.getBusinessObject(UserBean.class);
 
       return new Converter()
       {
@@ -323,7 +323,7 @@ public class CustomerBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Customer) value).getCustomerId());
+            return String.valueOf(((User) value).getUserId());
          }
       };
    }
@@ -332,17 +332,17 @@ public class CustomerBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Customer add = new Customer();
+   private User add = new User();
 
-   public Customer getAdd()
+   public User getAdd()
    {
       return this.add;
    }
 
-   public Customer getAdded()
+   public User getAdded()
    {
-      Customer added = this.add;
-      this.add = new Customer();
+      User added = this.add;
+      this.add = new User();
       return added;
    }
 }

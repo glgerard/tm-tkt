@@ -37,13 +37,13 @@
 			<h:messages globalOnly="true" styleClass="error"/>
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="saleBeanSaleCustomer" value="Customer:"/>
+				<h:outputLabel for="saleBeanSaleUser" value="User:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{customerBean.converter}" id="saleBeanSaleCustomer" value="#{saleBean.sale.customer}">
+					<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanSaleUser" value="#{saleBean.sale.user}">
 						<f:selectItem/>
-						<f:selectItems value="#{customerBean.all}"/>
+						<f:selectItems value="#{userBean.all}"/>
 					</h:selectOneMenu>
-					<h:message for="saleBeanSaleCustomer" styleClass="error"/>
+					<h:message for="saleBeanSaleUser" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
 				<h:outputLabel for="saleBeanSalePayment" value="Payment:"/>

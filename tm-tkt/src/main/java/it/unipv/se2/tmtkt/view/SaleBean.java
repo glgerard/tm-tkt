@@ -26,11 +26,11 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Booking;
-import it.unipv.se2.tmtkt.model.Customer;
 import it.unipv.se2.tmtkt.model.Payment;
 import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Subscription;
 import it.unipv.se2.tmtkt.model.Ticket;
+import it.unipv.se2.tmtkt.model.User;
 import java.util.Iterator;
 
 /**
@@ -151,10 +151,10 @@ public class SaleBean implements Serializable
       try
       {
          Sale deletableEntity = findById(getId());
-         Customer customer = deletableEntity.getCustomer();
-         customer.getSales().remove(deletableEntity);
-         deletableEntity.setCustomer(null);
-         this.entityManager.merge(customer);
+         User user = deletableEntity.getUser();
+         user.getSales().remove(deletableEntity);
+         deletableEntity.setUser(null);
+         this.entityManager.merge(user);
          Payment payment = deletableEntity.getPayment();
          payment.getSales().remove(deletableEntity);
          deletableEntity.setPayment(null);
@@ -269,10 +269,10 @@ public class SaleBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      Customer customer = this.example.getCustomer();
-      if (customer != null)
+      User user = this.example.getUser();
+      if (user != null)
       {
-         predicatesList.add(builder.equal(root.get("customer"), customer));
+         predicatesList.add(builder.equal(root.get("user"), user));
       }
       Payment payment = this.example.getPayment();
       if (payment != null)

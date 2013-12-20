@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{userCategoryBean.id}"/>
+		<f:event type="preRenderView" listener="#{userCategoryBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create User Category"/>
+
+	<ui:define name="header">
+		User Category
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty userCategoryBean.id}">
+				Edit existing User Category
+			</c:when>
+			<c:otherwise>
+				Create a new User Category
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="userCategoryBeanUserCategoryUserCategoryId" value="User Category Id:"/>
+				<h:panelGroup>
+					<h:inputText id="userCategoryBeanUserCategoryUserCategoryId" required="true" value="#{userCategoryBean.userCategory.userCategoryId}"/>
+					<h:message for="userCategoryBeanUserCategoryUserCategoryId" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="userCategoryBeanUserCategoryDescription" value="Description:"/>
+				<h:panelGroup>
+					<h:inputText id="userCategoryBeanUserCategoryDescription" maxLength="45" required="true" value="#{userCategoryBean.userCategory.description}"/>
+					<h:message for="userCategoryBeanUserCategoryDescription" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="userCategoryBeanUserCategoryUsers" value="Users:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{userCategoryBean.userCategory.users}"/>
+					<h:dataTable id="userCategoryBeanUserCategoryUsers" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="First Name"/>
+							</f:facet>
+							<h:link outcome="/user/view">
+								<f:param name="id" value="#{_item.userId}"/>
+								<h:outputText id="itemFirstName" value="#{_item.firstName}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="userBeanAddFirstName" maxLength="45" value="#{userBean.add.firstName}"/>
+								<h:message for="userBeanAddFirstName" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Last Name"/>
+							</f:facet>
+							<h:link outcome="/user/view">
+								<f:param name="id" value="#{_item.userId}"/>
+								<h:outputText id="itemLastName" value="#{_item.lastName}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="userBeanAddLastName" maxLength="45" value="#{userBean.add.lastName}"/>
+								<h:message for="userBeanAddLastName" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Email"/>
+							</f:facet>
+							<h:link outcome="/user/view">
+								<f:param name="id" value="#{_item.userId}"/>
+								<h:outputText id="itemEmail" value="#{_item.email}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="userBeanAddEmail" maxLength="45" value="#{userBean.add.email}"/>
+								<h:message for="userBeanAddEmail" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(userBean.added)}" id="userCategoryBeanUserCategoryUsersAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{userBean.add.userCategory}" value="#{userCategoryBean.userCategory}"/>
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action="#{userCategoryBean.update}" styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test="#{!empty userCategoryBean.id}">
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value="#{userCategoryBean.id}"/>
+						</h:link>
+						<h:commandLink value="Delete" action="#{userCategoryBean.delete}" styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

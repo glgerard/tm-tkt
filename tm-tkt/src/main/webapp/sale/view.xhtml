@@ -26,9 +26,9 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
-			<h:outputLabel for="saleBeanSaleCustomer" value="Customer:"/>
-			<h:link id="saleBeanSaleCustomer" outcome="/customer/view" value="#{saleBean.sale.customer}">
-				<f:param name="id" value="#{saleBean.sale.customer.customerId}"/>
+			<h:outputLabel for="saleBeanSaleUser" value="User:"/>
+			<h:link id="saleBeanSaleUser" outcome="/user/view" value="#{saleBean.sale.user}">
+				<f:param name="id" value="#{saleBean.sale.user.userId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="saleBeanSalePayment" value="Payment:"/>

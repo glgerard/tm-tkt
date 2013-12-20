@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{userBean.id}"/>
+		<f:event type="preRenderView" listener="#{userBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Create User"/>
+
+	<ui:define name="header">
+		User
+	</ui:define>
+
+	<ui:define name="subheader">
+		<c:choose>
+			<c:when test="#{!empty userBean.id}">
+				Edit existing User
+			</c:when>
+			<c:otherwise>
+				Create a new User
+			</c:otherwise>
+		</c:choose>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="create">
+			<h:messages globalOnly="true" styleClass="error"/>
+
+			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="userBeanUserUserCategory" value="User Category:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanUserUserCategory" value="#{userBean.user.userCategory}">
+						<f:selectItem/>
+						<f:selectItems value="#{userCategoryBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="userBeanUserUserCategory" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="userBeanUserFirstName" value="First Name:"/>
+				<h:panelGroup>
+					<h:inputText id="userBeanUserFirstName" maxLength="45" required="true" value="#{userBean.user.firstName}"/>
+					<h:message for="userBeanUserFirstName" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="userBeanUserLastName" value="Last Name:"/>
+				<h:panelGroup>
+					<h:inputText id="userBeanUserLastName" maxLength="45" required="true" value="#{userBean.user.lastName}"/>
+					<h:message for="userBeanUserLastName" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="userBeanUserMiddleName" value="Middle Name:"/>
+				<h:panelGroup>
+					<h:inputText id="userBeanUserMiddleName" maxLength="45" value="#{userBean.user.middleName}"/>
+					<h:message for="userBeanUserMiddleName" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="userBeanUserEmail" value="Email:"/>
+				<h:panelGroup>
+					<h:inputText id="userBeanUserEmail" maxLength="45" required="true" value="#{userBean.user.email}"/>
+					<h:message for="userBeanUserEmail" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
+				<h:outputLabel for="userBeanUserPassword" value="Password:"/>
+				<h:panelGroup>
+					<h:inputText id="userBeanUserPassword" maxLength="45" value="#{userBean.user.password}"/>
+					<h:message for="userBeanUserPassword" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="userBeanUserSales" value="Sales:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{userBean.user.sales}"/>
+					<h:dataTable id="userBeanUserSales" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Payment"/>
+							</f:facet>
+							<h:link outcome="/sale/view">
+								<f:param name="id" value="#{_item.saleId}"/>
+								<h:outputText id="itemPayment" value="#{_item.payment}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanAddPayment" value="#{saleBean.add.payment}">
+									<f:selectItem/>
+									<f:selectItems value="#{paymentBean.all}"/>
+								</h:selectOneMenu>
+								<h:message for="saleBeanAddPayment" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Price Scheme"/>
+							</f:facet>
+							<h:link outcome="/sale/view">
+								<f:param name="id" value="#{_item.saleId}"/>
+								<h:outputText id="itemPriceScheme" value="#{_item.priceScheme}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="saleBeanAddPriceScheme" value="#{saleBean.add.priceScheme}">
+									<f:selectItem/>
+									<f:selectItems value="#{priceSchemeBean.all}"/>
+								</h:selectOneMenu>
+								<h:message for="saleBeanAddPriceScheme" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(saleBean.added)}" id="userBeanUserSalesAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{saleBean.add.user}" value="#{userBean.user}"/>
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText/>
+			</h:panelGrid>
+
+			<div class="buttons">
+				<h:commandLink value="Save" action="#{userBean.update}" styleClass="btn btn-primary"/>
+				<c:choose>
+					<c:when test="#{!empty userBean.id}">
+						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
+							<f:param name="id" value="#{userBean.id}"/>
+						</h:link>
+						<h:commandLink value="Delete" action="#{userBean.delete}" styleClass="btn btn-primary"/>
+					</c:when>
+					<c:otherwise>
+						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

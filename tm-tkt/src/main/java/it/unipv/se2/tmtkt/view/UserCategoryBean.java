@@ -24,14 +24,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import it.unipv.se2.tmtkt.model.CustomerCategory;
-import it.unipv.se2.tmtkt.model.Customer;
+import it.unipv.se2.tmtkt.model.UserCategory;
+import it.unipv.se2.tmtkt.model.User;
 import java.util.Iterator;
 
 /**
- * Backing bean for CustomerCategory entities.
+ * Backing bean for UserCategory entities.
  * <p>
- * This class provides CRUD functionality for all CustomerCategory entities. It focuses
+ * This class provides CRUD functionality for all UserCategory entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -41,13 +41,13 @@ import java.util.Iterator;
 @Named
 @Stateful
 @ConversationScoped
-public class CustomerCategoryBean implements Serializable
+public class UserCategoryBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving CustomerCategory entities
+    * Support creating and retrieving UserCategory entities
     */
 
    private Byte id;
@@ -62,11 +62,11 @@ public class CustomerCategoryBean implements Serializable
       this.id = id;
    }
 
-   private CustomerCategory customerCategory;
+   private UserCategory userCategory;
 
-   public CustomerCategory getCustomerCategory()
+   public UserCategory getUserCategory()
    {
-      return this.customerCategory;
+      return this.userCategory;
    }
 
    @Inject
@@ -97,22 +97,22 @@ public class CustomerCategoryBean implements Serializable
 
       if (this.id == null)
       {
-         this.customerCategory = this.example;
+         this.userCategory = this.example;
       }
       else
       {
-         this.customerCategory = findById(getId());
+         this.userCategory = findById(getId());
       }
    }
 
-   public CustomerCategory findById(Byte id)
+   public UserCategory findById(Byte id)
    {
 
-      return this.entityManager.find(CustomerCategory.class, id);
+      return this.entityManager.find(UserCategory.class, id);
    }
 
    /*
-    * Support updating and deleting CustomerCategory entities
+    * Support updating and deleting UserCategory entities
     */
 
    public String update()
@@ -123,13 +123,13 @@ public class CustomerCategoryBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.customerCategory);
+            this.entityManager.persist(this.userCategory);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.customerCategory);
-            return "view?faces-redirect=true&id=" + this.customerCategory.getCustomerCategoryId();
+            this.entityManager.merge(this.userCategory);
+            return "view?faces-redirect=true&id=" + this.userCategory.getUserCategoryId();
          }
       }
       catch (Exception e)
@@ -145,14 +145,14 @@ public class CustomerCategoryBean implements Serializable
 
       try
       {
-         CustomerCategory deletableEntity = findById(getId());
-         Iterator<Customer> iterCustomers = deletableEntity.getCustomers().iterator();
-         for (; iterCustomers.hasNext();)
+         UserCategory deletableEntity = findById(getId());
+         Iterator<User> iterUsers = deletableEntity.getUsers().iterator();
+         for (; iterUsers.hasNext();)
          {
-            Customer nextInCustomers = iterCustomers.next();
-            nextInCustomers.setCustomerCategory(null);
-            iterCustomers.remove();
-            this.entityManager.merge(nextInCustomers);
+            User nextInUsers = iterUsers.next();
+            nextInUsers.setUserCategory(null);
+            iterUsers.remove();
+            this.entityManager.merge(nextInUsers);
          }
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
@@ -166,14 +166,14 @@ public class CustomerCategoryBean implements Serializable
    }
 
    /*
-    * Support searching CustomerCategory entities with pagination
+    * Support searching UserCategory entities with pagination
     */
 
    private int page;
    private long count;
-   private List<CustomerCategory> pageItems;
+   private List<UserCategory> pageItems;
 
-   private CustomerCategory example = new CustomerCategory();
+   private UserCategory example = new UserCategory();
 
    public int getPage()
    {
@@ -190,12 +190,12 @@ public class CustomerCategoryBean implements Serializable
       return 10;
    }
 
-   public CustomerCategory getExample()
+   public UserCategory getExample()
    {
       return this.example;
    }
 
-   public void setExample(CustomerCategory example)
+   public void setExample(UserCategory example)
    {
       this.example = example;
    }
@@ -213,7 +213,7 @@ public class CustomerCategoryBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<CustomerCategory> root = countCriteria.from(CustomerCategory.class);
+      Root<UserCategory> root = countCriteria.from(UserCategory.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -221,25 +221,25 @@ public class CustomerCategoryBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<CustomerCategory> criteria = builder.createQuery(CustomerCategory.class);
-      root = criteria.from(CustomerCategory.class);
-      TypedQuery<CustomerCategory> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<UserCategory> criteria = builder.createQuery(UserCategory.class);
+      root = criteria.from(UserCategory.class);
+      TypedQuery<UserCategory> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<CustomerCategory> root)
+   private Predicate[] getSearchPredicates(Root<UserCategory> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      byte customerCategoryId = this.example.getCustomerCategoryId();
-      if (customerCategoryId != 0)
+      byte userCategoryId = this.example.getUserCategoryId();
+      if (userCategoryId != 0)
       {
-         predicatesList.add(builder.equal(root.get("customerCategoryId"), customerCategoryId));
+         predicatesList.add(builder.equal(root.get("userCategoryId"), userCategoryId));
       }
       String description = this.example.getDescription();
       if (description != null && !"".equals(description))
@@ -250,7 +250,7 @@ public class CustomerCategoryBean implements Serializable
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<CustomerCategory> getPageItems()
+   public List<UserCategory> getPageItems()
    {
       return this.pageItems;
    }
@@ -261,17 +261,17 @@ public class CustomerCategoryBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back CustomerCategory entities (e.g. from inside an
+    * Support listing and POSTing back UserCategory entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<CustomerCategory> getAll()
+   public List<UserCategory> getAll()
    {
 
-      CriteriaQuery<CustomerCategory> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(CustomerCategory.class);
+      CriteriaQuery<UserCategory> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(UserCategory.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(CustomerCategory.class))).getResultList();
+            criteria.select(criteria.from(UserCategory.class))).getResultList();
    }
 
    @Resource
@@ -280,7 +280,7 @@ public class CustomerCategoryBean implements Serializable
    public Converter getConverter()
    {
 
-      final CustomerCategoryBean ejbProxy = this.sessionContext.getBusinessObject(CustomerCategoryBean.class);
+      final UserCategoryBean ejbProxy = this.sessionContext.getBusinessObject(UserCategoryBean.class);
 
       return new Converter()
       {
@@ -303,7 +303,7 @@ public class CustomerCategoryBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((CustomerCategory) value).getCustomerCategoryId());
+            return String.valueOf(((UserCategory) value).getUserCategoryId());
          }
       };
    }
@@ -312,17 +312,17 @@ public class CustomerCategoryBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private CustomerCategory add = new CustomerCategory();
+   private UserCategory add = new UserCategory();
 
-   public CustomerCategory getAdd()
+   public UserCategory getAdd()
    {
       return this.add;
    }
 
-   public CustomerCategory getAdded()
+   public UserCategory getAdded()
    {
-      CustomerCategory added = this.add;
-      this.add = new CustomerCategory();
+      UserCategory added = this.add;
+      this.add = new UserCategory();
       return added;
    }
 }

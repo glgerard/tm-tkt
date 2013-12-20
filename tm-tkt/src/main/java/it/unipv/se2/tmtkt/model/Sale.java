@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 19, 2013 10:08:59 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 20, 2013 9:12:30 AM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class Sale  implements java.io.Serializable {
 
 
      private Integer saleId;
-     private Customer customer;
+     private User user;
      private Payment payment;
      private PriceScheme priceScheme;
      private Set<Booking> bookings = new HashSet<Booking>(0);
@@ -37,13 +37,13 @@ public class Sale  implements java.io.Serializable {
     }
 
 	
-    public Sale(Customer customer, Payment payment, PriceScheme priceScheme) {
-        this.customer = customer;
+    public Sale(User user, Payment payment, PriceScheme priceScheme) {
+        this.user = user;
         this.payment = payment;
         this.priceScheme = priceScheme;
     }
-    public Sale(Customer customer, Payment payment, PriceScheme priceScheme, Set<Booking> bookings, Set<Ticket> tickets, Set<Subscription> subscriptions) {
-       this.customer = customer;
+    public Sale(User user, Payment payment, PriceScheme priceScheme, Set<Booking> bookings, Set<Ticket> tickets, Set<Subscription> subscriptions) {
+       this.user = user;
        this.payment = payment;
        this.priceScheme = priceScheme;
        this.bookings = bookings;
@@ -64,13 +64,13 @@ public class Sale  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="CUSTOMER_id", nullable=false)
-    public Customer getCustomer() {
-        return this.customer;
+    @JoinColumn(name="USER_id", nullable=false)
+    public User getUser() {
+        return this.user;
     }
     
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
