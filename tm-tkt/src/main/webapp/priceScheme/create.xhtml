@@ -88,6 +88,12 @@
 					<h:message for="priceSchemeBeanPriceSchemePrice" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText value="*"/>
+				<h:outputLabel for="priceSchemeBeanPriceSchemePriceSchemeName" value="Price Scheme Name:"/>
+				<h:panelGroup>
+					<h:inputText id="priceSchemeBeanPriceSchemePriceSchemeName" maxLength="45" value="#{priceSchemeBean.priceScheme.priceSchemeName}"/>
+					<h:message for="priceSchemeBeanPriceSchemePriceSchemeName" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
 				<h:outputLabel for="priceSchemeBeanPriceSchemeSales" value="Sales:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{priceSchemeBean.priceScheme.sales}"/>
