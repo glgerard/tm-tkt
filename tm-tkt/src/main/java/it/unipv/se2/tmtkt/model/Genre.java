@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 20, 2013 9:12:30 AM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 20, 2013 3:47:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -29,6 +29,7 @@ public class Genre  implements java.io.Serializable {
      private String name;
      private Set<Show> shows = new HashSet<Show>(0);
      private Set<PriceScheme> priceSchemes = new HashSet<PriceScheme>(0);
+     private Set<Subscription> subscriptions = new HashSet<Subscription>(0);
 
     public Genre() {
     }
@@ -37,10 +38,11 @@ public class Genre  implements java.io.Serializable {
     public Genre(String name) {
         this.name = name;
     }
-    public Genre(String name, Set<Show> shows, Set<PriceScheme> priceSchemes) {
+    public Genre(String name, Set<Show> shows, Set<PriceScheme> priceSchemes, Set<Subscription> subscriptions) {
        this.name = name;
        this.shows = shows;
        this.priceSchemes = priceSchemes;
+       this.subscriptions = subscriptions;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -83,7 +85,18 @@ public class Genre  implements java.io.Serializable {
         this.priceSchemes = priceSchemes;
     }
 
+@OneToMany(fetch=FetchType.LAZY, mappedBy="genre")
+    public Set<Subscription> getSubscriptions() {
+        return this.subscriptions;
+    }
+    
+    public void setSubscriptions(Set<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
 
+    public String toString() {
+    	return this.getName();
+    }
 
 
 }

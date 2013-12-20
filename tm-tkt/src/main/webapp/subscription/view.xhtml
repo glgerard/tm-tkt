@@ -30,13 +30,23 @@
 				<f:param name="id" value="#{subscriptionBean.subscription.seat.seatId}"/>
 			</h:link>
 			<h:outputText/>
+			<h:outputLabel for="subscriptionBeanSubscriptionGenre" value="Genre:"/>
+			<h:link id="subscriptionBeanSubscriptionGenre" outcome="/genre/view" value="#{subscriptionBean.subscription.genre}">
+				<f:param name="id" value="#{subscriptionBean.subscription.genre.genreId}"/>
+			</h:link>
+			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionSale" value="Sale:"/>
 			<h:link id="subscriptionBeanSubscriptionSale" outcome="/sale/view" value="#{subscriptionBean.subscription.sale}">
 				<f:param name="id" value="#{subscriptionBean.subscription.sale.saleId}"/>
 			</h:link>
 			<h:outputText/>
-			<h:outputLabel for="subscriptionBeanSubscriptionType" value="Type:"/>
-			<h:outputText id="subscriptionBeanSubscriptionType" value="#{subscriptionBean.subscription.type}"/>
+			<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionType" value="Subscription Type:"/>
+			<h:link id="subscriptionBeanSubscriptionSubscriptionType" outcome="/subscriptionType/view" value="#{subscriptionBean.subscription.subscriptionType}">
+				<f:param name="id" value="#{subscriptionBean.subscription.subscriptionType.subscriptionTypeId}"/>
+			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="subscriptionBeanSubscriptionNumberOfBookings" value="Number Of Bookings:"/>
+			<h:outputText id="subscriptionBeanSubscriptionNumberOfBookings" value="#{subscriptionBean.subscription.numberOfBookings}"/>
 			<h:outputText/>
 		</h:panelGrid>
 

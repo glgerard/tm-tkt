@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{subscriptionTypeBean.id}"/>
+		<f:event type="preRenderView" listener="#{subscriptionTypeBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Subscription Type"/>
+
+	<ui:define name="header">
+		Subscription Type
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Subscription Type
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="subscriptionTypeBeanSubscriptionTypeSubscriptionTypeId" value="Subscription Type Id:"/>
+			<h:outputText id="subscriptionTypeBeanSubscriptionTypeSubscriptionTypeId" value="#{subscriptionTypeBean.subscriptionType.subscriptionTypeId}"/>
+			<h:outputText/>
+			<h:outputLabel for="subscriptionTypeBeanSubscriptionTypeName" value="Name:"/>
+			<h:outputText id="subscriptionTypeBeanSubscriptionTypeName" value="#{subscriptionTypeBean.subscriptionType.name}"/>
+			<h:outputText/>
+			<h:outputLabel for="subscriptionTypeBeanSubscriptionTypeSubscriptions" value="Subscriptions:"/>
+			<h:dataTable id="subscriptionTypeBeanSubscriptionTypeSubscriptions" styleClass="data-table" value="#{forgeview:asList(subscriptionTypeBean.subscriptionType.subscriptions)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Genre"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemGenre" value="#{_item.genre}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemSale" value="#{_item.sale}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Number Of Bookings"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

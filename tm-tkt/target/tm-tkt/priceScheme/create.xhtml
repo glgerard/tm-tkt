@@ -94,18 +94,18 @@
 					<h:dataTable id="priceSchemeBeanPriceSchemeSales" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Customer"/>
+								<h:outputText value="User"/>
 							</f:facet>
 							<h:link outcome="/sale/view">
 								<f:param name="id" value="#{_item.saleId}"/>
-								<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+								<h:outputText id="itemUser" value="#{_item.user}"/>
 							</h:link>
 							<f:facet name="footer">
-								<h:selectOneMenu converter="#{customerBean.converter}" id="saleBeanAddCustomer" value="#{saleBean.add.customer}">
+								<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanAddUser" value="#{saleBean.add.user}">
 									<f:selectItem/>
-									<f:selectItems value="#{customerBean.all}"/>
+									<f:selectItems value="#{userBean.all}"/>
 								</h:selectOneMenu>
-								<h:message for="saleBeanAddCustomer" styleClass="error"/>
+								<h:message for="saleBeanAddUser" styleClass="error"/>
 							</f:facet>
 						</h:column>
 						<h:column>

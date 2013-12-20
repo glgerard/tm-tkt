@@ -39,11 +39,11 @@
 			<h:dataTable id="paymentBeanPaymentSales" styleClass="data-table" value="#{forgeview:asList(paymentBean.payment.sales)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Customer"/>
+						<h:outputText value="User"/>
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+						<h:outputText id="itemUser" value="#{_item.user}"/>
 					</h:link>
 				</h:column>
 				<h:column>

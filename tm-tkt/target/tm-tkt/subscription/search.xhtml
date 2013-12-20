@@ -38,6 +38,15 @@
 							<h:message for="subscriptionBeanExampleSeat" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanExampleGenre" value="Genre:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanExampleGenre" value="#{subscriptionBean.example.genre}">
+								<f:selectItem/>
+								<f:selectItems value="#{genreBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="subscriptionBeanExampleGenre" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
 						<h:outputLabel for="subscriptionBeanExampleSale" value="Sale:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanExampleSale" value="#{subscriptionBean.example.sale}">
@@ -47,10 +56,19 @@
 							<h:message for="subscriptionBeanExampleSale" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="subscriptionBeanExampleType" value="Type:"/>
+						<h:outputLabel for="subscriptionBeanExampleSubscriptionType" value="Subscription Type:"/>
 						<h:panelGroup>
-							<h:inputText id="subscriptionBeanExampleType" maxLength="45" value="#{subscriptionBean.example.type}"/>
-							<h:message for="subscriptionBeanExampleType" styleClass="error"/>
+							<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanExampleSubscriptionType" value="#{subscriptionBean.example.subscriptionType}">
+								<f:selectItem/>
+								<f:selectItems value="#{subscriptionTypeBean.all}"/>
+							</h:selectOneMenu>
+							<h:message for="subscriptionBeanExampleSubscriptionType" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanExampleNumberOfBookings" value="Number Of Bookings:"/>
+						<h:panelGroup>
+							<h:inputText id="subscriptionBeanExampleNumberOfBookings" value="#{subscriptionBean.example.numberOfBookings}"/>
+							<h:message for="subscriptionBeanExampleNumberOfBookings" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
@@ -64,11 +82,47 @@
 			<h:dataTable id="subscriptionBeanPageItems" styleClass="data-table" value="#{subscriptionBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Type"/>
+						<h:outputText value="Seat"/>
 					</f:facet>
 					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="itemType" value="#{_item.type}"/>
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Genre"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemGenre" value="#{_item.genre}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemSale" value="#{_item.sale}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Subscription Type"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Number Of Bookings"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.subscriptionId}"/>
+						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

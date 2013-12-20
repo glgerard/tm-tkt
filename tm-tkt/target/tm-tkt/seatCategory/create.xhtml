@@ -45,10 +45,10 @@
 				<h:outputText value="*"/>
 				<h:outputLabel for="seatCategoryBeanSeatCategoryCategoryName" value="Category Name:"/>
 				<h:panelGroup>
-					<h:inputText id="seatCategoryBeanSeatCategoryCategoryName" maxLength="45" value="#{seatCategoryBean.seatCategory.categoryName}"/>
+					<h:inputText id="seatCategoryBeanSeatCategoryCategoryName" maxLength="45" required="true" value="#{seatCategoryBean.seatCategory.categoryName}"/>
 					<h:message for="seatCategoryBeanSeatCategoryCategoryName" styleClass="error"/>
 				</h:panelGroup>
-				<h:outputText/>
+				<h:outputText value="*"/>
 				<h:outputLabel for="seatCategoryBeanSeatCategorySeats" value="Seats:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{seatCategoryBean.seatCategory.seats}"/>

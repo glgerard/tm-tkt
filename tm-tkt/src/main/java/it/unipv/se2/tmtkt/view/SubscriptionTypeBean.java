@@ -24,13 +24,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import it.unipv.se2.tmtkt.model.Ticket;
-import it.unipv.se2.tmtkt.model.Sale;
+import it.unipv.se2.tmtkt.model.SubscriptionType;
+import it.unipv.se2.tmtkt.model.Subscription;
+import java.util.Iterator;
 
 /**
- * Backing bean for Ticket entities.
+ * Backing bean for SubscriptionType entities.
  * <p>
- * This class provides CRUD functionality for all Ticket entities. It focuses
+ * This class provides CRUD functionality for all SubscriptionType entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -40,32 +41,32 @@ import it.unipv.se2.tmtkt.model.Sale;
 @Named
 @Stateful
 @ConversationScoped
-public class TicketBean implements Serializable
+public class SubscriptionTypeBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving Ticket entities
+    * Support creating and retrieving SubscriptionType entities
     */
 
-   private Integer id;
+   private Short id;
 
-   public Integer getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Integer id)
+   public void setId(Short id)
    {
       this.id = id;
    }
 
-   private Ticket ticket;
+   private SubscriptionType subscriptionType;
 
-   public Ticket getTicket()
+   public SubscriptionType getSubscriptionType()
    {
-      return this.ticket;
+      return this.subscriptionType;
    }
 
    @Inject
@@ -96,22 +97,22 @@ public class TicketBean implements Serializable
 
       if (this.id == null)
       {
-         this.ticket = this.example;
+         this.subscriptionType = this.example;
       }
       else
       {
-         this.ticket = findById(getId());
+         this.subscriptionType = findById(getId());
       }
    }
 
-   public Ticket findById(Integer id)
+   public SubscriptionType findById(Short id)
    {
 
-      return this.entityManager.find(Ticket.class, id);
+      return this.entityManager.find(SubscriptionType.class, id);
    }
 
    /*
-    * Support updating and deleting Ticket entities
+    * Support updating and deleting SubscriptionType entities
     */
 
    public String update()
@@ -122,13 +123,13 @@ public class TicketBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.ticket);
+            this.entityManager.persist(this.subscriptionType);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.ticket);
-            return "view?faces-redirect=true&id=" + this.ticket.getTicketId();
+            this.entityManager.merge(this.subscriptionType);
+            return "view?faces-redirect=true&id=" + this.subscriptionType.getSubscriptionTypeId();
          }
       }
       catch (Exception e)
@@ -144,11 +145,15 @@ public class TicketBean implements Serializable
 
       try
       {
-         Ticket deletableEntity = findById(getId());
-         Sale sale = deletableEntity.getSale();
-         sale.getTickets().remove(deletableEntity);
-         deletableEntity.setSale(null);
-         this.entityManager.merge(sale);
+         SubscriptionType deletableEntity = findById(getId());
+         Iterator<Subscription> iterSubscriptions = deletableEntity.getSubscriptions().iterator();
+         for (; iterSubscriptions.hasNext();)
+         {
+            Subscription nextInSubscriptions = iterSubscriptions.next();
+            nextInSubscriptions.setSubscriptionType(null);
+            iterSubscriptions.remove();
+            this.entityManager.merge(nextInSubscriptions);
+         }
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
@@ -161,14 +166,14 @@ public class TicketBean implements Serializable
    }
 
    /*
-    * Support searching Ticket entities with pagination
+    * Support searching SubscriptionType entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Ticket> pageItems;
+   private List<SubscriptionType> pageItems;
 
-   private Ticket example = new Ticket();
+   private SubscriptionType example = new SubscriptionType();
 
    public int getPage()
    {
@@ -185,12 +190,12 @@ public class TicketBean implements Serializable
       return 10;
    }
 
-   public Ticket getExample()
+   public SubscriptionType getExample()
    {
       return this.example;
    }
 
-   public void setExample(Ticket example)
+   public void setExample(SubscriptionType example)
    {
       this.example = example;
    }
@@ -208,7 +213,7 @@ public class TicketBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Ticket> root = countCriteria.from(Ticket.class);
+      Root<SubscriptionType> root = countCriteria.from(SubscriptionType.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -216,31 +221,36 @@ public class TicketBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Ticket> criteria = builder.createQuery(Ticket.class);
-      root = criteria.from(Ticket.class);
-      TypedQuery<Ticket> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<SubscriptionType> criteria = builder.createQuery(SubscriptionType.class);
+      root = criteria.from(SubscriptionType.class);
+      TypedQuery<SubscriptionType> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Ticket> root)
+   private Predicate[] getSearchPredicates(Root<SubscriptionType> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      Sale sale = this.example.getSale();
-      if (sale != null)
+      short subscriptionTypeId = this.example.getSubscriptionTypeId();
+      if (subscriptionTypeId != 0)
       {
-         predicatesList.add(builder.equal(root.get("sale"), sale));
+         predicatesList.add(builder.equal(root.get("subscriptionTypeId"), subscriptionTypeId));
+      }
+      String name = this.example.getName();
+      if (name != null && !"".equals(name))
+      {
+         predicatesList.add(builder.like(root.<String> get("name"), '%' + name + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Ticket> getPageItems()
+   public List<SubscriptionType> getPageItems()
    {
       return this.pageItems;
    }
@@ -251,17 +261,17 @@ public class TicketBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Ticket entities (e.g. from inside an
+    * Support listing and POSTing back SubscriptionType entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Ticket> getAll()
+   public List<SubscriptionType> getAll()
    {
 
-      CriteriaQuery<Ticket> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Ticket.class);
+      CriteriaQuery<SubscriptionType> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(SubscriptionType.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Ticket.class))).getResultList();
+            criteria.select(criteria.from(SubscriptionType.class))).getResultList();
    }
 
    @Resource
@@ -270,7 +280,7 @@ public class TicketBean implements Serializable
    public Converter getConverter()
    {
 
-      final TicketBean ejbProxy = this.sessionContext.getBusinessObject(TicketBean.class);
+      final SubscriptionTypeBean ejbProxy = this.sessionContext.getBusinessObject(SubscriptionTypeBean.class);
 
       return new Converter()
       {
@@ -280,7 +290,7 @@ public class TicketBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Integer.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override
@@ -293,7 +303,7 @@ public class TicketBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Ticket) value).getTicketId());
+            return String.valueOf(((SubscriptionType) value).getSubscriptionTypeId());
          }
       };
    }
@@ -302,17 +312,17 @@ public class TicketBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Ticket add = new Ticket();
+   private SubscriptionType add = new SubscriptionType();
 
-   public Ticket getAdd()
+   public SubscriptionType getAdd()
    {
       return this.add;
    }
 
-   public Ticket getAdded()
+   public SubscriptionType getAdded()
    {
-      Ticket added = this.add;
-      this.add = new Ticket();
+      SubscriptionType added = this.add;
+      this.add = new SubscriptionType();
       return added;
    }
 }

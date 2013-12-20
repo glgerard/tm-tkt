@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 20, 2013 9:12:30 AM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 20, 2013 3:47:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -38,12 +38,8 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 	
-    public PriceScheme(Season season, Genre genre, Sector sector, Timeofday timeofday, Dayofweek dayofweek, long price) {
-        this.season = season;
-        this.genre = genre;
+    public PriceScheme(Sector sector, long price) {
         this.sector = sector;
-        this.timeofday = timeofday;
-        this.dayofweek = dayofweek;
         this.price = price;
     }
     public PriceScheme(Season season, Genre genre, Sector sector, Timeofday timeofday, Dayofweek dayofweek, long price, Set<Sale> sales) {
@@ -69,7 +65,7 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="SEASON_id", nullable=false)
+    @JoinColumn(name="SEASON_id")
     public Season getSeason() {
         return this.season;
     }
@@ -79,7 +75,7 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="GENRE_id", nullable=false)
+    @JoinColumn(name="GENRE_id")
     public Genre getGenre() {
         return this.genre;
     }
@@ -99,7 +95,7 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="TIMEOFDAY_id", nullable=false)
+    @JoinColumn(name="TIMEOFDAY_id")
     public Timeofday getTimeofday() {
         return this.timeofday;
     }
@@ -109,7 +105,7 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="DAYOFWEEK_id", nullable=false)
+    @JoinColumn(name="DAYOFWEEK_id")
     public Dayofweek getDayofweek() {
         return this.dayofweek;
     }

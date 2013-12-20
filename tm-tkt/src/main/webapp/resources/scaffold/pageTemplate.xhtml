@@ -17,18 +17,28 @@
 				<h:link id="brandLink" outcome="/index.xhtml" styleClass="brand">Teatro Manzoni - Online ticketing</h:link>
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li><a href="http://www.teatromanzoni.it/">Home Page Teatro Manzoni</a></li>
+						<li><a href="http://www.teatromanzoni.it">Teatro Manzoni</a></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="container forgecontainer">
-		<div id="navigation">	
+		<div id="navigation">
 			<h:link id="homeLink" outcome="/index.xhtml">
 				<img src="#{resource['tm-logo.png']}" alt="Teatro Manzoni" border="0" />
-			</h:link>	
+			</h:link>
 			<ul>
+				<li>
+					<h:link outcome="/booking/search" value="Booking"/>
+				</li>
+				<li>
+					<h:link outcome="/event/search" value="Event"/>
+				</li>
+				<li>
+					<h:link outcome="/sale/search" value="Sale"/>
+				</li>
 				<li>
 					<h:link outcome="/show/search" value="Show"/>
 				</li>
@@ -37,6 +47,9 @@
 				</li>
 				<li>
 					<h:link outcome="/ticket/search" value="Ticket"/>
+				</li>
+				<li>
+					<h:link outcome="/user/search" value="User"/>
 				</li>
 			</ul>
 		</div>

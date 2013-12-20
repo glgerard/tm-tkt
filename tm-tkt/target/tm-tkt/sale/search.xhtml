@@ -29,13 +29,13 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="saleBeanExampleCustomer" value="Customer:"/>
+						<h:outputLabel for="saleBeanExampleUser" value="User:"/>
 						<h:panelGroup>
-							<h:selectOneMenu converter="#{customerBean.converter}" id="saleBeanExampleCustomer" value="#{saleBean.example.customer}">
+							<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanExampleUser" value="#{saleBean.example.user}">
 								<f:selectItem/>
-								<f:selectItems value="#{customerBean.all}"/>
+								<f:selectItems value="#{userBean.all}"/>
 							</h:selectOneMenu>
-							<h:message for="saleBeanExampleCustomer" styleClass="error"/>
+							<h:message for="saleBeanExampleUser" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 						<h:outputLabel for="saleBeanExamplePayment" value="Payment:"/>
@@ -67,11 +67,11 @@
 			<h:dataTable id="saleBeanPageItems" styleClass="data-table" value="#{saleBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Customer"/>
+						<h:outputText value="User"/>
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemCustomer" value="#{_item.customer}"/>
+						<h:outputText id="itemUser" value="#{_item.user}"/>
 					</h:link>
 				</h:column>
 				<h:column>

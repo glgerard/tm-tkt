@@ -59,6 +59,15 @@
 						<h:outputText id="itemSeatCategoryId" value="#{_item.seatCategoryId}"/>
 					</h:link>
 				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Category Name"/>
+					</f:facet>
+					<h:link outcome="/seatCategory/view">
+						<f:param name="id" value="#{_item.seatCategoryId}"/>
+						<h:outputText id="itemCategoryName" value="#{_item.categoryName}"/>
+					</h:link>
+				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{seatCategoryBean}"/>

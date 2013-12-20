@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -56,16 +57,30 @@
 							<h:message for="showBeanExampleDirectorName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="From:"/>
+						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (dd/mm/yy):"/>
 						<h:panelGroup>
-							<h:inputText id="showBeanExampleFirstEventDate" maxLength="45" value="#{showBean.example.firstEventDate}"/>
+						<!-- 
+							<h:inputText id="showBeanExampleFirstEventDate" maxLength="10" size="10" value="#{showBean.example.firstEventDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yy"/>
+							</h:inputText>
 							<h:message for="showBeanExampleFirstEventDate" styleClass="error"/>
+						-->
+						    <p:calendar value="#{showBean.example.firstEventDate}" id="showBeanExampleFirstEventDate"
+						    	pattern="MMM d, yyyy"
+						    	showOn="button" locale="it"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="To:"/>
+						<h:outputLabel for="showBeanExampleLastEventDate" value="To (dd/mm/yy):"/>
 						<h:panelGroup>
-							<h:inputText id="showBeanExampleLastEventDate" maxLength="45" value="#{showBean.example.lastEventDate}"/>
+						<!-- 
+							<h:inputText id="showBeanExampleLastEventDate" maxLength="10" size="10" value="#{showBean.example.lastEventDate}">
+								<f:convertDateTime type="date" pattern="dd/MM/yy"/>
+							</h:inputText>
 							<h:message for="showBeanExampleLastEventDate" styleClass="error"/>
+						-->
+							<p:calendar value="#{showBean.example.lastEventDate}" id="showBeanExampleLastEventDate"
+								pattern="MMM d, yyyy"
+								showOn="button" locale="it"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
@@ -91,6 +106,22 @@
 						<h:outputText value="Author"/>
 					</f:facet>
 					<h:outputText id="itemAuthorName" value="#{_item.authorName}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="From:"/>
+					</f:facet>
+					<h:outputText id="itemFirstEventDate" value="#{_item.firstEventDate}">
+						<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="To:"/>
+					</f:facet>
+					<h:outputText id="itemLastEventDate" value="#{_item.lastEventDate}">
+						<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+					</h:outputText>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">

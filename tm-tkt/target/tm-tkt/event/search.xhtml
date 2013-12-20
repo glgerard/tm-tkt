@@ -49,12 +49,18 @@
 			<h:dataTable id="eventBeanPageItems" styleClass="data-table" value="#{eventBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Datetime"/>
+						<h:outputText value="Show"/>
+					</f:facet>
+					<h:outputText id="showTitle" value="#{_item.show.title}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Date and time"/>
 					</f:facet>
 					<h:link outcome="/event/view">
 						<f:param name="id" value="#{_item.eventId}"/>
 						<h:outputText id="itemDatetime" value="#{_item.datetime}">
-							<f:convertDateTime type="both"/>
+							<f:convertDateTime pattern="MMM d, yyyy HH:mm" type="both"/>
 						</h:outputText>
 					</h:link>
 				</h:column>

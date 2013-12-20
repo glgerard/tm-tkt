@@ -45,6 +45,15 @@
 					<h:message for="subscriptionBeanSubscriptionSeat" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionGenre" value="Genre:"/>
+				<h:panelGroup>
+					<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanSubscriptionGenre" value="#{subscriptionBean.subscription.genre}">
+						<f:selectItem/>
+						<f:selectItems value="#{genreBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="subscriptionBeanSubscriptionGenre" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
 				<h:outputLabel for="subscriptionBeanSubscriptionSale" value="Sale:"/>
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanSubscriptionSale" value="#{subscriptionBean.subscription.sale}">
@@ -54,12 +63,21 @@
 					<h:message for="subscriptionBeanSubscriptionSale" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="subscriptionBeanSubscriptionType" value="Type:"/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionType" value="Subscription Type:"/>
 				<h:panelGroup>
-					<h:inputText id="subscriptionBeanSubscriptionType" maxLength="45" required="true" value="#{subscriptionBean.subscription.type}"/>
-					<h:message for="subscriptionBeanSubscriptionType" styleClass="error"/>
+					<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanSubscriptionSubscriptionType" value="#{subscriptionBean.subscription.subscriptionType}">
+						<f:selectItem/>
+						<f:selectItems value="#{subscriptionTypeBean.all}"/>
+					</h:selectOneMenu>
+					<h:message for="subscriptionBeanSubscriptionSubscriptionType" styleClass="error"/>
 				</h:panelGroup>
-				<h:outputText value="*"/>
+				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionNumberOfBookings" value="Number Of Bookings:"/>
+				<h:panelGroup>
+					<h:inputText id="subscriptionBeanSubscriptionNumberOfBookings" value="#{subscriptionBean.subscription.numberOfBookings}"/>
+					<h:message for="subscriptionBeanSubscriptionNumberOfBookings" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText/>
 			</h:panelGrid>
 
 			<div class="buttons">

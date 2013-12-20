@@ -25,8 +25,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Subscription;
+import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
+import it.unipv.se2.tmtkt.model.SubscriptionType;
 
 /**
  * Backing bean for Subscription entities.
@@ -50,14 +52,14 @@ public class SubscriptionBean implements Serializable
     * Support creating and retrieving Subscription entities
     */
 
-   private Long id;
+   private Integer id;
 
-   public Long getId()
+   public Integer getId()
    {
       return this.id;
    }
 
-   public void setId(Long id)
+   public void setId(Integer id)
    {
       this.id = id;
    }
@@ -105,7 +107,7 @@ public class SubscriptionBean implements Serializable
       }
    }
 
-   public Subscription findById(Long id)
+   public Subscription findById(Integer id)
    {
 
       return this.entityManager.find(Subscription.class, id);
@@ -129,7 +131,7 @@ public class SubscriptionBean implements Serializable
          else
          {
             this.entityManager.merge(this.subscription);
-            return "view?faces-redirect=true&id=" + this.subscription.getId();
+            return "view?faces-redirect=true&id=" + this.subscription.getSubscriptionId();
          }
       }
       catch (Exception e)
@@ -150,10 +152,18 @@ public class SubscriptionBean implements Serializable
          seat.getSubscriptions().remove(deletableEntity);
          deletableEntity.setSeat(null);
          this.entityManager.merge(seat);
+         Genre genre = deletableEntity.getGenre();
+         genre.getSubscriptions().remove(deletableEntity);
+         deletableEntity.setGenre(null);
+         this.entityManager.merge(genre);
          Sale sale = deletableEntity.getSale();
          sale.getSubscriptions().remove(deletableEntity);
          deletableEntity.setSale(null);
          this.entityManager.merge(sale);
+         SubscriptionType subscriptionType = deletableEntity.getSubscriptionType();
+         subscriptionType.getSubscriptions().remove(deletableEntity);
+         deletableEntity.setSubscriptionType(null);
+         this.entityManager.merge(subscriptionType);
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
@@ -241,15 +251,27 @@ public class SubscriptionBean implements Serializable
       {
          predicatesList.add(builder.equal(root.get("seat"), seat));
       }
+      Genre genre = this.example.getGenre();
+      if (genre != null)
+      {
+         predicatesList.add(builder.equal(root.get("genre"), genre));
+      }
       Sale sale = this.example.getSale();
       if (sale != null)
       {
          predicatesList.add(builder.equal(root.get("sale"), sale));
       }
-      String type = this.example.getType();
-      if (type != null && !"".equals(type))
+      SubscriptionType subscriptionType = this.example.getSubscriptionType();
+      if (subscriptionType != null)
       {
-         predicatesList.add(builder.like(root.<String> get("type"), '%' + type + '%'));
+         predicatesList.add(builder.equal(root.get("subscriptionType"), subscriptionType));
+      }
+      
+      Short numberOfBookings = this.example.getNumberOfBookings();
+      Short zero = 0;
+      if (numberOfBookings != null && !zero.equals(numberOfBookings) )
+      {
+         predicatesList.add(builder.equal(root.get("numberOfBookings"), numberOfBookings));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
@@ -295,7 +317,7 @@ public class SubscriptionBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Long.valueOf(value));
+            return ejbProxy.findById(Integer.valueOf(value));
          }
 
          @Override
@@ -308,7 +330,7 @@ public class SubscriptionBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Subscription) value).getId());
+            return String.valueOf(((Subscription) value).getSubscriptionId());
          }
       };
    }

@@ -45,10 +45,10 @@
 				<h:outputText value="*"/>
 				<h:outputLabel for="rowBeanRowRowName" value="Row Name:"/>
 				<h:panelGroup>
-					<h:inputText id="rowBeanRowRowName" maxLength="45" value="#{rowBean.row.rowName}"/>
+					<h:inputText id="rowBeanRowRowName" maxLength="45" required="true" value="#{rowBean.row.rowName}"/>
 					<h:message for="rowBeanRowRowName" styleClass="error"/>
 				</h:panelGroup>
-				<h:outputText/>
+				<h:outputText value="*"/>
 				<h:outputLabel for="rowBeanRowSeats" value="Seats:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{rowBean.row.seats}"/>
