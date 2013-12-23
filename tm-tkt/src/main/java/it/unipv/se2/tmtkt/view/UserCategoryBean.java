@@ -2,6 +2,7 @@ package it.unipv.se2.tmtkt.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -26,6 +28,7 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.UserCategory;
 import it.unipv.se2.tmtkt.model.User;
+
 import java.util.Iterator;
 
 /**
@@ -272,6 +275,16 @@ public class UserCategoryBean implements Serializable
             .getCriteriaBuilder().createQuery(UserCategory.class);
       return this.entityManager.createQuery(
             criteria.select(criteria.from(UserCategory.class))).getResultList();
+   }
+   
+   private List<SelectItem> userCategoryItems = new LinkedList<SelectItem>();
+   
+   public List<SelectItem> getUserCategoryItems()
+   {
+	   for (UserCategory uc : this.getAll()) {
+		   userCategoryItems.add(new SelectItem(uc, uc.getDescription()));
+	   }
+	   return userCategoryItems;
    }
 
    @Resource

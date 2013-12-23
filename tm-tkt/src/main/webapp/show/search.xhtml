@@ -57,7 +57,7 @@
 							<h:message for="showBeanExampleDirectorName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (dd/mm/yy):"/>
+						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (Mon d, yyyy):"/>
 						<h:panelGroup>
 						<!-- 
 							<h:inputText id="showBeanExampleFirstEventDate" maxLength="10" size="10" value="#{showBean.example.firstEventDate}">
@@ -67,10 +67,10 @@
 						-->
 						    <p:calendar value="#{showBean.example.firstEventDate}" id="showBeanExampleFirstEventDate"
 						    	pattern="MMM d, yyyy"
-						    	showOn="button" locale="it"/>
+						    	showOn="button"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleLastEventDate" value="To (dd/mm/yy):"/>
+						<h:outputLabel for="showBeanExampleLastEventDate" value="To (Mon dd, yyyy):"/>
 						<h:panelGroup>
 						<!-- 
 							<h:inputText id="showBeanExampleLastEventDate" maxLength="10" size="10" value="#{showBean.example.lastEventDate}">
@@ -80,7 +80,7 @@
 						-->
 							<p:calendar value="#{showBean.example.lastEventDate}" id="showBeanExampleLastEventDate"
 								pattern="MMM d, yyyy"
-								showOn="button" locale="it"/>
+								showOn="button"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>

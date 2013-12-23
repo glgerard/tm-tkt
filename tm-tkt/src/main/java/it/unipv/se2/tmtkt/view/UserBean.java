@@ -51,14 +51,14 @@ public class UserBean implements Serializable
     * Support creating and retrieving User entities
     */
 
-   private Integer id;
+   private String id;
 
-   public Integer getId()
+   public String getId()
    {
       return this.id;
    }
 
-   public void setId(Integer id)
+   public void setId(String id)
    {
       this.id = id;
    }
@@ -106,7 +106,7 @@ public class UserBean implements Serializable
       }
    }
 
-   public User findById(Integer id)
+   public User findById(String id)
    {
 
       return this.entityManager.find(User.class, id);
@@ -130,7 +130,7 @@ public class UserBean implements Serializable
          else
          {
             this.entityManager.merge(this.user);
-            return "view?faces-redirect=true&id=" + this.user.getUserId();
+            return "view?faces-redirect=true&id=" + this.user.getEmail();
          }
       }
       catch (Exception e)
@@ -162,6 +162,30 @@ public class UserBean implements Serializable
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";
+      }
+      catch (Exception e)
+      {
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+         return null;
+      }
+   }
+   
+   public String register()
+   {
+      this.conversation.end();
+
+      try
+      {
+         if (this.id == null)
+         {
+            this.entityManager.persist(this.user);
+            return "index?faces-redirect=true";
+         }
+         else
+         {
+            this.entityManager.merge(this.user);
+            return "view?faces-redirect=true&id=" + this.user.getEmail();
+         }
       }
       catch (Exception e)
       {
@@ -241,6 +265,11 @@ public class UserBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
+      String email = this.example.getEmail();
+      if (email != null && !"".equals(email))
+      {
+         predicatesList.add(builder.like(root.<String> get("email"), '%' + email + '%'));
+      }
       UserCategory userCategory = this.example.getUserCategory();
       if (userCategory != null)
       {
@@ -260,11 +289,6 @@ public class UserBean implements Serializable
       if (middleName != null && !"".equals(middleName))
       {
          predicatesList.add(builder.like(root.<String> get("middleName"), '%' + middleName + '%'));
-      }
-      String email = this.example.getEmail();
-      if (email != null && !"".equals(email))
-      {
-         predicatesList.add(builder.like(root.<String> get("email"), '%' + email + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
@@ -310,7 +334,7 @@ public class UserBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Integer.valueOf(value));
+            return ejbProxy.findById(String.valueOf(value));
          }
 
          @Override
@@ -323,7 +347,7 @@ public class UserBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((User) value).getUserId());
+            return String.valueOf(((User) value).getEmail());
          }
       };
    }
@@ -345,4 +369,5 @@ public class UserBean implements Serializable
       this.add = new User();
       return added;
    }
+
 }

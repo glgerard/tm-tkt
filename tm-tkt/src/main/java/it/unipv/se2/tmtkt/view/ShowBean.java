@@ -2,6 +2,7 @@ package it.unipv.se2.tmtkt.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import javax.persistence.criteria.Root;
 import it.unipv.se2.tmtkt.model.Show;
 import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Genre;
+
 import java.util.Iterator;
 
 /**
@@ -266,7 +268,16 @@ public class ShowBean implements Serializable
       {
          predicatesList.add(builder.like(root.<String> get("description"), '%' + description + '%'));
       }
-
+      Date firstEventDate = this.example.getFirstEventDate();
+      if ( firstEventDate != null )
+      {
+    	  predicatesList.add(builder.greaterThanOrEqualTo(root.<Date> get("lastEventDate"), firstEventDate));
+      }
+      Date lastEventDate = this.example.getLastEventDate();
+      if ( lastEventDate != null )
+      {
+    	  predicatesList.add(builder.lessThanOrEqualTo(root.<Date> get("firstEventDate"), lastEventDate));
+      }
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 

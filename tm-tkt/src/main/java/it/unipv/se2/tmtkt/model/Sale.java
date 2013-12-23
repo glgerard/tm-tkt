@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 20, 2013 3:47:27 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 23, 2013 1:14:38 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -64,7 +64,7 @@ public class Sale  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="USER_id", nullable=false)
+    @JoinColumn(name="USER_EMAIL", nullable=false)
     public User getUser() {
         return this.user;
     }
@@ -120,9 +120,8 @@ public class Sale  implements java.io.Serializable {
         this.subscriptions = subscriptions;
     }
 
-    public String toString() {
-    	return String.valueOf(this.getSaleId());
-    }
+
+
 
 }
 

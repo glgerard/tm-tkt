@@ -26,8 +26,11 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="userBeanUserEmail" value="Email:"/>
+			<h:outputText id="userBeanUserEmail" value="#{userBean.user.email}"/>
+			<h:outputText/>
 			<h:outputLabel for="userBeanUserUserCategory" value="User Category:"/>
-			<h:link id="userBeanUserUserCategory" outcome="/userCategory/view" value="#{userBean.user.userCategory}">
+			<h:link id="userBeanUserUserCategory" outcome="/userCategory/view" value="#{userBean.user.userCategory.description}">
 				<f:param name="id" value="#{userBean.user.userCategory.userCategoryId}"/>
 			</h:link>
 			<h:outputText/>
@@ -40,12 +43,7 @@
 			<h:outputLabel for="userBeanUserMiddleName" value="Middle Name:"/>
 			<h:outputText id="userBeanUserMiddleName" value="#{userBean.user.middleName}"/>
 			<h:outputText/>
-			<h:outputLabel for="userBeanUserEmail" value="Email:"/>
-			<h:outputText id="userBeanUserEmail" value="#{userBean.user.email}"/>
-			<h:outputText/>
-			<h:outputLabel for="userBeanUserPassword" value="Password:"/>
-			<h:outputText id="userBeanUserPassword" value="#{userBean.user.password}"/>
-			<h:outputText/>
+<!-- 
 			<h:outputLabel for="userBeanUserSales" value="Sales:"/>
 			<h:dataTable id="userBeanUserSales" styleClass="data-table" value="#{forgeview:asList(userBean.user.sales)}" var="_item">
 				<h:column>
@@ -68,12 +66,17 @@
 				</h:column>
 			</h:dataTable>
 			<h:outputText/>
+			 -->
 		</h:panelGrid>
 
 		<div class="buttons">
+		<!-- 
 			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
-			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+		-->
+			<h:link value="Update" outcome="register" includeViewParams="true" styleClass="btn btn-primary"/>
+		<!-- 
 			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		-->
 		</div>
 	</ui:define>
 

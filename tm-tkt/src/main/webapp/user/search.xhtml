@@ -29,6 +29,12 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="userBeanExampleEmail" value="Email:"/>
+						<h:panelGroup>
+							<h:inputText id="userBeanExampleEmail" maxLength="90" value="#{userBean.example.email}"/>
+							<h:message for="userBeanExampleEmail" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
 						<h:outputLabel for="userBeanExampleUserCategory" value="User Category:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanExampleUserCategory" value="#{userBean.example.userCategory}">
@@ -56,12 +62,6 @@
 							<h:message for="userBeanExampleMiddleName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="userBeanExampleEmail" value="Email:"/>
-						<h:panelGroup>
-							<h:inputText id="userBeanExampleEmail" maxLength="45" value="#{userBean.example.email}"/>
-							<h:message for="userBeanExampleEmail" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{userBean.search}" styleClass="btn btn-primary"/>
@@ -73,10 +73,19 @@
 			<h:dataTable id="userBeanPageItems" styleClass="data-table" value="#{userBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
+						<h:outputText value="Email"/>
+					</f:facet>
+					<h:link outcome="/user/view">
+						<f:param name="id" value="#{_item.email}"/>
+						<h:outputText id="itemEmail" value="#{_item.email}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
 						<h:outputText value="First Name"/>
 					</f:facet>
 					<h:link outcome="/user/view">
-						<f:param name="id" value="#{_item.userId}"/>
+						<f:param name="id" value="#{_item.email}"/>
 						<h:outputText id="itemFirstName" value="#{_item.firstName}"/>
 					</h:link>
 				</h:column>
@@ -85,17 +94,8 @@
 						<h:outputText value="Last Name"/>
 					</f:facet>
 					<h:link outcome="/user/view">
-						<f:param name="id" value="#{_item.userId}"/>
+						<f:param name="id" value="#{_item.email}"/>
 						<h:outputText id="itemLastName" value="#{_item.lastName}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Email"/>
-					</f:facet>
-					<h:link outcome="/user/view">
-						<f:param name="id" value="#{_item.userId}"/>
-						<h:outputText id="itemEmail" value="#{_item.email}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

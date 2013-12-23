@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
@@ -16,9 +17,26 @@
 			<div class="container">
 				<h:link id="brandLink" outcome="/index.xhtml" styleClass="brand">Teatro Manzoni - Online ticketing</h:link>
 				<div class="nav-collapse collapse">
-					<ul class="nav">
-						<li><a href="http://www.teatromanzoni.it">Teatro Manzoni</a></li>
-					</ul>
+				<c:choose>
+					<c:when test="#{empty loginBean.username}">
+						<ul class="nav">
+							<li><h:link id="loginLink" outcome="/login.xhtml">Login</h:link></li>
+						</ul>
+						<ul class="nav">
+							<li><h:link id="registerLink" outcome="/user/register.xhtml">Register</h:link></li>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<h:form>
+						<ul class="nav">
+							<li><h:commandLink id="logoutLink" value="Logout" action="#{loginBean.logout}"/></li>
+						</ul>
+						<ul class="nav">
+							<li><h:link id="viewLink" outcome="/user/view.xhtml?id=#{loginBean.username}">Logged in as, #{loginBean.username}</h:link></li>
+						</ul>
+						</h:form>
+					</c:otherwise>
+				</c:choose>
 				</div>
 			</div>
 		</div>

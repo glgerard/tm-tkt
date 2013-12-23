@@ -55,10 +55,23 @@
 					<h:dataTable id="userCategoryBeanUserCategoryUsers" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
 						<h:column>
 							<f:facet name="header">
+								<h:outputText value="Email"/>
+							</f:facet>
+							<h:link outcome="/user/view">
+								<f:param name="id" value="#{_item.email}"/>
+								<h:outputText id="itemEmail" value="#{_item.email}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:inputText id="userBeanAddEmail" maxLength="90" value="#{userBean.add.email}"/>
+								<h:message for="userBeanAddEmail" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
 								<h:outputText value="First Name"/>
 							</f:facet>
 							<h:link outcome="/user/view">
-								<f:param name="id" value="#{_item.userId}"/>
+								<f:param name="id" value="#{_item.email}"/>
 								<h:outputText id="itemFirstName" value="#{_item.firstName}"/>
 							</h:link>
 							<f:facet name="footer">
@@ -71,25 +84,12 @@
 								<h:outputText value="Last Name"/>
 							</f:facet>
 							<h:link outcome="/user/view">
-								<f:param name="id" value="#{_item.userId}"/>
+								<f:param name="id" value="#{_item.email}"/>
 								<h:outputText id="itemLastName" value="#{_item.lastName}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:inputText id="userBeanAddLastName" maxLength="45" value="#{userBean.add.lastName}"/>
 								<h:message for="userBeanAddLastName" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Email"/>
-							</f:facet>
-							<h:link outcome="/user/view">
-								<f:param name="id" value="#{_item.userId}"/>
-								<h:outputText id="itemEmail" value="#{_item.email}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="userBeanAddEmail" maxLength="45" value="#{userBean.add.email}"/>
-								<h:message for="userBeanAddEmail" styleClass="error"/>
 							</f:facet>
 						</h:column>
 						<h:column footerClass="remove-column" headerClass="remove-column">
