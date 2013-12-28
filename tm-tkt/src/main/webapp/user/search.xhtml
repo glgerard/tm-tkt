@@ -39,7 +39,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanExampleUserCategory" value="#{userBean.example.userCategory}">
 								<f:selectItem/>
-								<f:selectItems value="#{userCategoryBean.all}"/>
+								<f:selectItems value="#{userCategoryController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="userBeanExampleUserCategory" styleClass="error"/>
 						</h:panelGroup>
@@ -65,7 +65,8 @@
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{userBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{userBean.create}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{userBean.create}" styleClass="btn btn-primary"
+										rendered="!#{loginBean.privileged}"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>

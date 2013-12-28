@@ -34,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{genreBean.converter}" id="showBeanExampleGenre" value="#{showBean.example.genre}">
 								<f:selectItem/>
-								<f:selectItems value="#{genreBean.all}"/>
+								<f:selectItems value="#{genreController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="showBeanExampleGenre" styleClass="error"/>
 						</h:panelGroup>
@@ -86,7 +86,8 @@
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{showBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{showBean.create}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{showBean.create}" styleClass="btn btn-primary"
+										rendered="#{loginBean.privileged}"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>

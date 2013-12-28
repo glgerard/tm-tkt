@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 20, 2013 3:47:27 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 26, 2013 12:17:49 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -26,23 +28,23 @@ public class Payment  implements java.io.Serializable {
 
 
      private Integer paymentId;
+     private PaymentMethod paymentMethod;
      private String transactionId;
      private String invoiceNumber;
-     private String paymentMethod;
      private Set<Sale> sales = new HashSet<Sale>(0);
 
     public Payment() {
     }
 
 	
-    public Payment(String transactionId, String paymentMethod) {
-        this.transactionId = transactionId;
+    public Payment(PaymentMethod paymentMethod, String transactionId) {
         this.paymentMethod = paymentMethod;
+        this.transactionId = transactionId;
     }
-    public Payment(String transactionId, String invoiceNumber, String paymentMethod, Set<Sale> sales) {
+    public Payment(PaymentMethod paymentMethod, String transactionId, String invoiceNumber, Set<Sale> sales) {
+       this.paymentMethod = paymentMethod;
        this.transactionId = transactionId;
        this.invoiceNumber = invoiceNumber;
-       this.paymentMethod = paymentMethod;
        this.sales = sales;
     }
    
@@ -56,6 +58,16 @@ public class Payment  implements java.io.Serializable {
     
     public void setPaymentId(Integer paymentId) {
         this.paymentId = paymentId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="PAYMENT_METHOD_id", nullable=false)
+    public PaymentMethod getPaymentMethod() {
+        return this.paymentMethod;
+    }
+    
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     
@@ -76,16 +88,6 @@ public class Payment  implements java.io.Serializable {
     
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
-    }
-
-    
-    @Column(name="PAYMENT_METHOD", nullable=false, length=45)
-    public String getPaymentMethod() {
-        return this.paymentMethod;
-    }
-    
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="payment")

@@ -276,16 +276,6 @@ public class UserCategoryBean implements Serializable
       return this.entityManager.createQuery(
             criteria.select(criteria.from(UserCategory.class))).getResultList();
    }
-   
-   private List<SelectItem> userCategoryItems = new LinkedList<SelectItem>();
-   
-   public List<SelectItem> getUserCategoryItems()
-   {
-	   for (UserCategory uc : this.getAll()) {
-		   userCategoryItems.add(new SelectItem(uc, uc.getDescription()));
-	   }
-	   return userCategoryItems;
-   }
 
    @Resource
    private SessionContext sessionContext;

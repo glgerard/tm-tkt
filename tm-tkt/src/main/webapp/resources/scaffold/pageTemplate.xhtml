@@ -49,26 +49,17 @@
 			</h:link>
 			<ul>
 				<li>
-					<h:link outcome="/booking/search" value="Booking"/>
-				</li>
-				<li>
-					<h:link outcome="/event/search" value="Event"/>
-				</li>
-				<li>
-					<h:link outcome="/sale/search" value="Sale"/>
-				</li>
-				<li>
 					<h:link outcome="/show/search" value="Show"/>
 				</li>
-				<li>
-					<h:link outcome="/subscription/search" value="Subscription"/>
-				</li>
-				<li>
-					<h:link outcome="/ticket/search" value="Ticket"/>
-				</li>
-				<li>
-					<h:link outcome="/user/search" value="User"/>
-				</li>
+				<c:choose>
+					<c:when test="#{loginBean.privileged}">
+						<li><h:link outcome="/user/search" value="User" /></li>
+						<li><h:link outcome="priceScheme/search" value="PriceScheme" /></li>
+						<li><h:link outcome="/subscription/search"
+								value="Subscription" /></li>
+						<li><h:link outcome="/ticket/search" value="Ticket" /></li>
+					</c:when>
+				</c:choose>
 			</ul>
 		</div>
 

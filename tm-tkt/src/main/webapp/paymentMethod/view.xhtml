@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{paymentMethodBean.id}"/>
+		<f:event type="preRenderView" listener="#{paymentMethodBean.retrieve}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="View Payment Method"/>
+
+	<ui:define name="header">
+		Payment Method
+	</ui:define>
+
+	<ui:define name="subheader">
+		View existing Payment Method
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="paymentMethodBeanPaymentMethodPaymentMethodId" value="Payment Method Id:"/>
+			<h:outputText id="paymentMethodBeanPaymentMethodPaymentMethodId" value="#{paymentMethodBean.paymentMethod.paymentMethodId}"/>
+			<h:outputText/>
+			<h:outputLabel for="paymentMethodBeanPaymentMethodPaymentName" value="Payment Name:"/>
+			<h:outputText id="paymentMethodBeanPaymentMethodPaymentName" value="#{paymentMethodBean.paymentMethod.paymentName}"/>
+			<h:outputText/>
+			<h:outputLabel for="paymentMethodBeanPaymentMethodPayments" value="Payments:"/>
+			<h:dataTable id="paymentMethodBeanPaymentMethodPayments" styleClass="data-table" value="#{forgeview:asList(paymentMethodBean.paymentMethod.payments)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Transaction Id"/>
+					</f:facet>
+					<h:link outcome="/payment/view">
+						<f:param name="id" value="#{_item.paymentId}"/>
+						<h:outputText id="itemTransactionId" value="#{_item.transactionId}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+		</h:panelGrid>
+
+		<div class="buttons">
+			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
+			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
+			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+		</div>
+	</ui:define>
+
+</ui:composition>

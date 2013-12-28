@@ -26,14 +26,16 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
+			<h:link id="paymentBeanPaymentPaymentMethod" outcome="/paymentMethod/view" value="#{paymentBean.payment.paymentMethod}">
+				<f:param name="id" value="#{paymentBean.payment.paymentMethod.paymentMethodId}"/>
+			</h:link>
+			<h:outputText/>
 			<h:outputLabel for="paymentBeanPaymentTransactionId" value="Transaction Id:"/>
 			<h:outputText id="paymentBeanPaymentTransactionId" value="#{paymentBean.payment.transactionId}"/>
 			<h:outputText/>
 			<h:outputLabel for="paymentBeanPaymentInvoiceNumber" value="Invoice Number:"/>
 			<h:outputText id="paymentBeanPaymentInvoiceNumber" value="#{paymentBean.payment.invoiceNumber}"/>
-			<h:outputText/>
-			<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
-			<h:outputText id="paymentBeanPaymentPaymentMethod" value="#{paymentBean.payment.paymentMethod}"/>
 			<h:outputText/>
 			<h:outputLabel for="paymentBeanPaymentSales" value="Sales:"/>
 			<h:dataTable id="paymentBeanPaymentSales" styleClass="data-table" value="#{forgeview:asList(paymentBean.payment.sales)}" var="_item">
@@ -43,7 +45,7 @@
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemUser" value="#{_item.user}"/>
+						<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -52,7 +54,7 @@
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemPriceScheme" value="#{_item.priceScheme}"/>
+						<h:outputText id="forgeviewdisplayitemPriceScheme" value="#{forgeview:display(_item.priceScheme)}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

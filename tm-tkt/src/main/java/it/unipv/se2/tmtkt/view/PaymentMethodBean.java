@@ -2,7 +2,6 @@ package it.unipv.se2.tmtkt.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,7 +13,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -26,17 +24,14 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import it.unipv.se2.tmtkt.model.Genre;
-import it.unipv.se2.tmtkt.model.PriceScheme;
-import it.unipv.se2.tmtkt.model.Show;
-import it.unipv.se2.tmtkt.model.UserCategory;
-
+import it.unipv.se2.tmtkt.model.PaymentMethod;
+import it.unipv.se2.tmtkt.model.Payment;
 import java.util.Iterator;
 
 /**
- * Backing bean for Genre entities.
+ * Backing bean for PaymentMethod entities.
  * <p>
- * This class provides CRUD functionality for all Genre entities. It focuses
+ * This class provides CRUD functionality for all PaymentMethod entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -46,13 +41,13 @@ import java.util.Iterator;
 @Named
 @Stateful
 @ConversationScoped
-public class GenreBean implements Serializable
+public class PaymentMethodBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving Genre entities
+    * Support creating and retrieving PaymentMethod entities
     */
 
    private Byte id;
@@ -67,11 +62,11 @@ public class GenreBean implements Serializable
       this.id = id;
    }
 
-   private Genre genre;
+   private PaymentMethod paymentMethod;
 
-   public Genre getGenre()
+   public PaymentMethod getPaymentMethod()
    {
-      return this.genre;
+      return this.paymentMethod;
    }
 
    @Inject
@@ -102,22 +97,22 @@ public class GenreBean implements Serializable
 
       if (this.id == null)
       {
-         this.genre = this.example;
+         this.paymentMethod = this.example;
       }
       else
       {
-         this.genre = findById(getId());
+         this.paymentMethod = findById(getId());
       }
    }
 
-   public Genre findById(Byte id)
+   public PaymentMethod findById(Byte id)
    {
 
-      return this.entityManager.find(Genre.class, id);
+      return this.entityManager.find(PaymentMethod.class, id);
    }
 
    /*
-    * Support updating and deleting Genre entities
+    * Support updating and deleting PaymentMethod entities
     */
 
    public String update()
@@ -128,13 +123,13 @@ public class GenreBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.genre);
+            this.entityManager.persist(this.paymentMethod);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.genre);
-            return "view?faces-redirect=true&id=" + this.genre.getGenreId();
+            this.entityManager.merge(this.paymentMethod);
+            return "view?faces-redirect=true&id=" + this.paymentMethod.getPaymentMethodId();
          }
       }
       catch (Exception e)
@@ -150,22 +145,14 @@ public class GenreBean implements Serializable
 
       try
       {
-         Genre deletableEntity = findById(getId());
-         Iterator<Show> iterShows = deletableEntity.getShows().iterator();
-         for (; iterShows.hasNext();)
+         PaymentMethod deletableEntity = findById(getId());
+         Iterator<Payment> iterPayments = deletableEntity.getPayments().iterator();
+         for (; iterPayments.hasNext();)
          {
-            Show nextInShows = iterShows.next();
-            nextInShows.setGenre(null);
-            iterShows.remove();
-            this.entityManager.merge(nextInShows);
-         }
-         Iterator<PriceScheme> iterPriceSchemes = deletableEntity.getPriceSchemes().iterator();
-         for (; iterPriceSchemes.hasNext();)
-         {
-            PriceScheme nextInPriceSchemes = iterPriceSchemes.next();
-            nextInPriceSchemes.setGenre(null);
-            iterPriceSchemes.remove();
-            this.entityManager.merge(nextInPriceSchemes);
+            Payment nextInPayments = iterPayments.next();
+            nextInPayments.setPaymentMethod(null);
+            iterPayments.remove();
+            this.entityManager.merge(nextInPayments);
          }
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
@@ -179,14 +166,14 @@ public class GenreBean implements Serializable
    }
 
    /*
-    * Support searching Genre entities with pagination
+    * Support searching PaymentMethod entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Genre> pageItems;
+   private List<PaymentMethod> pageItems;
 
-   private Genre example = new Genre();
+   private PaymentMethod example = new PaymentMethod();
 
    public int getPage()
    {
@@ -203,12 +190,12 @@ public class GenreBean implements Serializable
       return 10;
    }
 
-   public Genre getExample()
+   public PaymentMethod getExample()
    {
       return this.example;
    }
 
-   public void setExample(Genre example)
+   public void setExample(PaymentMethod example)
    {
       this.example = example;
    }
@@ -226,7 +213,7 @@ public class GenreBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Genre> root = countCriteria.from(Genre.class);
+      Root<PaymentMethod> root = countCriteria.from(PaymentMethod.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -234,31 +221,36 @@ public class GenreBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Genre> criteria = builder.createQuery(Genre.class);
-      root = criteria.from(Genre.class);
-      TypedQuery<Genre> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<PaymentMethod> criteria = builder.createQuery(PaymentMethod.class);
+      root = criteria.from(PaymentMethod.class);
+      TypedQuery<PaymentMethod> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Genre> root)
+   private Predicate[] getSearchPredicates(Root<PaymentMethod> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      String name = this.example.getName();
-      if (name != null && !"".equals(name))
+      byte paymentMethodId = this.example.getPaymentMethodId();
+      if (paymentMethodId != 0)
       {
-         predicatesList.add(builder.like(root.<String> get("name"), '%' + name + '%'));
+         predicatesList.add(builder.equal(root.get("paymentMethodId"), paymentMethodId));
+      }
+      String paymentName = this.example.getPaymentName();
+      if (paymentName != null && !"".equals(paymentName))
+      {
+         predicatesList.add(builder.like(root.<String> get("paymentName"), '%' + paymentName + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Genre> getPageItems()
+   public List<PaymentMethod> getPageItems()
    {
       return this.pageItems;
    }
@@ -269,17 +261,17 @@ public class GenreBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Genre entities (e.g. from inside an
+    * Support listing and POSTing back PaymentMethod entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Genre> getAll()
+   public List<PaymentMethod> getAll()
    {
 
-      CriteriaQuery<Genre> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Genre.class);
+      CriteriaQuery<PaymentMethod> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(PaymentMethod.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Genre.class))).getResultList();
+            criteria.select(criteria.from(PaymentMethod.class))).getResultList();
    }
 
    @Resource
@@ -288,7 +280,7 @@ public class GenreBean implements Serializable
    public Converter getConverter()
    {
 
-      final GenreBean ejbProxy = this.sessionContext.getBusinessObject(GenreBean.class);
+      final PaymentMethodBean ejbProxy = this.sessionContext.getBusinessObject(PaymentMethodBean.class);
 
       return new Converter()
       {
@@ -311,7 +303,7 @@ public class GenreBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Genre) value).getGenreId());
+            return String.valueOf(((PaymentMethod) value).getPaymentMethodId());
          }
       };
    }
@@ -320,17 +312,17 @@ public class GenreBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Genre add = new Genre();
+   private PaymentMethod add = new PaymentMethod();
 
-   public Genre getAdd()
+   public PaymentMethod getAdd()
    {
       return this.add;
    }
 
-   public Genre getAdded()
+   public PaymentMethod getAdded()
    {
-      Genre added = this.add;
-      this.add = new Genre();
+      PaymentMethod added = this.add;
+      this.add = new PaymentMethod();
       return added;
    }
 }

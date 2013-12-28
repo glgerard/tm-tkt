@@ -25,7 +25,9 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Payment;
+import it.unipv.se2.tmtkt.model.PaymentMethod;
 import it.unipv.se2.tmtkt.model.Sale;
+
 import java.util.Iterator;
 
 /**
@@ -146,6 +148,10 @@ public class PaymentBean implements Serializable
       try
       {
          Payment deletableEntity = findById(getId());
+         PaymentMethod paymentMethod = deletableEntity.getPaymentMethod();
+         paymentMethod.getPayments().remove(deletableEntity);
+         deletableEntity.setPaymentMethod(null);
+         this.entityManager.merge(paymentMethod);
          Iterator<Sale> iterSales = deletableEntity.getSales().iterator();
          for (; iterSales.hasNext();)
          {
@@ -236,6 +242,11 @@ public class PaymentBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
+      PaymentMethod paymentMethod = this.example.getPaymentMethod();
+      if (paymentMethod != null)
+      {
+         predicatesList.add(builder.equal(root.get("paymentMethod"), paymentMethod));
+      }
       String transactionId = this.example.getTransactionId();
       if (transactionId != null && !"".equals(transactionId))
       {
@@ -245,11 +256,6 @@ public class PaymentBean implements Serializable
       if (invoiceNumber != null && !"".equals(invoiceNumber))
       {
          predicatesList.add(builder.like(root.<String> get("invoiceNumber"), '%' + invoiceNumber + '%'));
-      }
-      String paymentMethod = this.example.getPaymentMethod();
-      if (paymentMethod != null && !"".equals(paymentMethod))
-      {
-         predicatesList.add(builder.like(root.<String> get("paymentMethod"), '%' + paymentMethod + '%'));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);

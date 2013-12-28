@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -29,6 +30,15 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="paymentBeanExamplePaymentMethod" value="Payment Method:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{paymentMethodBean.converter}" id="paymentBeanExamplePaymentMethod" value="#{paymentBean.example.paymentMethod}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentMethodBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="paymentBeanExamplePaymentMethod" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
 						<h:outputLabel for="paymentBeanExampleTransactionId" value="Transaction Id:"/>
 						<h:panelGroup>
 							<h:inputText id="paymentBeanExampleTransactionId" maxLength="45" value="#{paymentBean.example.transactionId}"/>
@@ -39,12 +49,6 @@
 						<h:panelGroup>
 							<h:inputText id="paymentBeanExampleInvoiceNumber" maxLength="45" value="#{paymentBean.example.invoiceNumber}"/>
 							<h:message for="paymentBeanExampleInvoiceNumber" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="paymentBeanExamplePaymentMethod" value="Payment Method:"/>
-						<h:panelGroup>
-							<h:inputText id="paymentBeanExamplePaymentMethod" maxLength="45" value="#{paymentBean.example.paymentMethod}"/>
-							<h:message for="paymentBeanExamplePaymentMethod" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
@@ -63,15 +67,6 @@
 					<h:link outcome="/payment/view">
 						<f:param name="id" value="#{_item.paymentId}"/>
 						<h:outputText id="itemTransactionId" value="#{_item.transactionId}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Payment Method"/>
-					</f:facet>
-					<h:link outcome="/payment/view">
-						<f:param name="id" value="#{_item.paymentId}"/>
-						<h:outputText id="itemPaymentMethod" value="#{_item.paymentMethod}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

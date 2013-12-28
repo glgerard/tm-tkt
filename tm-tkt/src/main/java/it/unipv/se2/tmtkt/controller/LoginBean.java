@@ -1,55 +1,82 @@
 package it.unipv.se2.tmtkt.controller;
 
-import java.util.List;
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.*;
-import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import it.unipv.se2.tmtkt.model.User;
-import it.unipv.se2.tmtkt.view.UserBean;
+import it.unipv.se2.tmtkt.model.UserCategory;
 
-@ManagedBean
+@Named
+@Stateful
 @SessionScoped
-public class LoginBean {
-  private String username;
-  private String password;
-  
-  @PersistenceContext(type = PersistenceContextType.EXTENDED)
-  private EntityManager entityManager;
-  
-  public String login() {
-      User user = this.entityManager.find(User.class, username);
+public class LoginBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private static final byte USER_ADMIN_ID = 0;
 
-	  if (user != null) {
-		  if (user.getPassword().equals(password))
-			  return("index");
-	  }
-	 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Username or password incorrect"));
-	 return("login");
-  }
+	private String username;
+	private String password;
+	private boolean privileged = false;
+	private User user;
+	
+	@PersistenceContext(type=PersistenceContextType.EXTENDED)
+	private EntityManager em;
 
-  public String logout() {
-	  this.username = null;
-	  return "index";
-  }
-  
-  public String getUsername() {
-	  return username;
-  }
+	public String login() {
+		if (username != null ) {
+			user = em.find(User.class, username);
 
-  public void setUsername(String username) {
-	  this.username = username;
-  }
+			if (user != null) {
+				if (user.getPassword().equals(password)) {
+					String admin = em.find(UserCategory.class, (byte)USER_ADMIN_ID).getDescription();
+					privileged = user.getUserCategory().getDescription() == admin;
+					return("index");
+				}
+			}
+		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Username or password incorrect"));
+		return("login");
+	}
 
-  public String getPassword() {
-	  return password;
-  }
+	public String logout() {
+		this.username = null;
+		this.privileged = false;
+		return "index";
+	}
 
-  public void setPassword(String password) {
-	  this.password = password;
-  }
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/*
+	 * Support basic authorization functions
+	 */
+
+	public boolean isPrivileged() {
+		return privileged;
+	}
 }

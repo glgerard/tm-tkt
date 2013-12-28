@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
@@ -27,7 +28,7 @@
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="eventBeanEventShow" value="Show:"/>
-			<h:link id="eventBeanEventShow" outcome="/show/view" value="#{eventBean.event.show}">
+			<h:link id="eventBeanEventShow" outcome="/show/view" value="#{eventBean.event.show.title}">
 				<f:param name="id" value="#{eventBean.event.show.showId}"/>
 			</h:link>
 			<h:outputText/>
@@ -36,6 +37,8 @@
 				<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
 			</h:outputText>
 			<h:outputText/>
+			<c:choose>
+			<c:when test="#{loginBean.privileged}">
 			<h:outputLabel for="eventBeanEventBookings" value="Bookings:"/>
 			<h:dataTable id="eventBeanEventBookings" styleClass="data-table" value="#{forgeview:asList(eventBean.event.bookings)}" var="_item">
 				<h:column>
@@ -58,12 +61,31 @@
 				</h:column>
 			</h:dataTable>
 			<h:outputText/>
+			</c:when>
+			</c:choose>
 		</h:panelGrid>
 
 		<div class="buttons">
-			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
-			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
-			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
+			<h:link value="Back" outcome="search"
+				styleClass="btn btn-primary" />
+			<c:choose>
+				<c:when test="#{loginBean.privileged}">
+					<h:link value="Edit" outcome="create" includeViewParams="true"
+						styleClass="btn btn-primary" />
+					<h:link value="Create New" outcome="create"
+						styleClass="btn btn-primary" />
+				</c:when>
+				<c:otherwise>
+				<!-- 
+					<h:link value="Buy a seat" outcome="/seat/search" includeViewParams="true"
+						styleClass="btn btn-primary" />
+				-->
+					<h:link value="Buy a seat" outcome="/seat/search"
+						styleClass="btn btn-primary">
+						<f:param name="eventId" value="#{eventBean.id}"/>
+					</h:link>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</ui:define>
 

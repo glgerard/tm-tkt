@@ -7,7 +7,10 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
+	<!-- 
 		<f:viewParam name="page" value="#{seatBean.page}"/>
+	 -->
+	 	<f:viewParam name="eventId" value="#{seatController.eventId}"/>
 		<f:event type="preRenderView" listener="#{seatBean.paginate}"/>
 	</f:metadata>
 
@@ -39,7 +42,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatCategoryBean.converter}" id="seatBeanExampleSeatCategory" value="#{seatBean.example.seatCategory}">
 								<f:selectItem/>
-								<f:selectItems value="#{seatCategoryBean.all}"/>
+								<f:selectItems value="#{seatCategoryController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleSeatCategory" styleClass="error"/>
 						</h:panelGroup>
@@ -65,7 +68,6 @@
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{seatBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{seatBean.create}" styleClass="btn btn-primary"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>
@@ -75,8 +77,9 @@
 					<f:facet name="header">
 						<h:outputText value="Seat Id"/>
 					</f:facet>
-					<h:link outcome="/seat/view">
-						<f:param name="id" value="#{_item.seatId}"/>
+					<h:link outcome="/payment/create">
+						<f:param name="eventId" value="#{eventBean.id}"/>
+						<f:param name="seatId" value="#{_item.seatId}"/>
 						<h:outputText id="itemSeatId" value="#{_item.seatId}"/>
 					</h:link>
 				</h:column>
