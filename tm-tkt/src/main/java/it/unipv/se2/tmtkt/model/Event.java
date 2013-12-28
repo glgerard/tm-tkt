@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 26, 2013 12:17:49 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 28, 2013 8:53:28 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.Date;

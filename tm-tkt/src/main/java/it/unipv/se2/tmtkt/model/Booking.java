@@ -1,13 +1,13 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 26, 2013 12:17:49 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 28, 2013 8:53:28 PM by Hibernate Tools 3.4.0.CR1
 
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,7 +22,7 @@ import javax.persistence.Table;
 public class Booking  implements java.io.Serializable {
 
 
-     private Integer bookingId;
+     private BookingId id;
      private Seat seat;
      private Sale sale;
      private Event event;
@@ -30,26 +30,29 @@ public class Booking  implements java.io.Serializable {
     public Booking() {
     }
 
-    public Booking(Seat seat, Sale sale, Event event) {
+    public Booking(BookingId id, Seat seat, Sale sale, Event event) {
+       this.id = id;
        this.seat = seat;
        this.sale = sale;
        this.event = event;
     }
    
-     @Id @GeneratedValue(strategy=IDENTITY)
+     @EmbeddedId
 
     
-    @Column(name="BOOKING_id", unique=true, nullable=false)
-    public Integer getBookingId() {
-        return this.bookingId;
+    @AttributeOverrides( {
+        @AttributeOverride(name="eventId", column=@Column(name="EVENT_id", nullable=false) ), 
+        @AttributeOverride(name="seatId", column=@Column(name="SEAT_id", nullable=false) ) } )
+    public BookingId getId() {
+        return this.id;
     }
     
-    public void setBookingId(Integer bookingId) {
-        this.bookingId = bookingId;
+    public void setId(BookingId id) {
+        this.id = id;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="SEAT_id", nullable=false)
+    @JoinColumn(name="SEAT_id", nullable=false, insertable=false, updatable=false)
     public Seat getSeat() {
         return this.seat;
     }
@@ -69,7 +72,7 @@ public class Booking  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="EVENT_id", nullable=false)
+    @JoinColumn(name="EVENT_id", nullable=false, insertable=false, updatable=false)
     public Event getEvent() {
         return this.event;
     }

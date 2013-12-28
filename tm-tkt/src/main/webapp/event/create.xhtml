@@ -4,7 +4,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"	
 	template="/resources/scaffold/pageTemplate.xhtml">
@@ -42,22 +41,17 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{showBean.converter}" id="eventBeanEventShow" value="#{eventBean.event.show}">
 						<f:selectItem/>
-						<f:selectItems value="#{showBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{showBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="eventBeanEventShow" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
 				<h:outputLabel for="eventBeanEventDatetime" value="Datetime:"/>
 				<h:panelGroup>
-				<!-- 
 					<h:inputText id="eventBeanEventDatetime" maxLength="19" required="true" value="#{eventBean.event.datetime}">
 						<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
 					</h:inputText>
 					<h:message for="eventBeanEventDatetime" styleClass="error"/>
-				-->
-					<p:calendar value="#{eventBean.event.datetime}" id="eventBeanDateTime"
-						pattern="MMM d, yyyy hh:mm"
-						showOn="button"/>
 				</h:panelGroup>
 				<h:outputText value="*"/>
 				<h:outputLabel for="eventBeanEventBookings" value="Bookings:"/>
@@ -69,13 +63,13 @@
 								<h:outputText value="Seat"/>
 							</f:facet>
 							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemSeat" value="#{_item.seat}"/>
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanAddSeat" value="#{bookingBean.add.seat}">
 									<f:selectItem/>
-									<f:selectItems value="#{seatBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="bookingBeanAddSeat" styleClass="error"/>
 							</f:facet>
@@ -85,13 +79,13 @@
 								<h:outputText value="Sale"/>
 							</f:facet>
 							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemSale" value="#{_item.sale}"/>
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{saleBean.converter}" id="bookingBeanAddSale" value="#{bookingBean.add.sale}">
 									<f:selectItem/>
-									<f:selectItems value="#{saleBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{saleBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="bookingBeanAddSale" styleClass="error"/>
 							</f:facet>

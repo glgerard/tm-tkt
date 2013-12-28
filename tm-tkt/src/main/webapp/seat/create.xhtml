@@ -47,7 +47,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{seatCategoryBean.converter}" id="seatBeanSeatSeatCategory" value="#{seatBean.seat.seatCategory}">
 						<f:selectItem/>
-						<f:selectItems value="#{seatCategoryBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatCategoryBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="seatBeanSeatSeatCategory" styleClass="error"/>
 				</h:panelGroup>
@@ -56,7 +56,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{sectorBean.converter}" id="seatBeanSeatSector" value="#{seatBean.seat.sector}">
 						<f:selectItem/>
-						<f:selectItems value="#{sectorBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{sectorBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="seatBeanSeatSector" styleClass="error"/>
 				</h:panelGroup>
@@ -65,56 +65,9 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{rowBean.converter}" id="seatBeanSeatRow" value="#{seatBean.seat.row}">
 						<f:selectItem/>
-						<f:selectItems value="#{rowBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{rowBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="seatBeanSeatRow" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel for="seatBeanSeatBookings" value="Bookings:"/>
-				<h:panelGroup>
-					<ui:param name="_collection" value="#{seatBean.seat.bookings}"/>
-					<h:dataTable id="seatBeanSeatBookings" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Sale"/>
-							</f:facet>
-							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemSale" value="#{_item.sale}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{saleBean.converter}" id="bookingBeanAddSale" value="#{bookingBean.add.sale}">
-									<f:selectItem/>
-									<f:selectItems value="#{saleBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="bookingBeanAddSale" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Event"/>
-							</f:facet>
-							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemEvent" value="#{_item.event}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanAddEvent" value="#{bookingBean.add.event}">
-									<f:selectItem/>
-									<f:selectItems value="#{eventBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="bookingBeanAddEvent" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column footerClass="remove-column" headerClass="remove-column">
-							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(bookingBean.added)}" id="seatBeanSeatBookingsAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{bookingBean.add.seat}" value="#{seatBean.seat}"/>
-								</h:commandLink>
-							</f:facet>
-						</h:column>
-					</h:dataTable>
 				</h:panelGroup>
 				<h:outputText/>
 				<h:outputLabel for="seatBeanSeatSubscriptions" value="Subscriptions:"/>
@@ -127,12 +80,12 @@
 							</f:facet>
 							<h:link outcome="/subscription/view">
 								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemGenre" value="#{_item.genre}"/>
+								<h:outputText id="forgeviewdisplayitemGenre" value="#{forgeview:display(_item.genre)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanAddGenre" value="#{subscriptionBean.add.genre}">
 									<f:selectItem/>
-									<f:selectItems value="#{genreBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{genreBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="subscriptionBeanAddGenre" styleClass="error"/>
 							</f:facet>
@@ -143,12 +96,12 @@
 							</f:facet>
 							<h:link outcome="/subscription/view">
 								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSale" value="#{_item.sale}"/>
+								<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanAddSale" value="#{subscriptionBean.add.sale}">
 									<f:selectItem/>
-									<f:selectItems value="#{saleBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{saleBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="subscriptionBeanAddSale" styleClass="error"/>
 							</f:facet>
@@ -159,12 +112,12 @@
 							</f:facet>
 							<h:link outcome="/subscription/view">
 								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
+								<h:outputText id="forgeviewdisplayitemSubscriptionType" value="#{forgeview:display(_item.subscriptionType)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanAddSubscriptionType" value="#{subscriptionBean.add.subscriptionType}">
 									<f:selectItem/>
-									<f:selectItems value="#{subscriptionTypeBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{subscriptionTypeBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="subscriptionBeanAddSubscriptionType" styleClass="error"/>
 							</f:facet>
@@ -187,6 +140,53 @@
 							<f:facet name="footer">
 								<h:commandLink action="#{_collection.add(subscriptionBean.added)}" id="seatBeanSeatSubscriptionsAdd" styleClass="add-button">
 									<f:setPropertyActionListener target="#{subscriptionBean.add.seat}" value="#{seatBean.seat}"/>
+								</h:commandLink>
+							</f:facet>
+						</h:column>
+					</h:dataTable>
+				</h:panelGroup>
+				<h:outputText/>
+				<h:outputLabel for="seatBeanSeatBookings" value="Bookings:"/>
+				<h:panelGroup>
+					<ui:param name="_collection" value="#{seatBean.seat.bookings}"/>
+					<h:dataTable id="seatBeanSeatBookings" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Sale"/>
+							</f:facet>
+							<h:link outcome="/booking/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{saleBean.converter}" id="bookingBeanAddSale" value="#{bookingBean.add.sale}">
+									<f:selectItem/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{saleBean.all}" var="_item"/>
+								</h:selectOneMenu>
+								<h:message for="bookingBeanAddSale" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Event"/>
+							</f:facet>
+							<h:link outcome="/booking/view">
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+							</h:link>
+							<f:facet name="footer">
+								<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanAddEvent" value="#{bookingBean.add.event}">
+									<f:selectItem/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{eventBean.all}" var="_item"/>
+								</h:selectOneMenu>
+								<h:message for="bookingBeanAddEvent" styleClass="error"/>
+							</f:facet>
+						</h:column>
+						<h:column footerClass="remove-column" headerClass="remove-column">
+							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+							<f:facet name="footer">
+								<h:commandLink action="#{_collection.add(bookingBean.added)}" id="seatBeanSeatBookingsAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{bookingBean.add.seat}" value="#{seatBean.seat}"/>
 								</h:commandLink>
 							</f:facet>
 						</h:column>

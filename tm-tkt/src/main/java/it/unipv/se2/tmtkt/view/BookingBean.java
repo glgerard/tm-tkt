@@ -51,14 +51,14 @@ public class BookingBean implements Serializable
     * Support creating and retrieving Booking entities
     */
 
-   private Integer id;
+   private Long id;
 
-   public Integer getId()
+   public Long getId()
    {
       return this.id;
    }
 
-   public void setId(Integer id)
+   public void setId(Long id)
    {
       this.id = id;
    }
@@ -106,7 +106,7 @@ public class BookingBean implements Serializable
       }
    }
 
-   public Booking findById(Integer id)
+   public Booking findById(Long id)
    {
 
       return this.entityManager.find(Booking.class, id);
@@ -130,7 +130,7 @@ public class BookingBean implements Serializable
          else
          {
             this.entityManager.merge(this.booking);
-            return "view?faces-redirect=true&id=" + this.booking.getBookingId();
+            return "view?faces-redirect=true&id=" + this.booking.getId();
          }
       }
       catch (Exception e)
@@ -300,7 +300,7 @@ public class BookingBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Integer.valueOf(value));
+            return ejbProxy.findById(Long.valueOf(value));
          }
 
          @Override
@@ -313,7 +313,7 @@ public class BookingBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Booking) value).getBookingId());
+            return String.valueOf(((Booking) value).getId());
          }
       };
    }

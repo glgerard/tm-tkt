@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -33,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{showBean.converter}" id="eventBeanExampleShow" value="#{eventBean.example.show}">
 								<f:selectItem/>
-								<f:selectItems value="#{showBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{showBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="eventBeanExampleShow" styleClass="error"/>
 						</h:panelGroup>
@@ -49,18 +50,12 @@
 			<h:dataTable id="eventBeanPageItems" styleClass="data-table" value="#{eventBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Show"/>
-					</f:facet>
-					<h:outputText id="showTitle" value="#{_item.show.title}"/>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Date and time"/>
+						<h:outputText value="Datetime"/>
 					</f:facet>
 					<h:link outcome="/event/view">
 						<f:param name="id" value="#{_item.eventId}"/>
 						<h:outputText id="itemDatetime" value="#{_item.datetime}">
-							<f:convertDateTime pattern="MMM d, yyyy HH:mm" type="both"/>
+							<f:convertDateTime type="both"/>
 						</h:outputText>
 					</h:link>
 				</h:column>

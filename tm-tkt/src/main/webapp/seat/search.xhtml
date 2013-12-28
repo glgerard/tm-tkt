@@ -10,7 +10,7 @@
 	<!-- 
 		<f:viewParam name="page" value="#{seatBean.page}"/>
 	 -->
-	 	<f:viewParam name="eventId" value="#{seatController.eventId}"/>
+	 	<f:viewParam name="eventId" value="#{eventBean.id}"/>
 		<f:event type="preRenderView" listener="#{seatBean.paginate}"/>
 	</f:metadata>
 

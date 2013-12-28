@@ -162,14 +162,6 @@ public class SeatBean implements Serializable
          row.getSeats().remove(deletableEntity);
          deletableEntity.setRow(null);
          this.entityManager.merge(row);
-         Iterator<Booking> iterBookings = deletableEntity.getBookings().iterator();
-         for (; iterBookings.hasNext();)
-         {
-            Booking nextInBookings = iterBookings.next();
-            nextInBookings.setSeat(null);
-            iterBookings.remove();
-            this.entityManager.merge(nextInBookings);
-         }
          Iterator<Subscription> iterSubscriptions = deletableEntity.getSubscriptions().iterator();
          for (; iterSubscriptions.hasNext();)
          {
@@ -177,6 +169,14 @@ public class SeatBean implements Serializable
             nextInSubscriptions.setSeat(null);
             iterSubscriptions.remove();
             this.entityManager.merge(nextInSubscriptions);
+         }
+         Iterator<Booking> iterBookings = deletableEntity.getBookings().iterator();
+         for (; iterBookings.hasNext();)
+         {
+            Booking nextInBookings = iterBookings.next();
+            nextInBookings.setSeat(null);
+            iterBookings.remove();
+            this.entityManager.merge(nextInBookings);
          }
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();

@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 26, 2013 12:17:49 PM by Hibernate Tools 3.4.0.CR1
+// Generated Dec 28, 2013 8:53:28 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -27,8 +27,8 @@ public class Seat  implements java.io.Serializable {
      private SeatCategory seatCategory;
      private Sector sector;
      private Row row;
-     private Set<Booking> bookings = new HashSet<Booking>(0);
      private Set<Subscription> subscriptions = new HashSet<Subscription>(0);
+     private Set<Booking> bookings = new HashSet<Booking>(0);
 
     public Seat() {
     }
@@ -40,13 +40,13 @@ public class Seat  implements java.io.Serializable {
         this.sector = sector;
         this.row = row;
     }
-    public Seat(short seatId, SeatCategory seatCategory, Sector sector, Row row, Set<Booking> bookings, Set<Subscription> subscriptions) {
+    public Seat(short seatId, SeatCategory seatCategory, Sector sector, Row row, Set<Subscription> subscriptions, Set<Booking> bookings) {
        this.seatId = seatId;
        this.seatCategory = seatCategory;
        this.sector = sector;
        this.row = row;
-       this.bookings = bookings;
        this.subscriptions = subscriptions;
+       this.bookings = bookings;
     }
    
      @Id 
@@ -92,21 +92,21 @@ public class Seat  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="seat")
-    public Set<Booking> getBookings() {
-        return this.bookings;
-    }
-    
-    public void setBookings(Set<Booking> bookings) {
-        this.bookings = bookings;
-    }
-
-@OneToMany(fetch=FetchType.LAZY, mappedBy="seat")
     public Set<Subscription> getSubscriptions() {
         return this.subscriptions;
     }
     
     public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="seat")
+    public Set<Booking> getBookings() {
+        return this.bookings;
+    }
+    
+    public void setBookings(Set<Booking> bookings) {
+        this.bookings = bookings;
     }
 
 
