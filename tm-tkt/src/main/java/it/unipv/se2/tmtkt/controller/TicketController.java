@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import it.unipv.se2.tmtkt.model.Booking;
+import it.unipv.se2.tmtkt.model.BookingId;
 import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.PaymentMethod;
 import it.unipv.se2.tmtkt.model.PriceScheme;
@@ -42,16 +43,6 @@ public class TicketController implements Serializable {
 	private String username;
 	
 	private PaymentMethod paymentMethod;
-
-	private PriceScheme priceScheme = new PriceScheme(25);
-
-	private Payment payment = new Payment();
-
-	private Sale sale = new Sale();
-
-	private Ticket ticket = new Ticket();
-
-	private Booking booking = new Booking();
 	
 	@PostConstruct
 	public void init() {
@@ -62,41 +53,41 @@ public class TicketController implements Serializable {
 	private EntityManager em;
 
 	public String buy() {
-
 		try {
+			PriceScheme priceScheme = new PriceScheme(25);
+
 			this.em.persist(priceScheme);
 
 			Calendar rightNow = Calendar.getInstance();
 			String transactionID = String.valueOf(rightNow.getTimeInMillis());
 
-			payment.setPaymentMethod(paymentMethod);
-			payment.setTransactionId(transactionID);
+			Payment payment = new Payment(paymentMethod, transactionID);
 
 			this.em.persist(payment);
 
 			Event event = this.em.find(Event.class, eventId);
 			Seat seat = this.em.find(Seat.class, seatId);
 
-			sale.setUser(this.em.find(User.class, username));
-			sale.setPayment(payment);
-			sale.setPriceScheme(priceScheme);
+			Sale sale = new Sale(
+					this.em.find(User.class, username),
+					payment, priceScheme);
 
-			booking.setSeat(seat);
-			booking.setSale(sale);
-			booking.setEvent(event);
+			this.em.persist(sale);			
 
-			this.em.persist(sale);
+			Booking booking = new Booking(
+					new BookingId(eventId, seatId),
+					seat, sale, event);
 			
 			this.em.persist(booking);
 
 			sale.getBookings().add(booking);
 
-			ticket.setSale(sale);
+			Ticket ticket = new Ticket(sale);
+
+			this.em.persist(ticket);
 
 			sale.getTickets().add(ticket);
 
-			this.em.merge(sale);
-			this.em.persist(ticket);
 			return "/ticket/search?faces-redirect=true";
 		} catch (Exception ex) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exception: " + ex.getMessage()));

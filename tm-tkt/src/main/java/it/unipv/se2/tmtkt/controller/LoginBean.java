@@ -2,6 +2,7 @@ package it.unipv.se2.tmtkt.controller;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import java.io.Serializable;
@@ -31,6 +32,8 @@ public class LoginBean implements Serializable {
 	private boolean privileged = false;
 	private User user;
 	
+	private String url;
+	
 	@PersistenceContext(type=PersistenceContextType.EXTENDED)
 	private EntityManager em;
 
@@ -42,18 +45,18 @@ public class LoginBean implements Serializable {
 				if (user.getPassword().equals(password)) {
 					String admin = em.find(UserCategory.class, (byte)USER_ADMIN_ID).getDescription();
 					privileged = user.getUserCategory().getDescription() == admin;
-					return("index");
+					return(this.url+"?faces-redirect=true");
 				}
 			}
 		}
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Username or password incorrect"));
-		return("login");
+		return(null);
 	}
 
 	public String logout() {
 		this.username = null;
 		this.privileged = false;
-		return "index";
+		return this.url;
 	}
 
 	public String getUsername() {
@@ -78,5 +81,13 @@ public class LoginBean implements Serializable {
 
 	public boolean isPrivileged() {
 		return privileged;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

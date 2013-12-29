@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
@@ -20,7 +21,11 @@
 				<c:choose>
 					<c:when test="#{empty loginBean.username}">
 						<ul class="nav">
-							<li><h:link id="loginLink" outcome="/login.xhtml">Login</h:link></li>
+							<li>
+							<h:link id="loginLink" value="Login" outcome="/login">
+								<f:param name="url" value="#{view.viewId}"/>
+							</h:link>
+							</li>
 						</ul>
 						<ul class="nav">
 							<li><h:link id="registerLink" outcome="/user/register.xhtml">Register</h:link></li>

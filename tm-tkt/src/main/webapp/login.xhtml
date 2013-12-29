@@ -6,6 +6,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
+<f:metadata>
+	<f:viewParam name="url" value="#{loginBean.url}"/>
+</f:metadata>
 	<ui:param name="pageTitle" value="User login" />
 
 	<ui:define name="header">

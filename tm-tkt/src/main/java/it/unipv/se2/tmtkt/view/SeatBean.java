@@ -77,7 +77,7 @@ public class SeatBean implements Serializable
    private Conversation conversation;
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+protected EntityManager entityManager;
 
    public String create()
    {
