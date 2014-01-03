@@ -21,6 +21,7 @@
   <web-resource-collection>
    <web-resource-name>HtmlAuth</web-resource-name>
    <description>application security constraints</description>
+   <url-pattern>/faces/login.xhtml</url-pattern>
    <url-pattern>/faces/subscription/*</url-pattern>
    <url-pattern>/faces/payment/*</url-pattern>
   </web-resource-collection>

@@ -47,4 +47,12 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ticket#view.xhtml" PATH="/ticket/view.xhtml"
   SHAPE="984,72,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="123,182,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
+  SHAPE="288,184,50,25" model-entity="JSFProcessGroup" persistent="true"/>
 </PROCESS>

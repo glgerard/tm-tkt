@@ -46,7 +46,8 @@
 						<h:outputText value="Seat"/>
 					</f:facet>
 					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
+						<f:param name="eventId" value="#{_item.id.eventId}"/>
+						<f:param name="seatId" value="#{_item.id.seatId}"/>
 						<h:outputText id="itemSeat" value="#{_item.seat}"/>
 					</h:link>
 				</h:column>
@@ -55,7 +56,8 @@
 						<h:outputText value="Sale"/>
 					</f:facet>
 					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
+						<f:param name="eventId" value="#{_item.id.eventId}"/>
+						<f:param name="seatId" value="#{_item.id.seatId}"/>
 						<h:outputText id="itemSale" value="#{_item.sale}"/>
 					</h:link>
 				</h:column>

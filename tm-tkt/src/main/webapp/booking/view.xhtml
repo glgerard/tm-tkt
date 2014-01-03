@@ -7,7 +7,8 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="id" value="#{bookingBean.id}"/>
+		<f:viewParam name="eventId" value="#{bookingBean.id.eventId}"/>
+		<f:viewParam name="seatId" value="#{bookingBean.id.seatId}"/>
 		<f:event type="preRenderView" listener="#{bookingBean.retrieve}"/>
 	</f:metadata>
 
@@ -26,17 +27,17 @@
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="bookingBeanBookingSeat" value="Seat:"/>
-			<h:link id="bookingBeanBookingSeat" outcome="/seat/view" value="#{bookingBean.booking.seat}">
+			<h:link id="bookingBeanBookingSeat" outcome="/seat/view" value="#{bookingBean.booking.seat.seatId}">
 				<f:param name="id" value="#{bookingBean.booking.seat.seatId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="bookingBeanBookingSale" value="Sale:"/>
-			<h:link id="bookingBeanBookingSale" outcome="/sale/view" value="#{bookingBean.booking.sale}">
+			<h:link id="bookingBeanBookingSale" outcome="/sale/view" value="#{bookingBean.booking.sale.saleId}">
 				<f:param name="id" value="#{bookingBean.booking.sale.saleId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="bookingBeanBookingEvent" value="Event:"/>
-			<h:link id="bookingBeanBookingEvent" outcome="/event/view" value="#{bookingBean.booking.event}">
+			<h:link id="bookingBeanBookingEvent" outcome="/event/view" value="#{bookingBean.booking.event.datetime}">
 				<f:param name="id" value="#{bookingBean.booking.event.eventId}"/>
 			</h:link>
 			<h:outputText/>

@@ -22,8 +22,6 @@ public class LoginBean implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String url;
-
 	  public String logout() {
 	    String result = "/login?faces-redirect=true";
 
@@ -54,12 +52,4 @@ public class LoginBean implements Serializable {
 		  }
 		  return result;
 		}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
 }

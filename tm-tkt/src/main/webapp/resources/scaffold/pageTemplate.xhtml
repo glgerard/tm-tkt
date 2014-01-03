@@ -22,9 +22,7 @@
 					<c:when test="#{empty request.remoteUser}">
 						<ul class="nav">
 							<li>
-							<h:link id="loginLink" value="Login" outcome="/login">
-								<f:param name="url" value="#{view.viewId}"/>
-							</h:link>
+							<h:link id="loginLink" value="Login" outcome="login"/>
 							</li>
 						</ul>
 						<ul class="nav">
@@ -60,9 +58,8 @@
 				<c:choose>
 					<c:when test="#{loginBean.privileged}">
 						<li><h:link outcome="/user/search" value="User" /></li>
-						<li><h:link outcome="priceScheme/search" value="PriceScheme" /></li>
-						<li><h:link outcome="/subscription/search"
-								value="Subscription" /></li>
+						<li><h:link outcome="/priceScheme/search" value="PriceScheme"/></li>
+						<li><h:link outcome="/subscription/search" value="Subscription" /></li>
 						<li><h:link outcome="/ticket/search" value="Ticket" /></li>
 					</c:when>
 				</c:choose>

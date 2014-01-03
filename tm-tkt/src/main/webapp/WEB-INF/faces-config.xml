@@ -36,11 +36,18 @@
    <from-outcome>viewTicket</from-outcome>
    <to-view-id>/ticket/view.xhtml</to-view-id>
    <redirect>
-   <view-param>
-   <name>id</name>
-   <value>#{ticketController.saleId}</value>
-   </view-param>
+    <view-param>
+     <name>id</name>
+     <value>#{ticketController.saleId}</value>
+    </view-param>
    </redirect>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>login</from-outcome>
+   <to-view-id>/login.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
 </faces-config>

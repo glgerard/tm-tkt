@@ -25,6 +25,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Booking;
+import it.unipv.se2.tmtkt.model.BookingId;
 import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
@@ -51,14 +52,14 @@ public class BookingBean implements Serializable
     * Support creating and retrieving Booking entities
     */
 
-   private Long id;
+   private BookingId id = new BookingId();
 
-   public Long getId()
+   public BookingId getId()
    {
       return this.id;
    }
 
-   public void setId(Long id)
+   public void setId(BookingId id)
    {
       this.id = id;
    }
@@ -106,7 +107,7 @@ public class BookingBean implements Serializable
       }
    }
 
-   public Booking findById(Long id)
+   public Booking findById(BookingId id)
    {
 
       return this.entityManager.find(Booking.class, id);
@@ -300,7 +301,9 @@ public class BookingBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Long.valueOf(value));
+        	String keys[] = value.split(",");
+            return ejbProxy.findById(
+            		new BookingId(Integer.valueOf(keys[0]),Short.valueOf(keys[1])));
          }
 
          @Override
@@ -313,7 +316,8 @@ public class BookingBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Booking) value).getId());
+            return String.valueOf(((Booking) value).getId().getEventId())+","+
+            	String.valueOf(((Booking) value).getId().getSeatId());
          }
       };
    }

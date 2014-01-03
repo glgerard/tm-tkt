@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
@@ -73,11 +74,20 @@
 					<f:facet name="header">
 						<h:outputText value="Seat" />
 					</f:facet>
-					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.id}" />
-						<h:outputText id="forgeviewdisplayitemSeat"
-							value="#{_item.seat.seatId}" />
-					</h:link>
+					<c:choose>
+						<c:when test="#{loginBean.privileged}">
+							<h:link outcome="/booking/view">
+								<f:param name="eventId" value="#{_item.id.eventId}" />
+								<f:param name="seatId" value="#{_item.id.seatId}" />
+								<h:outputText id="forgeviewdisplayitemSeat"
+									value="#{_item.seat.seatId}" />
+							</h:link>
+						</c:when>
+						<c:otherwise>
+							<h:outputText id="forgeviewdisplayitemSeat"
+								value="#{_item.seat.seatId}" />
+						</c:otherwise>
+					</c:choose>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
@@ -89,13 +99,25 @@
 					<f:facet name="header">
 						<h:outputText value="Event" />
 					</f:facet>
-					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.id}" />
-						<h:outputText id="forgeviewdisplayitemEvent"
-							value="#{_item.event.datetime}">
-							<f:convertDateTime type="both" />
-						</h:outputText>
-					</h:link>
+					<c:choose>
+						<c:when test="#{loginBean.privileged}">
+							<h:link disabled="!#{loginBean.privileged}"
+								outcome="/booking/view">
+								<f:param name="eventId" value="#{_item.id.eventId}" />
+								<f:param name="seatId" value="#{_item.id.seatId}" />
+								<h:outputText id="forgeviewdisplayitemEvent"
+									value="#{_item.event.datetime}" styleClass="link">
+									<f:convertDateTime type="both" />
+								</h:outputText>
+							</h:link>
+						</c:when>
+						<c:otherwise>
+							<h:outputText id="forgeviewdisplayitemEvent"
+								value="#{_item.event.datetime}">
+								<f:convertDateTime type="both" />
+							</h:outputText>
+						</c:otherwise>
+					</c:choose>
 				</h:column>
 			</h:dataTable>
 			<h:outputText />
@@ -104,14 +126,21 @@
 				value="#{ticketBean.ticket.ticketId}" />
 			<h:outputText />
 		</h:panelGrid>
-
 		<div class="buttons">
-			<h:link value="View All" outcome="search"
-				styleClass="btn btn-primary" />
-			<h:link value="Edit" outcome="create" includeViewParams="true"
-				styleClass="btn btn-primary" />
-			<h:link value="Create New" outcome="create"
-				styleClass="btn btn-primary" />
+			<c:choose>
+				<c:when test="#{loginBean.privileged}">
+					<h:link value="View All" outcome="search"
+						styleClass="btn btn-primary" />
+					<h:link value="Edit" outcome="create" includeViewParams="true"
+						styleClass="btn btn-primary" />
+					<h:link value="Create New" outcome="create"
+						styleClass="btn btn-primary" />
+				</c:when>
+				<c:otherwise>
+					<h:link value="Send Email" outcome="email"
+						styleClass="btn btn-primary" />
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</ui:define>
 
