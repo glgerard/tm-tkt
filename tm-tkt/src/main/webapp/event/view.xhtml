@@ -80,22 +80,13 @@
 					<h:link value="Buy a seat" outcome="/seat/search" includeViewParams="true"
 						styleClass="btn btn-primary" />
 				-->
-					<h:link value="Buy a seat" outcome="/seat/search"
-						disabled="#{loginBean.username == null}" styleClass="btn btn-primary">
+					<h:link value="Buy a ticket" outcome="buyTicket"
+						 styleClass="btn btn-primary">
 						<f:param name="eventId" value="#{eventBean.id}"/>
 					</h:link>
 				</c:otherwise>
 			</c:choose>
 		</div>
-		<c:choose>
-		<c:when test="#{loginBean.username == null}">
-		<div>
-		<p>
-		Please, login to buy a ticket.
-		</p>
-		</div>
-		</c:when>
-		</c:choose>
 	</ui:define>
 
 </ui:composition>

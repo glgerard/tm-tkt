@@ -9,11 +9,13 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
+		<f:viewParam name="eventId" value="#{ticketController.eventId}"/>
+		<f:viewParam name="seatId" value="#{ticketController.seatId}"/>
 		<f:viewParam name="id" value="#{paymentBean.id}"/>
 		<f:event type="preRenderView" listener="#{paymentBean.retrieve}"/>
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="Create Payment"/>
+	<ui:param name="pageTitle" value="Complete Payment"/>
 
 	<ui:define name="header">
 		Payment
@@ -25,7 +27,7 @@
 				Edit existing Payment
 			</c:when>
 			<c:otherwise>
-				Create a new Payment
+				Complete your Payment
 			</c:otherwise>
 		</c:choose>
 	</ui:define>
@@ -37,6 +39,15 @@
 			<h:messages globalOnly="true" styleClass="error"/>
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
+				<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
+				<h:panelGroup>
+					<h:selectOneRadio converter="#{paymentMethodBean.converter}" id="paymentBeanPaymentPaymentMethod" value="#{ticketController.paymentMethod}">
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentMethodBean.all}" var="_item"/>
+					</h:selectOneRadio>
+					<h:message for="paymentBeanPaymentPaymentMethod" styleClass="error"/>
+				</h:panelGroup>
+				<!-- 
+				<h:outputText/>
 				<h:outputLabel for="paymentBeanPaymentTransactionId" value="Transaction Id:"/>
 				<h:panelGroup>
 					<h:inputText id="paymentBeanPaymentTransactionId" maxLength="45" required="true" value="#{paymentBean.payment.transactionId}"/>
@@ -49,12 +60,6 @@
 					<h:message for="paymentBeanPaymentInvoiceNumber" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
-				<h:panelGroup>
-					<h:inputText id="paymentBeanPaymentPaymentMethod" maxLength="45" required="true" value="#{paymentBean.payment.paymentMethod}"/>
-					<h:message for="paymentBeanPaymentPaymentMethod" styleClass="error"/>
-				</h:panelGroup>
-				<h:outputText value="*"/>
 				<h:outputLabel for="paymentBeanPaymentSales" value="Sales:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{paymentBean.payment.sales}"/>
@@ -65,12 +70,12 @@
 							</f:facet>
 							<h:link outcome="/sale/view">
 								<f:param name="id" value="#{_item.saleId}"/>
-								<h:outputText id="itemUser" value="#{_item.user}"/>
+								<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanAddUser" value="#{saleBean.add.user}">
 									<f:selectItem/>
-									<f:selectItems value="#{userBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="saleBeanAddUser" styleClass="error"/>
 							</f:facet>
@@ -81,12 +86,12 @@
 							</f:facet>
 							<h:link outcome="/sale/view">
 								<f:param name="id" value="#{_item.saleId}"/>
-								<h:outputText id="itemPriceScheme" value="#{_item.priceScheme}"/>
+								<h:outputText id="forgeviewdisplayitemPriceScheme" value="#{forgeview:display(_item.priceScheme)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="saleBeanAddPriceScheme" value="#{saleBean.add.priceScheme}">
 									<f:selectItem/>
-									<f:selectItems value="#{priceSchemeBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{priceSchemeBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="saleBeanAddPriceScheme" styleClass="error"/>
 							</f:facet>
@@ -101,11 +106,12 @@
 						</h:column>
 					</h:dataTable>
 				</h:panelGroup>
+				 -->
 				<h:outputText/>
 			</h:panelGrid>
-
+			
 			<div class="buttons">
-				<h:commandLink value="Save" action="#{paymentBean.update}" styleClass="btn btn-primary"/>
+				<h:commandLink value="Confirm" action="#{ticketController.buy}" styleClass="btn btn-primary"/>
 				<c:choose>
 					<c:when test="#{!empty paymentBean.id}">
 						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">

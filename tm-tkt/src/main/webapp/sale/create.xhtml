@@ -41,7 +41,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanSaleUser" value="#{saleBean.sale.user}">
 						<f:selectItem/>
-						<f:selectItems value="#{userBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="saleBeanSaleUser" styleClass="error"/>
 				</h:panelGroup>
@@ -50,7 +50,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanSalePayment" value="#{saleBean.sale.payment}">
 						<f:selectItem/>
-						<f:selectItems value="#{paymentBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="saleBeanSalePayment" styleClass="error"/>
 				</h:panelGroup>
@@ -59,11 +59,17 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="saleBeanSalePriceScheme" value="#{saleBean.sale.priceScheme}">
 						<f:selectItem/>
-						<f:selectItems value="#{priceSchemeBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{priceSchemeBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="saleBeanSalePriceScheme" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="saleBeanSaleSaleType" value="Sale Type:"/>
+				<h:panelGroup>
+					<h:inputText id="saleBeanSaleSaleType" maxLength="1" required="true" value="#{saleBean.sale.saleType}"/>
+					<h:message for="saleBeanSaleSaleType" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
 				<h:outputLabel for="saleBeanSaleBookings" value="Bookings:"/>
 				<h:panelGroup>
 					<ui:param name="_collection" value="#{saleBean.sale.bookings}"/>
@@ -73,13 +79,13 @@
 								<h:outputText value="Seat"/>
 							</f:facet>
 							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemSeat" value="#{_item.seat}"/>
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanAddSeat" value="#{bookingBean.add.seat}">
 									<f:selectItem/>
-									<f:selectItems value="#{seatBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="bookingBeanAddSeat" styleClass="error"/>
 							</f:facet>
@@ -89,13 +95,13 @@
 								<h:outputText value="Event"/>
 							</f:facet>
 							<h:link outcome="/booking/view">
-								<f:param name="id" value="#{_item.bookingId}"/>
-								<h:outputText id="itemEvent" value="#{_item.event}"/>
+								<f:param name="id" value="#{_item.id}"/>
+								<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
 							</h:link>
 							<f:facet name="footer">
 								<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanAddEvent" value="#{bookingBean.add.event}">
 									<f:selectItem/>
-									<f:selectItems value="#{eventBean.all}"/>
+									<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{eventBean.all}" var="_item"/>
 								</h:selectOneMenu>
 								<h:message for="bookingBeanAddEvent" styleClass="error"/>
 							</f:facet>
@@ -111,86 +117,16 @@
 					</h:dataTable>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="saleBeanSaleTickets" value="Tickets:"/>
+				<h:outputLabel value="Ticket:"/>
 				<h:panelGroup>
-					<ui:param name="_collection" value="#{saleBean.sale.tickets}"/>
-					<h:dataTable id="saleBeanSaleTickets" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item"/>
+					<h:commandLink action="#{saleBean.sale.newTicket}" rendered="#{empty saleBean.sale.ticket}" value="Create New Ticket"/>
+					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty saleBean.sale.ticket}"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="saleBeanSaleSubscriptions" value="Subscriptions:"/>
+				<h:outputLabel value="Subscription:"/>
 				<h:panelGroup>
-					<ui:param name="_collection" value="#{saleBean.sale.subscriptions}"/>
-					<h:dataTable id="saleBeanSaleSubscriptions" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Seat"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSeat" value="#{_item.seat}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{seatBean.converter}" id="subscriptionBeanAddSeat" value="#{subscriptionBean.add.seat}">
-									<f:selectItem/>
-									<f:selectItems value="#{seatBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddSeat" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Genre"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemGenre" value="#{_item.genre}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanAddGenre" value="#{subscriptionBean.add.genre}">
-									<f:selectItem/>
-									<f:selectItems value="#{genreBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddGenre" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Subscription Type"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanAddSubscriptionType" value="#{subscriptionBean.add.subscriptionType}">
-									<f:selectItem/>
-									<f:selectItems value="#{subscriptionTypeBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddSubscriptionType" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Number Of Bookings"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="subscriptionBeanAddNumberOfBookings" value="#{subscriptionBean.add.numberOfBookings}"/>
-								<h:message for="subscriptionBeanAddNumberOfBookings" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column footerClass="remove-column" headerClass="remove-column">
-							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
-							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(subscriptionBean.added)}" id="saleBeanSaleSubscriptionsAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{subscriptionBean.add.sale}" value="#{saleBean.sale}"/>
-								</h:commandLink>
-							</f:facet>
-						</h:column>
-					</h:dataTable>
+					<h:commandLink action="#{saleBean.sale.newSubscription}" rendered="#{empty saleBean.sale.subscription}" value="Create New Subscription"/>
+					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty saleBean.sale.subscription}"/>
 				</h:panelGroup>
 				<h:outputText/>
 			</h:panelGrid>

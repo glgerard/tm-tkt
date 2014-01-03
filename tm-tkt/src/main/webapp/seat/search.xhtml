@@ -42,7 +42,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatCategoryBean.converter}" id="seatBeanExampleSeatCategory" value="#{seatBean.example.seatCategory}">
 								<f:selectItem/>
-								<f:selectItems value="#{seatCategoryController.items}"/>
+								<f:selectItems value="#{seatCategoryBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.categoryName}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleSeatCategory" styleClass="error"/>
 						</h:panelGroup>
@@ -51,7 +51,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{sectorBean.converter}" id="seatBeanExampleSector" value="#{seatBean.example.sector}">
 								<f:selectItem/>
-								<f:selectItems value="#{sectorController.items}"/>
+								<f:selectItems value="#{sectorBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.sectorName}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleSector" styleClass="error"/>
 						</h:panelGroup>
@@ -60,7 +60,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{rowBean.converter}" id="seatBeanExampleRow" value="#{seatBean.example.row}">
 								<f:selectItem/>
-								<f:selectItems value="#{rowController.items}"/>
+								<f:selectItems value="#{rowBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.rowName}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleRow" styleClass="error"/>
 						</h:panelGroup>

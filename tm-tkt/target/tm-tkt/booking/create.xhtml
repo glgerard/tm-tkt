@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"	
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -40,7 +41,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanBookingSeat" value="#{bookingBean.booking.seat}">
 						<f:selectItem/>
-						<f:selectItems value="#{seatBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="bookingBeanBookingSeat" styleClass="error"/>
 				</h:panelGroup>
@@ -49,7 +50,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{saleBean.converter}" id="bookingBeanBookingSale" value="#{bookingBean.booking.sale}">
 						<f:selectItem/>
-						<f:selectItems value="#{saleBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{saleBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="bookingBeanBookingSale" styleClass="error"/>
 				</h:panelGroup>
@@ -58,7 +59,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanBookingEvent" value="#{bookingBean.booking.event}">
 						<f:selectItem/>
-						<f:selectItems value="#{eventBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{eventBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="bookingBeanBookingEvent" styleClass="error"/>
 				</h:panelGroup>

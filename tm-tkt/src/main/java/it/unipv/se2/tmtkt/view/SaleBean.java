@@ -171,22 +171,12 @@ public class SaleBean implements Serializable
             iterBookings.remove();
             this.entityManager.merge(nextInBookings);
          }
-         Iterator<Ticket> iterTickets = deletableEntity.getTickets().iterator();
-         for (; iterTickets.hasNext();)
-         {
-            Ticket nextInTickets = iterTickets.next();
-            nextInTickets.setSale(null);
-            iterTickets.remove();
-            this.entityManager.merge(nextInTickets);
-         }
-         Iterator<Subscription> iterSubscriptions = deletableEntity.getSubscriptions().iterator();
-         for (; iterSubscriptions.hasNext();)
-         {
-            Subscription nextInSubscriptions = iterSubscriptions.next();
-            nextInSubscriptions.setSale(null);
-            iterSubscriptions.remove();
-            this.entityManager.merge(nextInSubscriptions);
-         }
+         Ticket ticket = deletableEntity.getTicket();
+         ticket.setSale(null);
+         this.entityManager.merge(ticket);
+         Subscription subscription = deletableEntity.getSubscription();
+         subscription.setSale(null);
+         this.entityManager.merge(subscription);
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
          return "search?faces-redirect=true";

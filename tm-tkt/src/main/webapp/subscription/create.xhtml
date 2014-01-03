@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"	
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -40,7 +41,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{seatBean.converter}" id="subscriptionBeanSubscriptionSeat" value="#{subscriptionBean.subscription.seat}">
 						<f:selectItem/>
-						<f:selectItems value="#{seatBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="subscriptionBeanSubscriptionSeat" styleClass="error"/>
 				</h:panelGroup>
@@ -49,29 +50,113 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanSubscriptionGenre" value="#{subscriptionBean.subscription.genre}">
 						<f:selectItem/>
-						<f:selectItems value="#{genreBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{genreBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="subscriptionBeanSubscriptionGenre" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="subscriptionBeanSubscriptionSale" value="Sale:"/>
+				<h:outputLabel value="Sale:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanSubscriptionSale" value="#{subscriptionBean.subscription.sale}">
-						<f:selectItem/>
-						<f:selectItems value="#{saleBean.all}"/>
-					</h:selectOneMenu>
-					<h:message for="subscriptionBeanSubscriptionSale" styleClass="error"/>
+					<h:commandLink action="#{subscriptionBean.subscription.newSale}" rendered="#{empty subscriptionBean.subscription.sale}" value="Create New Sale"/>
+					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty subscriptionBean.subscription.sale}">
+						<h:outputLabel for="subscriptionBeanSubscriptionSaleUser" value="User:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{userBean.converter}" id="subscriptionBeanSubscriptionSaleUser" value="#{subscriptionBean.subscription.sale.user}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="subscriptionBeanSubscriptionSaleUser" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanSubscriptionSalePayment" value="Payment:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{paymentBean.converter}" id="subscriptionBeanSubscriptionSalePayment" value="#{subscriptionBean.subscription.sale.payment}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="subscriptionBeanSubscriptionSalePayment" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanSubscriptionSalePriceScheme" value="Price Scheme:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="subscriptionBeanSubscriptionSalePriceScheme" value="#{subscriptionBean.subscription.sale.priceScheme}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{priceSchemeBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="subscriptionBeanSubscriptionSalePriceScheme" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanSubscriptionSaleSaleType" value="Sale Type:"/>
+						<h:panelGroup>
+							<h:inputText id="subscriptionBeanSubscriptionSaleSaleType" maxLength="1" required="true" value="#{subscriptionBean.subscription.sale.saleType}"/>
+							<h:message for="subscriptionBeanSubscriptionSaleSaleType" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText value="*"/>
+						<h:outputLabel for="subscriptionBeanSubscriptionSaleBookings" value="Bookings:"/>
+						<h:panelGroup>
+							<ui:param name="_collection" value="#{subscriptionBean.subscription.sale.bookings}"/>
+							<h:dataTable id="subscriptionBeanSubscriptionSaleBookings" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Seat"/>
+									</f:facet>
+									<h:link outcome="/booking/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+									</h:link>
+									<f:facet name="footer">
+										<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanAddSeat" value="#{bookingBean.add.seat}">
+											<f:selectItem/>
+											<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
+										</h:selectOneMenu>
+										<h:message for="bookingBeanAddSeat" styleClass="error"/>
+									</f:facet>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Event"/>
+									</f:facet>
+									<h:link outcome="/booking/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+									</h:link>
+									<f:facet name="footer">
+										<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanAddEvent" value="#{bookingBean.add.event}">
+											<f:selectItem/>
+											<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{eventBean.all}" var="_item"/>
+										</h:selectOneMenu>
+										<h:message for="bookingBeanAddEvent" styleClass="error"/>
+									</f:facet>
+								</h:column>
+								<h:column footerClass="remove-column" headerClass="remove-column">
+									<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+									<f:facet name="footer">
+										<h:commandLink action="#{_collection.add(bookingBean.added)}" id="subscriptionBeanSubscriptionSaleBookingsAdd" styleClass="add-button">
+											<f:setPropertyActionListener target="#{bookingBean.add.sale}" value="#{subscriptionBean.subscription.sale}"/>
+										</h:commandLink>
+									</f:facet>
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
 				</h:panelGroup>
 				<h:outputText/>
 				<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionType" value="Subscription Type:"/>
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanSubscriptionSubscriptionType" value="#{subscriptionBean.subscription.subscriptionType}">
 						<f:selectItem/>
-						<f:selectItems value="#{subscriptionTypeBean.all}"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{subscriptionTypeBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="subscriptionBeanSubscriptionSubscriptionType" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionId" value="Subscription Id:"/>
+				<h:panelGroup>
+					<h:inputText id="subscriptionBeanSubscriptionSubscriptionId" required="true" value="#{subscriptionBean.subscription.subscriptionId}"/>
+					<h:message for="subscriptionBeanSubscriptionSubscriptionId" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
 				<h:outputLabel for="subscriptionBeanSubscriptionNumberOfBookings" value="Number Of Bookings:"/>
 				<h:panelGroup>
 					<h:inputText id="subscriptionBeanSubscriptionNumberOfBookings" value="#{subscriptionBean.subscription.numberOfBookings}"/>

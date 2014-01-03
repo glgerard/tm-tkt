@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -26,9 +27,51 @@
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="ticketBeanTicketSale" value="Sale:"/>
-			<h:link id="ticketBeanTicketSale" outcome="/sale/view" value="#{ticketBean.ticket.sale}">
-				<f:param name="id" value="#{ticketBean.ticket.sale.saleId}"/>
-			</h:link>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="ticketBeanTicketSale" rendered="#{!empty ticketBean.ticket.sale}">
+				<h:outputLabel for="ticketBeanTicketSaleUser" value="User:"/>
+				<h:link id="ticketBeanTicketSaleUser" outcome="/user/view" value="#{ticketBean.ticket.sale.user}">
+					<f:param name="id" value="#{ticketBean.ticket.sale.user.email}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="ticketBeanTicketSalePayment" value="Payment:"/>
+				<h:link id="ticketBeanTicketSalePayment" outcome="/payment/view" value="#{ticketBean.ticket.sale.payment}">
+					<f:param name="id" value="#{ticketBean.ticket.sale.payment.paymentId}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="ticketBeanTicketSalePriceScheme" value="Price Scheme:"/>
+				<h:link id="ticketBeanTicketSalePriceScheme" outcome="/priceScheme/view" value="#{ticketBean.ticket.sale.priceScheme}">
+					<f:param name="id" value="#{ticketBean.ticket.sale.priceScheme.priceSchemeId}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="ticketBeanTicketSaleSaleType" value="Sale Type:"/>
+				<h:outputText id="ticketBeanTicketSaleSaleType" value="#{ticketBean.ticket.sale.saleType}"/>
+				<h:outputText/>
+				<h:outputLabel for="ticketBeanTicketSaleBookings" value="Bookings:"/>
+				<h:dataTable id="ticketBeanTicketSaleBookings" styleClass="data-table" value="#{forgeview:asList(ticketBean.ticket.sale.bookings)}" var="_item">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Seat"/>
+						</f:facet>
+						<h:link outcome="/booking/view">
+							<f:param name="id" value="#{_item.id}"/>
+							<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+						</h:link>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Event"/>
+						</f:facet>
+						<h:link outcome="/booking/view">
+							<f:param name="id" value="#{_item.id}"/>
+							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+						</h:link>
+					</h:column>
+				</h:dataTable>
+				<h:outputText/>
+			</h:panelGrid>
+			<h:outputText/>
+			<h:outputLabel for="ticketBeanTicketTicketId" value="Ticket Id:"/>
+			<h:outputText id="ticketBeanTicketTicketId" value="#{ticketBean.ticket.ticketId}"/>
 			<h:outputText/>
 		</h:panelGrid>
 

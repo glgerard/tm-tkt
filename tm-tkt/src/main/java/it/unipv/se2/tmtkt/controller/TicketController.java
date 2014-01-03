@@ -1,18 +1,19 @@
 package it.unipv.se2.tmtkt.controller;
 
-import java.util.Calendar;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.enterprise.context.*;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.servlet.http.HttpServletRequest;
 
 import it.unipv.se2.tmtkt.model.Booking;
 import it.unipv.se2.tmtkt.model.BookingId;
@@ -34,21 +35,18 @@ public class TicketController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Inject private LoginBean loginBean;
-
+	private Integer saleId;
+	
 	private Integer eventId;
 
 	private Short seatId;
-
-	private String username;
 	
 	private PaymentMethod paymentMethod;
 	
-	@PostConstruct
-	public void init() {
-		username = loginBean.getUsername();
-	}
-
+	@EJB private TicketCounter ticketCounter;
+	
+	@EJB private TransactionTestImpl transactionManager;
+	
 	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private EntityManager em;
 
@@ -58,8 +56,7 @@ public class TicketController implements Serializable {
 
 			this.em.persist(priceScheme);
 
-			Calendar rightNow = Calendar.getInstance();
-			String transactionID = String.valueOf(rightNow.getTimeInMillis());
+			String transactionID = String.valueOf(transactionManager.getTransaction());
 
 			Payment payment = new Payment(paymentMethod, transactionID);
 
@@ -68,9 +65,13 @@ public class TicketController implements Serializable {
 			Event event = this.em.find(Event.class, eventId);
 			Seat seat = this.em.find(Seat.class, seatId);
 
+		    FacesContext context = FacesContext.getCurrentInstance();
+		    HttpServletRequest request = (HttpServletRequest) context.
+		        getExternalContext().getRequest();
+		    
 			Sale sale = new Sale(
-					this.em.find(User.class, username),
-					payment, priceScheme);
+					this.em.find(User.class, request.getRemoteUser()),
+					payment, priceScheme, 'T');
 
 			this.em.persist(sale);			
 
@@ -82,27 +83,23 @@ public class TicketController implements Serializable {
 
 			sale.getBookings().add(booking);
 
-			Ticket ticket = new Ticket(sale);
+			Ticket ticket = new Ticket(sale,ticketCounter.incrementCount());
 
 			this.em.persist(ticket);
 
-			sale.getTickets().add(ticket);
+			sale.setTicket(ticket);
 
-			return "/ticket/search?faces-redirect=true";
+			this.saleId = sale.getSaleId();
+					
+			return "viewTicket";
 		} catch (Exception ex) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Exception: " + ex.getMessage()));
-
-			System.out.println("ERROR (ticketController.buy): " + ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Exception (" + TicketController.class.getName() + "): " + 
+							ex.getMessage()));
+		    Logger.getLogger(TicketController.class.getName()).
+	           log(Level.SEVERE, null, ex);
 			return null;
 		}
-	}
-	
-	public LoginBean getLoginBean() {
-		return loginBean;
-	}
-
-	public void setLoginBean(LoginBean loginBean) {
-		this.loginBean = loginBean;
 	}
 
 	public Integer getEventId() {
@@ -127,6 +124,14 @@ public class TicketController implements Serializable {
 
 	public void setPaymentMethod(PaymentMethod paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public Integer getSaleId() {
+		return saleId;
+	}
+
+	public void setSaleId(Integer saleId) {
+		this.saleId = saleId;
 	}
 
 }

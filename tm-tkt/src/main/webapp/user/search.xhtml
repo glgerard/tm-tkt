@@ -39,7 +39,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanExampleUserCategory" value="#{userBean.example.userCategory}">
 								<f:selectItem/>
-								<f:selectItems value="#{userCategoryController.items}"/>
+								<f:selectItems value="#{userCategoryBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.description}"/>
 							</h:selectOneMenu>
 							<h:message for="userBeanExampleUserCategory" styleClass="error"/>
 						</h:panelGroup>

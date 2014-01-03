@@ -54,6 +54,9 @@
 			<h:outputLabel for="priceSchemeBeanPriceSchemePrice" value="Price:"/>
 			<h:outputText id="priceSchemeBeanPriceSchemePrice" value="#{priceSchemeBean.priceScheme.price}"/>
 			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemePriceSchemeName" value="Price Scheme Name:"/>
+			<h:outputText id="priceSchemeBeanPriceSchemePriceSchemeName" value="#{priceSchemeBean.priceScheme.priceSchemeName}"/>
+			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeSales" value="Sales:"/>
 			<h:dataTable id="priceSchemeBeanPriceSchemeSales" styleClass="data-table" value="#{forgeview:asList(priceSchemeBean.priceScheme.sales)}" var="_item">
 				<h:column>

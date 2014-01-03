@@ -4,7 +4,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"	
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:forgeview="http://jboss.org/forge/view"	
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -36,15 +37,99 @@
 			<h:messages globalOnly="true" styleClass="error"/>
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="ticketBeanTicketSale" value="Sale:"/>
+				<h:outputLabel value="Sale:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{saleBean.converter}" id="ticketBeanTicketSale" value="#{ticketBean.ticket.sale}">
-						<f:selectItem/>
-						<f:selectItems value="#{saleBean.all}"/>
-					</h:selectOneMenu>
-					<h:message for="ticketBeanTicketSale" styleClass="error"/>
+					<h:commandLink action="#{ticketBean.ticket.newSale}" rendered="#{empty ticketBean.ticket.sale}" value="Create New Sale"/>
+					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty ticketBean.ticket.sale}">
+						<h:outputLabel for="ticketBeanTicketSaleUser" value="User:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{userBean.converter}" id="ticketBeanTicketSaleUser" value="#{ticketBean.ticket.sale.user}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanTicketSaleUser" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanTicketSalePayment" value="Payment:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{paymentBean.converter}" id="ticketBeanTicketSalePayment" value="#{ticketBean.ticket.sale.payment}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanTicketSalePayment" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanTicketSalePriceScheme" value="Price Scheme:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="ticketBeanTicketSalePriceScheme" value="#{ticketBean.ticket.sale.priceScheme}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{priceSchemeBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="ticketBeanTicketSalePriceScheme" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="ticketBeanTicketSaleSaleType" value="Sale Type:"/>
+						<h:panelGroup>
+							<h:inputText id="ticketBeanTicketSaleSaleType" maxLength="1" required="true" value="#{ticketBean.ticket.sale.saleType}"/>
+							<h:message for="ticketBeanTicketSaleSaleType" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText value="*"/>
+						<h:outputLabel for="ticketBeanTicketSaleBookings" value="Bookings:"/>
+						<h:panelGroup>
+							<ui:param name="_collection" value="#{ticketBean.ticket.sale.bookings}"/>
+							<h:dataTable id="ticketBeanTicketSaleBookings" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Seat"/>
+									</f:facet>
+									<h:link outcome="/booking/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+									</h:link>
+									<f:facet name="footer">
+										<h:selectOneMenu converter="#{seatBean.converter}" id="bookingBeanAddSeat" value="#{bookingBean.add.seat}">
+											<f:selectItem/>
+											<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
+										</h:selectOneMenu>
+										<h:message for="bookingBeanAddSeat" styleClass="error"/>
+									</f:facet>
+								</h:column>
+								<h:column>
+									<f:facet name="header">
+										<h:outputText value="Event"/>
+									</f:facet>
+									<h:link outcome="/booking/view">
+										<f:param name="id" value="#{_item.id}"/>
+										<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+									</h:link>
+									<f:facet name="footer">
+										<h:selectOneMenu converter="#{eventBean.converter}" id="bookingBeanAddEvent" value="#{bookingBean.add.event}">
+											<f:selectItem/>
+											<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{eventBean.all}" var="_item"/>
+										</h:selectOneMenu>
+										<h:message for="bookingBeanAddEvent" styleClass="error"/>
+									</f:facet>
+								</h:column>
+								<h:column footerClass="remove-column" headerClass="remove-column">
+									<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
+									<f:facet name="footer">
+										<h:commandLink action="#{_collection.add(bookingBean.added)}" id="ticketBeanTicketSaleBookingsAdd" styleClass="add-button">
+											<f:setPropertyActionListener target="#{bookingBean.add.sale}" value="#{ticketBean.ticket.sale}"/>
+										</h:commandLink>
+									</f:facet>
+								</h:column>
+							</h:dataTable>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
 				</h:panelGroup>
 				<h:outputText/>
+				<h:outputLabel for="ticketBeanTicketTicketId" value="Ticket Id:"/>
+				<h:panelGroup>
+					<h:inputText id="ticketBeanTicketTicketId" required="true" value="#{ticketBean.ticket.ticketId}"/>
+					<h:message for="ticketBeanTicketTicketId" styleClass="error"/>
+				</h:panelGroup>
+				<h:outputText value="*"/>
 			</h:panelGrid>
 
 			<div class="buttons">

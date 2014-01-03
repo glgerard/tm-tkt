@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -33,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{userBean.converter}" id="saleBeanExampleUser" value="#{saleBean.example.user}">
 								<f:selectItem/>
-								<f:selectItems value="#{userBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{userBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="saleBeanExampleUser" styleClass="error"/>
 						</h:panelGroup>
@@ -42,7 +43,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanExamplePayment" value="#{saleBean.example.payment}">
 								<f:selectItem/>
-								<f:selectItems value="#{paymentBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="saleBeanExamplePayment" styleClass="error"/>
 						</h:panelGroup>
@@ -51,7 +52,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{priceSchemeBean.converter}" id="saleBeanExamplePriceScheme" value="#{saleBean.example.priceScheme}">
 								<f:selectItem/>
-								<f:selectItems value="#{priceSchemeBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{priceSchemeBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="saleBeanExamplePriceScheme" styleClass="error"/>
 						</h:panelGroup>
@@ -71,7 +72,7 @@
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemUser" value="#{_item.user}"/>
+						<h:outputText id="forgeviewdisplayitemUser" value="#{forgeview:display(_item.user)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -80,7 +81,7 @@
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemPayment" value="#{_item.payment}"/>
+						<h:outputText id="forgeviewdisplayitemPayment" value="#{forgeview:display(_item.payment)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -89,7 +90,25 @@
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemPriceScheme" value="#{_item.priceScheme}"/>
+						<h:outputText id="forgeviewdisplayitemPriceScheme" value="#{forgeview:display(_item.priceScheme)}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale Type"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSaleType" value="#{_item.saleType}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Ticket Id"/>
+					</f:facet>
+					<h:link outcome="/sale/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemTicketTicketId" value="#{_item.ticket.ticketId}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

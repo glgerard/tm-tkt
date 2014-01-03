@@ -19,7 +19,7 @@
 				<h:link id="brandLink" outcome="/index.xhtml" styleClass="brand">Teatro Manzoni - Online ticketing</h:link>
 				<div class="nav-collapse collapse">
 				<c:choose>
-					<c:when test="#{empty loginBean.username}">
+					<c:when test="#{empty request.remoteUser}">
 						<ul class="nav">
 							<li>
 							<h:link id="loginLink" value="Login" outcome="/login">
@@ -37,7 +37,7 @@
 							<li><h:commandLink id="logoutLink" value="Logout" action="#{loginBean.logout}"/></li>
 						</ul>
 						<ul class="nav">
-							<li><h:link id="viewLink" outcome="/user/view.xhtml?id=#{loginBean.username}">Logged in as, #{loginBean.username}</h:link></li>
+							<li><h:link id="viewLink" outcome="/user/view.xhtml?id=#{request.remoteUser}">Logged in as #{request.remoteUser}</h:link></li>
 						</ul>
 						</h:form>
 					</c:otherwise>
@@ -55,6 +55,7 @@
 			<ul>
 				<li>
 					<h:link outcome="/show/search" value="Show"/>
+					<h:link outcome="/subscription/buy" value="Buy a subscription"/>
 				</li>
 				<c:choose>
 					<c:when test="#{loginBean.privileged}">

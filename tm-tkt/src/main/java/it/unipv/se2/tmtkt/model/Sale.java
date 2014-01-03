@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Dec 28, 2013 8:53:28 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 2, 2014 6:25:18 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -29,26 +30,29 @@ public class Sale  implements java.io.Serializable {
      private User user;
      private Payment payment;
      private PriceScheme priceScheme;
+     private char saleType;
      private Set<Booking> bookings = new HashSet<Booking>(0);
-     private Set<Ticket> tickets = new HashSet<Ticket>(0);
-     private Set<Subscription> subscriptions = new HashSet<Subscription>(0);
+     private Ticket ticket;
+     private Subscription subscription;
 
     public Sale() {
     }
 
 	
-    public Sale(User user, Payment payment, PriceScheme priceScheme) {
+    public Sale(User user, Payment payment, PriceScheme priceScheme, char saleType) {
         this.user = user;
         this.payment = payment;
         this.priceScheme = priceScheme;
+        this.saleType = saleType;
     }
-    public Sale(User user, Payment payment, PriceScheme priceScheme, Set<Booking> bookings, Set<Ticket> tickets, Set<Subscription> subscriptions) {
+    public Sale(User user, Payment payment, PriceScheme priceScheme, char saleType, Set<Booking> bookings, Ticket ticket, Subscription subscription) {
        this.user = user;
        this.payment = payment;
        this.priceScheme = priceScheme;
+       this.saleType = saleType;
        this.bookings = bookings;
-       this.tickets = tickets;
-       this.subscriptions = subscriptions;
+       this.ticket = ticket;
+       this.subscription = subscription;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -93,6 +97,16 @@ public class Sale  implements java.io.Serializable {
         this.priceScheme = priceScheme;
     }
 
+    
+    @Column(name="SALE_TYPE", nullable=false, length=1)
+    public char getSaleType() {
+        return this.saleType;
+    }
+    
+    public void setSaleType(char saleType) {
+        this.saleType = saleType;
+    }
+
 @OneToMany(fetch=FetchType.LAZY, mappedBy="sale")
     public Set<Booking> getBookings() {
         return this.bookings;
@@ -102,22 +116,22 @@ public class Sale  implements java.io.Serializable {
         this.bookings = bookings;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="sale")
-    public Set<Ticket> getTickets() {
-        return this.tickets;
+@OneToOne(fetch=FetchType.LAZY, mappedBy="sale")
+    public Ticket getTicket() {
+        return this.ticket;
     }
     
-    public void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="sale")
-    public Set<Subscription> getSubscriptions() {
-        return this.subscriptions;
+@OneToOne(fetch=FetchType.LAZY, mappedBy="sale")
+    public Subscription getSubscription() {
+        return this.subscription;
     }
     
-    public void setSubscriptions(Set<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
 

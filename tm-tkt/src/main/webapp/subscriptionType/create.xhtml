@@ -55,63 +55,15 @@
 					<h:dataTable id="subscriptionTypeBeanSubscriptionTypeSubscriptions" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
 						<h:column>
 							<f:facet name="header">
-								<h:outputText value="Seat"/>
+								<h:outputText value="Subscription Id"/>
 							</f:facet>
 							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSeat" value="#{_item.seat}"/>
+								<f:param name="id" value="#{_item.saleId}"/>
+								<h:outputText id="itemSubscriptionId" value="#{_item.subscriptionId}"/>
 							</h:link>
 							<f:facet name="footer">
-								<h:selectOneMenu converter="#{seatBean.converter}" id="subscriptionBeanAddSeat" value="#{subscriptionBean.add.seat}">
-									<f:selectItem/>
-									<f:selectItems value="#{seatBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddSeat" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Genre"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemGenre" value="#{_item.genre}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanAddGenre" value="#{subscriptionBean.add.genre}">
-									<f:selectItem/>
-									<f:selectItems value="#{genreBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddGenre" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Sale"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemSale" value="#{_item.sale}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanAddSale" value="#{subscriptionBean.add.sale}">
-									<f:selectItem/>
-									<f:selectItems value="#{saleBean.all}"/>
-								</h:selectOneMenu>
-								<h:message for="subscriptionBeanAddSale" styleClass="error"/>
-							</f:facet>
-						</h:column>
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Number Of Bookings"/>
-							</f:facet>
-							<h:link outcome="/subscription/view">
-								<f:param name="id" value="#{_item.subscriptionId}"/>
-								<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
-							</h:link>
-							<f:facet name="footer">
-								<h:inputText id="subscriptionBeanAddNumberOfBookings" value="#{subscriptionBean.add.numberOfBookings}"/>
-								<h:message for="subscriptionBeanAddNumberOfBookings" styleClass="error"/>
+								<h:inputText id="subscriptionBeanAddSubscriptionId" value="#{subscriptionBean.add.subscriptionId}"/>
+								<h:message for="subscriptionBeanAddSubscriptionId" styleClass="error"/>
 							</f:facet>
 						</h:column>
 						<h:column footerClass="remove-column" headerClass="remove-column">

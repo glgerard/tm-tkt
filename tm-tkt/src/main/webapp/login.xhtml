@@ -16,31 +16,31 @@
 	</ui:define>
 
 	<ui:define name="main">
-		<h:form id="loginForm">
+	<form method="post" action="j_security_check" name="loginForm">
 			<h:panelGroup>
 				<h:panelGrid columnClasses="label,component,required" columns="3">
-					<h:outputLabel for="loginBeanUsername" value="Email:"/>
+					<h:outputLabel id="usernameLabel" for="j_username" value="Email:"/>
 					<h:panelGroup>
-						<h:inputText id="loginBeanUsername" value="#{loginBean.username}"
+						<h:inputText id="j_username"
 						required="true" requiredMessage="Please enter your email address"/>
-						<h:message for="loginBeanUsername" errorClass="errorMessage"/>
+						<h:message for="j_username" errorClass="errorMessage"/>
 					</h:panelGroup>
 					<h:outputText/>
-					<h:outputLabel for="loginBeanPassword" value="Password:"/>
+					<h:outputLabel id="passwordLabel" for="j_password" value="Password:"/>
 					<h:panelGroup>
-						<h:inputSecret id="loginBeanPassword" value="#{loginBean.password}"
+						<h:inputSecret id="j_password"
 						required="true" requiredMessage="Please enter your password"/>
-						<h:message for="loginBeanPassword" errorClass="errorMessage"/>
+						<h:message for="j_password" errorClass="errorMessage"/>
 					</h:panelGroup>
 				</h:panelGrid>
-			</h:panelGroup>
+			</h:panelGroup>			
 			<h:panelGroup styleClass="buttons">
-				<h:commandLink value="Login" action="#{loginBean.login}" styleClass="btn btn-primary"/>
+				<h:commandButton type="submit" value="Login" styleClass="btn btn-primary"/>
 			</h:panelGroup>
 			<div>
 				<h:messages id="messages" styleClass="errorMessage" globalOnly="true"/>
 			</div>
-		</h:form>
+			</form>
 	</ui:define>
 
 </ui:composition>

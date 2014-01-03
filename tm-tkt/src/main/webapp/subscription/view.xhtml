@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -36,14 +37,56 @@
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionSale" value="Sale:"/>
-			<h:link id="subscriptionBeanSubscriptionSale" outcome="/sale/view" value="#{subscriptionBean.subscription.sale}">
-				<f:param name="id" value="#{subscriptionBean.subscription.sale.saleId}"/>
-			</h:link>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="subscriptionBeanSubscriptionSale" rendered="#{!empty subscriptionBean.subscription.sale}">
+				<h:outputLabel for="subscriptionBeanSubscriptionSaleUser" value="User:"/>
+				<h:link id="subscriptionBeanSubscriptionSaleUser" outcome="/user/view" value="#{subscriptionBean.subscription.sale.user}">
+					<f:param name="id" value="#{subscriptionBean.subscription.sale.user.email}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSalePayment" value="Payment:"/>
+				<h:link id="subscriptionBeanSubscriptionSalePayment" outcome="/payment/view" value="#{subscriptionBean.subscription.sale.payment}">
+					<f:param name="id" value="#{subscriptionBean.subscription.sale.payment.paymentId}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSalePriceScheme" value="Price Scheme:"/>
+				<h:link id="subscriptionBeanSubscriptionSalePriceScheme" outcome="/priceScheme/view" value="#{subscriptionBean.subscription.sale.priceScheme}">
+					<f:param name="id" value="#{subscriptionBean.subscription.sale.priceScheme.priceSchemeId}"/>
+				</h:link>
+				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSaleSaleType" value="Sale Type:"/>
+				<h:outputText id="subscriptionBeanSubscriptionSaleSaleType" value="#{subscriptionBean.subscription.sale.saleType}"/>
+				<h:outputText/>
+				<h:outputLabel for="subscriptionBeanSubscriptionSaleBookings" value="Bookings:"/>
+				<h:dataTable id="subscriptionBeanSubscriptionSaleBookings" styleClass="data-table" value="#{forgeview:asList(subscriptionBean.subscription.sale.bookings)}" var="_item">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Seat"/>
+						</f:facet>
+						<h:link outcome="/booking/view">
+							<f:param name="id" value="#{_item.id}"/>
+							<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+						</h:link>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Event"/>
+						</f:facet>
+						<h:link outcome="/booking/view">
+							<f:param name="id" value="#{_item.id}"/>
+							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+						</h:link>
+					</h:column>
+				</h:dataTable>
+				<h:outputText/>
+			</h:panelGrid>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionType" value="Subscription Type:"/>
 			<h:link id="subscriptionBeanSubscriptionSubscriptionType" outcome="/subscriptionType/view" value="#{subscriptionBean.subscription.subscriptionType}">
 				<f:param name="id" value="#{subscriptionBean.subscription.subscriptionType.subscriptionTypeId}"/>
 			</h:link>
+			<h:outputText/>
+			<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionId" value="Subscription Id:"/>
+			<h:outputText id="subscriptionBeanSubscriptionSubscriptionId" value="#{subscriptionBean.subscription.subscriptionId}"/>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionNumberOfBookings" value="Number Of Bookings:"/>
 			<h:outputText id="subscriptionBeanSubscriptionNumberOfBookings" value="#{subscriptionBean.subscription.numberOfBookings}"/>

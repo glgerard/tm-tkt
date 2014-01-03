@@ -34,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{genreBean.converter}" id="showBeanExampleGenre" value="#{showBean.example.genre}">
 								<f:selectItem/>
-								<f:selectItems value="#{genreBean.all}"/>
+								<f:selectItems value="#{genreController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="showBeanExampleGenre" styleClass="error"/>
 						</h:panelGroup>
@@ -57,7 +57,7 @@
 							<h:message for="showBeanExampleDirectorName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (dd/mm/yy):"/>
+						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (Mon d, yyyy):"/>
 						<h:panelGroup>
 						<!-- 
 							<h:inputText id="showBeanExampleFirstEventDate" maxLength="10" size="10" value="#{showBean.example.firstEventDate}">
@@ -65,12 +65,12 @@
 							</h:inputText>
 							<h:message for="showBeanExampleFirstEventDate" styleClass="error"/>
 						-->
-						    <p:calendar value="#{showBean.example.firstEventDate}" id="popupButtonCalFirstDate"
+						    <p:calendar value="#{showBean.example.firstEventDate}" id="showBeanExampleFirstEventDate"
 						    	pattern="MMM d, yyyy"
-						    	showOn="button" locale="it"/>
+						    	showOn="button"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="showBeanExampleLastEventDate" value="To (dd/mm/yy):"/>
+						<h:outputLabel for="showBeanExampleLastEventDate" value="To (Mon dd, yyyy):"/>
 						<h:panelGroup>
 						<!-- 
 							<h:inputText id="showBeanExampleLastEventDate" maxLength="10" size="10" value="#{showBean.example.lastEventDate}">
@@ -78,15 +78,16 @@
 							</h:inputText>
 							<h:message for="showBeanExampleLastEventDate" styleClass="error"/>
 						-->
-							<p:calendar value="#{showBean.example.lastEventDate}" id="popupButtonCalLastDate"
+							<p:calendar value="#{showBean.example.lastEventDate}" id="showBeanExampleLastEventDate"
 								pattern="MMM d, yyyy"
-								showOn="button" locale="it"/>
+								showOn="button"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{showBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{showBean.create}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{showBean.create}" styleClass="btn btn-primary"
+										rendered="#{loginBean.privileged}"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>

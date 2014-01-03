@@ -29,13 +29,10 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="ticketBeanExampleSale" value="Sale:"/>
+						<h:outputLabel for="ticketBeanExampleTicketId" value="Ticket Id:"/>
 						<h:panelGroup>
-							<h:selectOneMenu converter="#{saleBean.converter}" id="ticketBeanExampleSale" value="#{ticketBean.example.sale}">
-								<f:selectItem/>
-								<f:selectItems value="#{saleBean.all}"/>
-							</h:selectOneMenu>
-							<h:message for="ticketBeanExampleSale" styleClass="error"/>
+							<h:inputText id="ticketBeanExampleTicketId" value="#{ticketBean.example.ticketId}"/>
+							<h:message for="ticketBeanExampleTicketId" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
@@ -49,11 +46,11 @@
 			<h:dataTable id="ticketBeanPageItems" styleClass="data-table" value="#{ticketBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Sale"/>
+						<h:outputText value="Ticket Id"/>
 					</f:facet>
 					<h:link outcome="/ticket/view">
-						<f:param name="id" value="#{_item.ticketId}"/>
-						<h:outputText id="itemSale" value="#{_item.sale}"/>
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemTicketId" value="#{_item.ticketId}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

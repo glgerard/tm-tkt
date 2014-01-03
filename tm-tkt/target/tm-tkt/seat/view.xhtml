@@ -44,28 +44,6 @@
 				<f:param name="id" value="#{seatBean.seat.row.rowId}"/>
 			</h:link>
 			<h:outputText/>
-			<h:outputLabel for="seatBeanSeatBookings" value="Bookings:"/>
-			<h:dataTable id="seatBeanSeatBookings" styleClass="data-table" value="#{forgeview:asList(seatBean.seat.bookings)}" var="_item">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Sale"/>
-					</f:facet>
-					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
-						<h:outputText id="itemSale" value="#{_item.sale}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Event"/>
-					</f:facet>
-					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
-						<h:outputText id="itemEvent" value="#{_item.event}"/>
-					</h:link>
-				</h:column>
-			</h:dataTable>
-			<h:outputText/>
 			<h:outputLabel for="seatBeanSeatSubscriptions" value="Subscriptions:"/>
 			<h:dataTable id="seatBeanSeatSubscriptions" styleClass="data-table" value="#{forgeview:asList(seatBean.seat.subscriptions)}" var="_item">
 				<h:column>
@@ -74,7 +52,7 @@
 					</f:facet>
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemGenre" value="#{_item.genre}"/>
+						<h:outputText id="forgeviewdisplayitemGenre" value="#{forgeview:display(_item.genre)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -83,7 +61,7 @@
 					</f:facet>
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSale" value="#{_item.sale}"/>
+						<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -92,7 +70,7 @@
 					</f:facet>
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
+						<h:outputText id="forgeviewdisplayitemSubscriptionType" value="#{forgeview:display(_item.subscriptionType)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -102,6 +80,28 @@
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.subscriptionId}"/>
 						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+			<h:outputLabel for="seatBeanSeatBookings" value="Bookings:"/>
+			<h:dataTable id="seatBeanSeatBookings" styleClass="data-table" value="#{forgeview:asList(seatBean.seat.bookings)}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Event"/>
+					</f:facet>
+					<h:link outcome="/booking/view">
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

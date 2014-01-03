@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -33,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatBean.converter}" id="subscriptionBeanExampleSeat" value="#{subscriptionBean.example.seat}">
 								<f:selectItem/>
-								<f:selectItems value="#{seatBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{seatBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="subscriptionBeanExampleSeat" styleClass="error"/>
 						</h:panelGroup>
@@ -42,27 +43,24 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{genreBean.converter}" id="subscriptionBeanExampleGenre" value="#{subscriptionBean.example.genre}">
 								<f:selectItem/>
-								<f:selectItems value="#{genreBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{genreBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="subscriptionBeanExampleGenre" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="subscriptionBeanExampleSale" value="Sale:"/>
-						<h:panelGroup>
-							<h:selectOneMenu converter="#{saleBean.converter}" id="subscriptionBeanExampleSale" value="#{subscriptionBean.example.sale}">
-								<f:selectItem/>
-								<f:selectItems value="#{saleBean.all}"/>
-							</h:selectOneMenu>
-							<h:message for="subscriptionBeanExampleSale" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 						<h:outputLabel for="subscriptionBeanExampleSubscriptionType" value="Subscription Type:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{subscriptionTypeBean.converter}" id="subscriptionBeanExampleSubscriptionType" value="#{subscriptionBean.example.subscriptionType}">
 								<f:selectItem/>
-								<f:selectItems value="#{subscriptionTypeBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{subscriptionTypeBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="subscriptionBeanExampleSubscriptionType" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="subscriptionBeanExampleSubscriptionId" value="Subscription Id:"/>
+						<h:panelGroup>
+							<h:inputText id="subscriptionBeanExampleSubscriptionId" value="#{subscriptionBean.example.subscriptionId}"/>
+							<h:message for="subscriptionBeanExampleSubscriptionId" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 						<h:outputLabel for="subscriptionBeanExampleNumberOfBookings" value="Number Of Bookings:"/>
@@ -82,47 +80,11 @@
 			<h:dataTable id="subscriptionBeanPageItems" styleClass="data-table" value="#{subscriptionBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Seat"/>
+						<h:outputText value="Subscription Id"/>
 					</f:facet>
 					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSeat" value="#{_item.seat}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Genre"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemGenre" value="#{_item.genre}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Sale"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSale" value="#{_item.sale}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Subscription Type"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Number Of Bookings"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionId" value="#{_item.subscriptionId}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

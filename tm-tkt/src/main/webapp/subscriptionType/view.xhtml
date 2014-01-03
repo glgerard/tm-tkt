@@ -36,38 +36,11 @@
 			<h:dataTable id="subscriptionTypeBeanSubscriptionTypeSubscriptions" styleClass="data-table" value="#{forgeview:asList(subscriptionTypeBean.subscriptionType.subscriptions)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Seat"/>
+						<h:outputText value="Subscription Id"/>
 					</f:facet>
 					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSeat" value="#{_item.seat}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Genre"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemGenre" value="#{_item.genre}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Sale"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSale" value="#{_item.sale}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Number Of Bookings"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionId" value="#{_item.subscriptionId}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

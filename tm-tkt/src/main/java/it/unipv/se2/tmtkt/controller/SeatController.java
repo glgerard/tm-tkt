@@ -2,10 +2,12 @@ package it.unipv.se2.tmtkt.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -15,6 +17,7 @@ import javax.persistence.PersistenceContextType;
 import it.unipv.se2.tmtkt.model.Booking;
 import it.unipv.se2.tmtkt.model.BookingId;
 import it.unipv.se2.tmtkt.model.Seat;
+import it.unipv.se2.tmtkt.model.SeatCategory;
 import it.unipv.se2.tmtkt.view.SeatBean;
 
 @Named

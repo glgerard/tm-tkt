@@ -7,8 +7,11 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
+	<!-- 
 		<f:viewParam name="page" value="#{seatBean.page}"/>
-		<f:event type="preRenderView" listener="#{seatBean.paginate}"/>
+	 -->
+	 	<f:viewParam name="eventId" value="#{seatController.eventId}"/>
+		<f:event type="preRenderView" listener="#{seatController.paginate}"/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="Search Seat entities"/>
@@ -39,7 +42,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatCategoryBean.converter}" id="seatBeanExampleSeatCategory" value="#{seatBean.example.seatCategory}">
 								<f:selectItem/>
-								<f:selectItems value="#{seatCategoryBean.all}"/>
+								<f:selectItems value="#{seatCategoryController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleSeatCategory" styleClass="error"/>
 						</h:panelGroup>
@@ -48,7 +51,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{sectorBean.converter}" id="seatBeanExampleSector" value="#{seatBean.example.sector}">
 								<f:selectItem/>
-								<f:selectItems value="#{sectorBean.all}"/>
+								<f:selectItems value="#{sectorController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleSector" styleClass="error"/>
 						</h:panelGroup>
@@ -57,32 +60,50 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{rowBean.converter}" id="seatBeanExampleRow" value="#{seatBean.example.row}">
 								<f:selectItem/>
-								<f:selectItems value="#{rowBean.all}"/>
+								<f:selectItems value="#{rowController.items}"/>
 							</h:selectOneMenu>
 							<h:message for="seatBeanExampleRow" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
-						<h:commandLink value="Search" action="#{seatBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{seatBean.create}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Search" action="#{seatController.search}" styleClass="btn btn-primary"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>
 			
-			<h:dataTable id="seatBeanPageItems" styleClass="data-table" value="#{seatBean.pageItems}" var="_item">
+			<h:dataTable id="seatBeanPageItems" styleClass="data-table" value="#{seatController.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Category"/>
+					</f:facet>
+					<h:outputText value="#{_item.seatCategory.categoryName}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sector"/>
+					</f:facet>
+					<h:outputText value="#{_item.sector.sectorName}"/>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Row"/>
+					</f:facet>
+					<h:outputText value="#{_item.row.rowName}"/>
+				</h:column>
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Seat Id"/>
 					</f:facet>
-					<h:link outcome="/seat/view">
-						<f:param name="id" value="#{_item.seatId}"/>
+					<h:link outcome="/payment/create">
+						<f:param name="eventId" value="#{seatController.eventId}"/>
+						<f:param name="seatId" value="#{_item.seatId}"/>
 						<h:outputText id="itemSeatId" value="#{_item.seatId}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
-				<ui:param name="paginatorBean" value="#{seatBean}"/>
+				<ui:param name="paginatorBean" value="#{seatController}"/>
 			</ui:include>
 		</h:form>
 			

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#show#search.xhtml" PATH="/show/search.xhtml"
+  SHAPE="32,48,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#show#search.xhtml:0" NAME="item"
+   PATH="/show/search.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewShow::#show#view.xhtml" NAME="output"
+    PATH="/show/view.xhtml" TARGET="rules:#show#view.xhtml"
+    TITLE="viewShow" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#show#view.xhtml" PATH="/show/view.xhtml"
+  SHAPE="224,48,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#show#view.xhtml:0" NAME="item"
+   PATH="/show/view.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewEvent::#event#view.xhtml" NAME="output"
+    PATH="/event/view.xhtml" TARGET="rules:#event#view.xhtml"
+    TITLE="viewEvent" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#event#view.xhtml" PATH="/event/view.xhtml"
+  SHAPE="416,48,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#event#view.xhtml:0" NAME="item"
+   PATH="/event/view.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="buyTicket::#ticket#buyTicket.xhtml"
+    NAME="output" PATH="/ticket/buyTicket.xhtml"
+    TARGET="rules:#ticket#buyTicket.xhtml" TITLE="buyTicket" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#ticket#buyTicket.xhtml"
+  PATH="/ticket/buyTicket.xhtml" SHAPE="591,61,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#ticket#buyTicket.xhtml:0" NAME="item"
+   PATH="/ticket/buyTicket.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="payTicket::#payment#payTicket.xhtml"
+    NAME="output" PATH="/payment/payTicket.xhtml"
+    TARGET="rules:#payment#payTicket.xhtml" TITLE="payTicket" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#payment#payTicket.xhtml"
+  PATH="/payment/payTicket.xhtml" SHAPE="794,69,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#payment#payTicket.xhtml:0" NAME="item"
+   PATH="/payment/payTicket.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="viewTicket::#ticket#view.xhtml"
+    NAME="output" PATH="/ticket/view.xhtml"
+    TARGET="rules:#ticket#view.xhtml" TITLE="viewTicket" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#ticket#view.xhtml" PATH="/ticket/view.xhtml"
+  SHAPE="984,72,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+</PROCESS>

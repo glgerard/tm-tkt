@@ -60,7 +60,7 @@
 					<f:facet name="header">
 						<h:outputText value="Datetime"/>
 					</f:facet>
-					<h:link outcome="/event/view">
+					<h:link outcome="viewEvent">
 						<f:param name="id" value="#{_item.eventId}"/>
 						<h:outputText id="itemDatetime" value="#{_item.datetime}">
 							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>

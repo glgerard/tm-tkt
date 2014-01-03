@@ -128,7 +128,7 @@ public class TicketBean implements Serializable
          else
          {
             this.entityManager.merge(this.ticket);
-            return "view?faces-redirect=true&id=" + this.ticket.getTicketId();
+            return "view?faces-redirect=true&id=" + this.ticket.getSaleId();
          }
       }
       catch (Exception e)
@@ -146,8 +146,7 @@ public class TicketBean implements Serializable
       {
          Ticket deletableEntity = findById(getId());
          Sale sale = deletableEntity.getSale();
-         sale.getTickets().remove(deletableEntity);
-         deletableEntity.setSale(null);
+         sale.setTicket(null);
          this.entityManager.merge(sale);
          this.entityManager.remove(deletableEntity);
          this.entityManager.flush();
@@ -231,10 +230,10 @@ public class TicketBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      Sale sale = this.example.getSale();
-      if (sale != null)
+      int ticketId = this.example.getTicketId();
+      if (ticketId != 0)
       {
-         predicatesList.add(builder.equal(root.get("sale"), sale));
+         predicatesList.add(builder.equal(root.get("ticketId"), ticketId));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
@@ -293,7 +292,7 @@ public class TicketBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Ticket) value).getTicketId());
+            return String.valueOf(((Ticket) value).getSaleId());
          }
       };
    }

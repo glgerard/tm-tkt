@@ -28,7 +28,7 @@
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="saleBeanSaleUser" value="User:"/>
 			<h:link id="saleBeanSaleUser" outcome="/user/view" value="#{saleBean.sale.user}">
-				<f:param name="id" value="#{saleBean.sale.user.userId}"/>
+				<f:param name="id" value="#{saleBean.sale.user.email}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="saleBeanSalePayment" value="Payment:"/>
@@ -41,6 +41,9 @@
 				<f:param name="id" value="#{saleBean.sale.priceScheme.priceSchemeId}"/>
 			</h:link>
 			<h:outputText/>
+			<h:outputLabel for="saleBeanSaleSaleType" value="Sale Type:"/>
+			<h:outputText id="saleBeanSaleSaleType" value="#{saleBean.sale.saleType}"/>
+			<h:outputText/>
 			<h:outputLabel for="saleBeanSaleBookings" value="Bookings:"/>
 			<h:dataTable id="saleBeanSaleBookings" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.bookings)}" var="_item">
 				<h:column>
@@ -48,8 +51,8 @@
 						<h:outputText value="Seat"/>
 					</f:facet>
 					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
-						<h:outputText id="itemSeat" value="#{_item.seat}"/>
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -57,54 +60,17 @@
 						<h:outputText value="Event"/>
 					</f:facet>
 					<h:link outcome="/booking/view">
-						<f:param name="id" value="#{_item.bookingId}"/>
-						<h:outputText id="itemEvent" value="#{_item.event}"/>
+						<f:param name="id" value="#{_item.id}"/>
+						<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>
 			<h:outputText/>
-			<h:outputLabel for="saleBeanSaleTickets" value="Tickets:"/>
-			<h:dataTable id="saleBeanSaleTickets" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.tickets)}" var="_item"/>
+			<h:outputLabel for="saleBeanSaleTicket" value="Ticket:"/>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="saleBeanSaleTicket" rendered="#{!empty saleBean.sale.ticket}"/>
 			<h:outputText/>
-			<h:outputLabel for="saleBeanSaleSubscriptions" value="Subscriptions:"/>
-			<h:dataTable id="saleBeanSaleSubscriptions" styleClass="data-table" value="#{forgeview:asList(saleBean.sale.subscriptions)}" var="_item">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Seat"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSeat" value="#{_item.seat}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Genre"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemGenre" value="#{_item.genre}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Subscription Type"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Number Of Bookings"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
-					</h:link>
-				</h:column>
-			</h:dataTable>
+			<h:outputLabel for="saleBeanSaleSubscription" value="Subscription:"/>
+			<h:panelGrid columnClasses="label,component,required" columns="3" id="saleBeanSaleSubscription" rendered="#{!empty saleBean.sale.subscription}"/>
 			<h:outputText/>
 		</h:panelGrid>
 

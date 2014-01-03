@@ -131,7 +131,7 @@ public class SubscriptionBean implements Serializable
          else
          {
             this.entityManager.merge(this.subscription);
-            return "view?faces-redirect=true&id=" + this.subscription.getSubscriptionId();
+            return "view?faces-redirect=true&id=" + this.subscription.getSaleId();
          }
       }
       catch (Exception e)
@@ -157,8 +157,7 @@ public class SubscriptionBean implements Serializable
          deletableEntity.setGenre(null);
          this.entityManager.merge(genre);
          Sale sale = deletableEntity.getSale();
-         sale.getSubscriptions().remove(deletableEntity);
-         deletableEntity.setSale(null);
+         sale.setSubscription(null);
          this.entityManager.merge(sale);
          SubscriptionType subscriptionType = deletableEntity.getSubscriptionType();
          subscriptionType.getSubscriptions().remove(deletableEntity);
@@ -256,20 +255,18 @@ public class SubscriptionBean implements Serializable
       {
          predicatesList.add(builder.equal(root.get("genre"), genre));
       }
-      Sale sale = this.example.getSale();
-      if (sale != null)
-      {
-         predicatesList.add(builder.equal(root.get("sale"), sale));
-      }
       SubscriptionType subscriptionType = this.example.getSubscriptionType();
       if (subscriptionType != null)
       {
          predicatesList.add(builder.equal(root.get("subscriptionType"), subscriptionType));
       }
-      
+      int subscriptionId = this.example.getSubscriptionId();
+      if (subscriptionId != 0)
+      {
+         predicatesList.add(builder.equal(root.get("subscriptionId"), subscriptionId));
+      }
       Short numberOfBookings = this.example.getNumberOfBookings();
-      Short zero = 0;
-      if (numberOfBookings != null && !zero.equals(numberOfBookings) )
+      if (numberOfBookings != null && numberOfBookings.intValue() != 0)
       {
          predicatesList.add(builder.equal(root.get("numberOfBookings"), numberOfBookings));
       }
@@ -330,7 +327,7 @@ public class SubscriptionBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Subscription) value).getSubscriptionId());
+            return String.valueOf(((Subscription) value).getSaleId());
          }
       };
    }

@@ -34,7 +34,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{genreBean.converter}" id="showBeanExampleGenre" value="#{showBean.example.genre}">
 								<f:selectItem/>
-								<f:selectItems value="#{genreController.items}"/>
+								<f:selectItems value="#{genreBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.name}"/>
 							</h:selectOneMenu>
 							<h:message for="showBeanExampleGenre" styleClass="error"/>
 						</h:panelGroup>
@@ -97,7 +97,7 @@
 					<f:facet name="header">
 						<h:outputText value="Title"/>
 					</f:facet>
-					<h:link outcome="/show/view">
+					<h:link outcome="viewShow">
 						<f:param name="id" value="#{_item.showId}"/>
 						<h:outputText id="itemTitle" value="#{_item.title}"/>
 					</h:link>
