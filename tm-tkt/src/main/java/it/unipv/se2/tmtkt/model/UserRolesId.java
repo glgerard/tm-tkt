@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 2, 2014 6:25:18 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 4, 2014 12:15:21 PM by Hibernate Tools 3.4.0.CR1
 
 
 import javax.persistence.Column;

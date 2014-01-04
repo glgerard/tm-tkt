@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 2, 2014 6:25:18 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 4, 2014 12:15:21 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,6 +30,7 @@ public class Seat  implements java.io.Serializable {
      private Sector sector;
      private Row row;
      private Set<Subscription> subscriptions = new HashSet<Subscription>(0);
+     private Set<Genre> genres = new HashSet<Genre>(0);
      private Set<Booking> bookings = new HashSet<Booking>(0);
 
     public Seat() {
@@ -40,12 +43,13 @@ public class Seat  implements java.io.Serializable {
         this.sector = sector;
         this.row = row;
     }
-    public Seat(short seatId, SeatCategory seatCategory, Sector sector, Row row, Set<Subscription> subscriptions, Set<Booking> bookings) {
+    public Seat(short seatId, SeatCategory seatCategory, Sector sector, Row row, Set<Subscription> subscriptions, Set<Genre> genres, Set<Booking> bookings) {
        this.seatId = seatId;
        this.seatCategory = seatCategory;
        this.sector = sector;
        this.row = row;
        this.subscriptions = subscriptions;
+       this.genres = genres;
        this.bookings = bookings;
     }
    
@@ -98,6 +102,18 @@ public class Seat  implements java.io.Serializable {
     
     public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
+    }
+
+@ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="SEAT_SUBSCRIPTION", catalog="teatromanzoni", joinColumns = { 
+        @JoinColumn(name="SEAT_id", nullable=false, updatable=false) }, inverseJoinColumns = { 
+        @JoinColumn(name="GENRE_id", nullable=false, updatable=false) })
+    public Set<Genre> getGenres() {
+        return this.genres;
+    }
+    
+    public void setGenres(Set<Genre> genres) {
+        this.genres = genres;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="seat")

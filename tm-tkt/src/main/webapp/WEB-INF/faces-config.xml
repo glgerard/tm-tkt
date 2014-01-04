@@ -49,5 +49,57 @@
    <from-outcome>login</from-outcome>
    <to-view-id>/login.xhtml</to-view-id>
   </navigation-case>
+  <navigation-case>
+   <from-outcome>register</from-outcome>
+   <to-view-id>/user/register.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/subscription/choose.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>assignedSeat</from-outcome>
+   <to-view-id>/subscription/assignedSeat.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>carnet</from-outcome>
+   <to-view-id>/subscription/carnet.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>freeSeat</from-outcome>
+   <to-view-id>/payment/paySubscription.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/subscription/assignedSeat.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>paySubscription</from-outcome>
+   <to-view-id>/payment/paySubscription.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/subscription/carnet.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>paySubscription</from-outcome>
+   <to-view-id>/payment/paySubscription.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>*</from-view-id>
+  <navigation-case>
+   <from-outcome>listShows</from-outcome>
+   <to-view-id>/show/search.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>buySubscription</from-outcome>
+   <to-view-id>/subscription/choose.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>showSubscriptions</from-outcome>
+   <to-view-id>/sale/subscriptions.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>showTickets</from-outcome>
+   <to-view-id>/sale/tickets.xhtml</to-view-id>
+  </navigation-case>
  </navigation-rule>
 </faces-config>

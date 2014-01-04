@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Seat;
 import it.unipv.se2.tmtkt.model.Booking;
+import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.Row;
 import it.unipv.se2.tmtkt.model.SeatCategory;
 import it.unipv.se2.tmtkt.model.Sector;
@@ -77,7 +78,7 @@ public class SeatBean implements Serializable
    private Conversation conversation;
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-protected EntityManager entityManager;
+   private EntityManager entityManager;
 
    public String create()
    {
@@ -169,6 +170,14 @@ protected EntityManager entityManager;
             nextInSubscriptions.setSeat(null);
             iterSubscriptions.remove();
             this.entityManager.merge(nextInSubscriptions);
+         }
+         Iterator<Genre> iterGenres = deletableEntity.getGenres().iterator();
+         for (; iterGenres.hasNext();)
+         {
+            Genre nextInGenres = iterGenres.next();
+            nextInGenres.getSeats().remove(deletableEntity);
+            iterGenres.remove();
+            this.entityManager.merge(nextInGenres);
          }
          Iterator<Booking> iterBookings = deletableEntity.getBookings().iterator();
          for (; iterBookings.hasNext();)

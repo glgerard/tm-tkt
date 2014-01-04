@@ -27,29 +27,29 @@
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="subscriptionBeanSubscriptionSeat" value="Seat:"/>
-			<h:link id="subscriptionBeanSubscriptionSeat" outcome="/seat/view" value="#{subscriptionBean.subscription.seat}">
+			<h:link id="subscriptionBeanSubscriptionSeat" outcome="/seat/view" value="#{subscriptionBean.subscription.seat.seatId}">
 				<f:param name="id" value="#{subscriptionBean.subscription.seat.seatId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionGenre" value="Genre:"/>
-			<h:link id="subscriptionBeanSubscriptionGenre" outcome="/genre/view" value="#{subscriptionBean.subscription.genre}">
+			<h:link id="subscriptionBeanSubscriptionGenre" outcome="/genre/view" value="#{subscriptionBean.subscription.genre.name}">
 				<f:param name="id" value="#{subscriptionBean.subscription.genre.genreId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionSale" value="Sale:"/>
 			<h:panelGrid columnClasses="label,component,required" columns="3" id="subscriptionBeanSubscriptionSale" rendered="#{!empty subscriptionBean.subscription.sale}">
 				<h:outputLabel for="subscriptionBeanSubscriptionSaleUser" value="User:"/>
-				<h:link id="subscriptionBeanSubscriptionSaleUser" outcome="/user/view" value="#{subscriptionBean.subscription.sale.user}">
+				<h:link id="subscriptionBeanSubscriptionSaleUser" outcome="/user/view" value="#{subscriptionBean.subscription.sale.user.email}">
 					<f:param name="id" value="#{subscriptionBean.subscription.sale.user.email}"/>
 				</h:link>
 				<h:outputText/>
 				<h:outputLabel for="subscriptionBeanSubscriptionSalePayment" value="Payment:"/>
-				<h:link id="subscriptionBeanSubscriptionSalePayment" outcome="/payment/view" value="#{subscriptionBean.subscription.sale.payment}">
+				<h:link id="subscriptionBeanSubscriptionSalePayment" outcome="/payment/view" value="#{subscriptionBean.subscription.sale.payment.paymentMethod.paymentName}">
 					<f:param name="id" value="#{subscriptionBean.subscription.sale.payment.paymentId}"/>
 				</h:link>
 				<h:outputText/>
 				<h:outputLabel for="subscriptionBeanSubscriptionSalePriceScheme" value="Price Scheme:"/>
-				<h:link id="subscriptionBeanSubscriptionSalePriceScheme" outcome="/priceScheme/view" value="#{subscriptionBean.subscription.sale.priceScheme}">
+				<h:link id="subscriptionBeanSubscriptionSalePriceScheme" outcome="/priceScheme/view" value="#{subscriptionBean.subscription.sale.priceScheme.price}">
 					<f:param name="id" value="#{subscriptionBean.subscription.sale.priceScheme.priceSchemeId}"/>
 				</h:link>
 				<h:outputText/>
@@ -64,7 +64,7 @@
 						</f:facet>
 						<h:link outcome="/booking/view">
 							<f:param name="id" value="#{_item.id}"/>
-							<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+							<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat.seatId)}"/>
 						</h:link>
 					</h:column>
 					<h:column>
@@ -73,7 +73,7 @@
 						</f:facet>
 						<h:link outcome="/booking/view">
 							<f:param name="id" value="#{_item.id}"/>
-							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event.datetime)}"/>
 						</h:link>
 					</h:column>
 				</h:dataTable>
@@ -81,7 +81,7 @@
 			</h:panelGrid>
 			<h:outputText/>
 			<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionType" value="Subscription Type:"/>
-			<h:link id="subscriptionBeanSubscriptionSubscriptionType" outcome="/subscriptionType/view" value="#{subscriptionBean.subscription.subscriptionType}">
+			<h:link id="subscriptionBeanSubscriptionSubscriptionType" outcome="/subscriptionType/view" value="#{subscriptionBean.subscription.subscriptionType.name}">
 				<f:param name="id" value="#{subscriptionBean.subscription.subscriptionType.subscriptionTypeId}"/>
 			</h:link>
 			<h:outputText/>

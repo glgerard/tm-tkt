@@ -39,7 +39,9 @@
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 				<h:outputLabel for="userBeanUserEmail" value="Email:"/>
 				<h:panelGroup>
-					<h:inputText id="userBeanUserEmail" maxLength="90" required="true" value="#{userBean.user.email}"/>
+					<h:inputText id="userBeanUserEmail" maxLength="90" required="true" value="#{userBean.user.email}">
+						<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+					</h:inputText>
 					<h:message for="userBeanUserEmail" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText value="*"/>

@@ -22,7 +22,9 @@
 					<h:outputLabel id="usernameLabel" for="j_username" value="Email:"/>
 					<h:panelGroup>
 						<h:inputText id="j_username"
-						required="true" requiredMessage="Please enter your email address"/>
+						required="true" requiredMessage="Please enter your email address">
+							<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+						</h:inputText>
 						<h:message for="j_username" errorClass="errorMessage"/>
 					</h:panelGroup>
 					<h:outputText/>

@@ -48,38 +48,24 @@
 			<h:dataTable id="seatBeanSeatSubscriptions" styleClass="data-table" value="#{forgeview:asList(seatBean.seat.subscriptions)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Genre"/>
+						<h:outputText value="Subscription Id"/>
 					</f:facet>
 					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="forgeviewdisplayitemGenre" value="#{forgeview:display(_item.genre)}"/>
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionId" value="#{_item.subscriptionId}"/>
 					</h:link>
 				</h:column>
+			</h:dataTable>
+			<h:outputText/>
+			<h:outputLabel for="seatBeanSeatGenres" value="Genres:"/>
+			<h:dataTable id="seatBeanSeatGenres" styleClass="data-table" value="#{forgeview:asList(seatBean.seat.genres)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Sale"/>
+						<h:outputText value="Name"/>
 					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="forgeviewdisplayitemSale" value="#{forgeview:display(_item.sale)}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Subscription Type"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="forgeviewdisplayitemSubscriptionType" value="#{forgeview:display(_item.subscriptionType)}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Number Of Bookings"/>
-					</f:facet>
-					<h:link outcome="/subscription/view">
-						<f:param name="id" value="#{_item.subscriptionId}"/>
-						<h:outputText id="itemNumberOfBookings" value="#{_item.numberOfBookings}"/>
+					<h:link outcome="/genre/view">
+						<f:param name="id" value="#{_item.genreId}"/>
+						<h:outputText id="itemName" value="#{_item.name}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

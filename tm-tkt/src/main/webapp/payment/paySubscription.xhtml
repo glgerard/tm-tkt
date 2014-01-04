@@ -9,8 +9,6 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="eventId" value="#{ticketController.eventId}"/>
-		<f:viewParam name="seatId" value="#{ticketController.seatId}"/>
 		<f:viewParam name="id" value="#{paymentBean.id}"/>
 		<f:event type="preRenderView" listener="#{paymentBean.retrieve}"/>
 	</f:metadata>
@@ -18,7 +16,7 @@
 	<ui:param name="pageTitle" value="Complete Payment"/>
 
 	<ui:define name="header">
-		Payment
+		Complete your Payment
 	</ui:define>
 
 	<ui:define name="subheader">
@@ -27,7 +25,7 @@
 				Edit existing Payment
 			</c:when>
 			<c:otherwise>
-				Complete your Payment
+				Choose a Payment method
 			</c:otherwise>
 		</c:choose>
 	</ui:define>
@@ -37,11 +35,15 @@
 	<ui:define name="main">
 		<h:form id="create">
 			<h:messages globalOnly="true" styleClass="error"/>
-
+			<h:inputHidden id="subscriptionTypeId" value="#{subscriptionController.subscriptionTypeId}" />
+			<h:inputHidden id="genreId" value="#{subscriptionController.genreId}" />
+			<h:inputHidden id="seatId" value="#{subscriptionController.seatId}" />
+			<h:inputHidden id="numberOfBookings" value="#{subscriptionController.numberOfBookings}" />
+			
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 				<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{paymentMethodBean.converter}" id="paymentBeanPaymentPaymentMethod" value="#{ticketController.paymentMethod}">
+					<h:selectOneMenu converter="#{paymentMethodBean.converter}" id="paymentBeanPaymentPaymentMethod" value="#{subscriptionController.paymentMethod}">
 						<f:selectItems itemLabel="#{forgeview:display(_item.paymentName)}" itemValue="#{_item}" value="#{paymentMethodBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="paymentBeanPaymentPaymentMethod" styleClass="error"/>
@@ -50,7 +52,7 @@
 			</h:panelGrid>
 			
 			<div class="buttons">
-				<h:commandLink value="Confirm" action="#{ticketController.buy}" styleClass="btn btn-primary"/>
+				<h:commandLink value="Confirm" action="#{subscriptionController.buy}" styleClass="btn btn-primary"/>
 				<c:choose>
 					<c:when test="#{!empty paymentBean.id}">
 						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">

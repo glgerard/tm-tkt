@@ -74,19 +74,31 @@
 					<f:facet name="header">
 						<h:outputText value="Category"/>
 					</f:facet>
-					<h:outputText value="#{_item.seatCategory.categoryName}"/>
+					<h:link outcome="payTicket">
+						<f:param name="eventId" value="#{seatController.eventId}"/>
+						<f:param name="seatId" value="#{_item.seatId}"/>
+						<h:outputText value="#{_item.seatCategory.categoryName}"/>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Sector"/>
 					</f:facet>
-					<h:outputText value="#{_item.sector.sectorName}"/>
+					<h:link outcome="payTicket">
+						<f:param name="eventId" value="#{seatController.eventId}"/>
+						<f:param name="seatId" value="#{_item.seatId}"/>
+						<h:outputText value="#{_item.sector.sectorName}"/>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Row"/>
 					</f:facet>
-					<h:outputText value="#{_item.row.rowName}"/>
+					<h:link outcome="payTicket">
+						<f:param name="eventId" value="#{seatController.eventId}"/>
+						<f:param name="seatId" value="#{_item.seatId}"/>
+						<h:outputText value="#{_item.row.rowName}"/>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">

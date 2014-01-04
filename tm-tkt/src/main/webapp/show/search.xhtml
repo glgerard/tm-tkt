@@ -59,12 +59,6 @@
 						<h:outputText/>
 						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (Mon d, yyyy):"/>
 						<h:panelGroup>
-						<!-- 
-							<h:inputText id="showBeanExampleFirstEventDate" maxLength="10" size="10" value="#{showBean.example.firstEventDate}">
-								<f:convertDateTime type="date" pattern="dd/MM/yy"/>
-							</h:inputText>
-							<h:message for="showBeanExampleFirstEventDate" styleClass="error"/>
-						-->
 						    <p:calendar value="#{showBean.example.firstEventDate}" id="showBeanExampleFirstEventDate"
 						    	pattern="MMM d, yyyy"
 						    	showOn="button"/>
@@ -72,12 +66,6 @@
 						<h:outputText/>
 						<h:outputLabel for="showBeanExampleLastEventDate" value="To (Mon dd, yyyy):"/>
 						<h:panelGroup>
-						<!-- 
-							<h:inputText id="showBeanExampleLastEventDate" maxLength="10" size="10" value="#{showBean.example.lastEventDate}">
-								<f:convertDateTime type="date" pattern="dd/MM/yy"/>
-							</h:inputText>
-							<h:message for="showBeanExampleLastEventDate" styleClass="error"/>
-						-->
 							<p:calendar value="#{showBean.example.lastEventDate}" id="showBeanExampleLastEventDate"
 								pattern="MMM d, yyyy"
 								showOn="button"/>
@@ -106,23 +94,32 @@
 					<f:facet name="header">
 						<h:outputText value="Author"/>
 					</f:facet>
-					<h:outputText id="itemAuthorName" value="#{_item.authorName}" />
+					<h:link outcome="viewShow">
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemAuthorName" value="#{_item.authorName}" />
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="From:"/>
 					</f:facet>
-					<h:outputText id="itemFirstEventDate" value="#{_item.firstEventDate}">
-						<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
-					</h:outputText>
+					<h:link outcome="viewShow">
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemFirstEventDate" value="#{_item.firstEventDate}">
+							<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+						</h:outputText>
+					</h:link>
 				</h:column>
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="To:"/>
 					</f:facet>
-					<h:outputText id="itemLastEventDate" value="#{_item.lastEventDate}">
-						<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
-					</h:outputText>
+					<h:link outcome="viewShow">
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemLastEventDate" value="#{_item.lastEventDate}">
+							<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+						</h:outputText>
+					</h:link>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">

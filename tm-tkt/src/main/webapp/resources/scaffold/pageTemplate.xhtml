@@ -53,7 +53,19 @@
 			<ul>
 				<li>
 					<h:link outcome="/show/search" value="Show"/>
-					<h:link outcome="/subscription/buy" value="Buy a subscription"/>
+					<h:link outcome="/subscription/choose" value="Buy a subscription"/>
+					<c:choose>
+						<c:when test="#{!empty request.remoteUser}">
+							<h:link outcome="showSubscriptions" value="My subscriptions">
+								<f:param name="user" value="#{request.remoteUser}"/>
+								<f:param name="saleType" value="S"/>
+ 							</h:link>
+ 							<h:link outcome="showTickets" value="My tickets">
+								<f:param name="user" value="#{request.remoteUser}"/>
+								<f:param name="saleType" value="T"/>
+ 							</h:link>
+ 						</c:when>
+ 					</c:choose>
 				</li>
 				<c:choose>
 					<c:when test="#{loginBean.privileged}">

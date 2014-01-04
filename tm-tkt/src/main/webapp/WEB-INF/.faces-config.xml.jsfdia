@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PROCESS model-entity="JSFProcess">
  <PROCESS-ITEM NAME="rules:#show#search.xhtml" PATH="/show/search.xhtml"
-  SHAPE="32,48,50,41" model-entity="JSFProcessGroup">
+  SHAPE="96,176,50,41" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#show#search.xhtml:0" NAME="item"
    PATH="/show/search.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="viewShow::#show#view.xhtml" NAME="output"
@@ -10,7 +10,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#show#view.xhtml" PATH="/show/view.xhtml"
-  SHAPE="224,48,50,41" model-entity="JSFProcessGroup">
+  SHAPE="256,176,50,41" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#show#view.xhtml:0" NAME="item"
    PATH="/show/view.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="viewEvent::#event#view.xhtml" NAME="output"
@@ -19,7 +19,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#event#view.xhtml" PATH="/event/view.xhtml"
-  SHAPE="416,48,50,41" model-entity="JSFProcessGroup">
+  SHAPE="448,176,50,41" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#event#view.xhtml:0" NAME="item"
    PATH="/event/view.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="buyTicket::#ticket#buyTicket.xhtml"
@@ -28,7 +28,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ticket#buyTicket.xhtml"
-  PATH="/ticket/buyTicket.xhtml" SHAPE="591,61,0,0" model-entity="JSFProcessGroup">
+  PATH="/ticket/buyTicket.xhtml" SHAPE="656,176,50,41" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#ticket#buyTicket.xhtml:0" NAME="item"
    PATH="/ticket/buyTicket.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="payTicket::#payment#payTicket.xhtml"
@@ -37,7 +37,7 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#payment#payTicket.xhtml"
-  PATH="/payment/payTicket.xhtml" SHAPE="794,69,0,0" model-entity="JSFProcessGroup">
+  PATH="/payment/payTicket.xhtml" SHAPE="840,176,50,41" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#payment#payTicket.xhtml:0" NAME="item"
    PATH="/payment/payTicket.xhtml" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="viewTicket::#ticket#view.xhtml"
@@ -46,13 +46,82 @@
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#ticket#view.xhtml" PATH="/ticket/view.xhtml"
-  SHAPE="984,72,50,25" model-entity="JSFProcessGroup" persistent="true"/>
- <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="123,182,0,0" model-entity="JSFProcessGroup">
+  SHAPE="1016,184,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,24,53,42" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="login::#login.xhtml" NAME="output"
     PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="register::#user#register.xhtml"
+    NAME="output1" PATH="/user/register.xhtml"
+    TARGET="rules:#user#register.xhtml" TITLE="register" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#login.xhtml" PATH="/login.xhtml"
-  SHAPE="288,184,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+  SHAPE="176,24,50,25" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#subscription#choose.xhtml"
+  PATH="/subscription/choose.xhtml" SHAPE="256,280,50,73" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#subscription#choose.xhtml:0" NAME="item"
+   PATH="/subscription/choose.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="assignedSeat::#subscription#assignedSeat.xhtml" NAME="output"
+    PATH="/subscription/assignedSeat.xhtml"
+    TARGET="rules:#subscription#assignedSeat.xhtml" TITLE="assignedSeat" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="carnet::#subscription#carnet.xhtml"
+    NAME="output1" PATH="/subscription/carnet.xhtml"
+    TARGET="rules:#subscription#carnet.xhtml" TITLE="carnet" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="freeSeat::#payment#paySubscription.xhtml"
+    NAME="output2" PATH="/payment/paySubscription.xhtml"
+    TARGET="rules:#payment#paySubscription.xhtml" TITLE="freeSeat" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#subscription#assignedSeat.xhtml"
+  PATH="/subscription/assignedSeat.xhtml" SHAPE="448,240,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#subscription#assignedSeat.xhtml:0"
+   NAME="item" PATH="/subscription/assignedSeat.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paySubscription::#payment#paySubscription.xhtml" NAME="output"
+    PATH="/payment/paySubscription.xhtml"
+    TARGET="rules:#payment#paySubscription.xhtml"
+    TITLE="paySubscription" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#subscription#carnet.xhtml"
+  PATH="/subscription/carnet.xhtml" SHAPE="456,328,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#subscription#carnet.xhtml:0" NAME="item"
+   PATH="/subscription/carnet.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="paySubscription::#payment#paySubscription.xhtml" NAME="output"
+    PATH="/payment/paySubscription.xhtml"
+    TARGET="rules:#payment#paySubscription.xhtml"
+    TITLE="paySubscription" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#payment#paySubscription.xhtml"
+  PATH="/payment/paySubscription.xhtml" SHAPE="648,392,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#sale#subscriptions.xhtml"
+  PATH="/sale/subscriptions.xhtml" SHAPE="168,440,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#user#register.xhtml"
+  PATH="/user/register.xhtml" SHAPE="176,88,50,25"
+  model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#sale#tickets.xhtml"
+  PATH="/sale/tickets.xhtml" SHAPE="96,544,50,25" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="listShows::#show#search.xhtml" NAME="output"
+    PATH="/show/search.xhtml" TARGET="rules:#show#search.xhtml"
+    TITLE="listShows" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="buySubscription::#subscription#choose.xhtml"
+    NAME="output1" PATH="/subscription/choose.xhtml"
+    TARGET="rules:#subscription#choose.xhtml" TITLE="buySubscription" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="showSubscriptions::#sale#subscriptions.xhtml" NAME="output2"
+    PATH="/sale/subscriptions.xhtml"
+    TARGET="rules:#sale#subscriptions.xhtml" TITLE="showSubscriptions" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="showTickets::#sale#tickets.xhtml"
+    NAME="output3" PATH="/sale/tickets.xhtml"
+    TARGET="rules:#sale#tickets.xhtml" TITLE="showTickets" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
 </PROCESS>

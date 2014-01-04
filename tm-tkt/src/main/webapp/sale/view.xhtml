@@ -26,18 +26,18 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
-			<h:outputLabel for="saleBeanSaleUser" value="User:"/>
-			<h:link id="saleBeanSaleUser" outcome="/user/view" value="#{saleBean.sale.user}">
+			<h:outputLabel for="saleBeanSaleUser" value="Email:"/>
+			<h:link id="saleBeanSaleUser" outcome="/user/view" value="#{saleBean.sale.user.email}">
 				<f:param name="id" value="#{saleBean.sale.user.email}"/>
 			</h:link>
 			<h:outputText/>
-			<h:outputLabel for="saleBeanSalePayment" value="Payment:"/>
-			<h:link id="saleBeanSalePayment" outcome="/payment/view" value="#{saleBean.sale.payment}">
+			<h:outputLabel for="saleBeanSalePayment" value="Payment Method:"/>
+			<h:link id="saleBeanSalePayment" outcome="/payment/view" value="#{saleBean.sale.payment.paymentMethod.paymentName}">
 				<f:param name="id" value="#{saleBean.sale.payment.paymentId}"/>
 			</h:link>
 			<h:outputText/>
-			<h:outputLabel for="saleBeanSalePriceScheme" value="Price Scheme:"/>
-			<h:link id="saleBeanSalePriceScheme" outcome="/priceScheme/view" value="#{saleBean.sale.priceScheme}">
+			<h:outputLabel for="saleBeanSalePriceScheme" value="Price:"/>
+			<h:link id="saleBeanSalePriceScheme" outcome="/priceScheme/view" value="#{saleBean.sale.priceScheme.price}">
 				<f:param name="id" value="#{saleBean.sale.priceScheme.priceSchemeId}"/>
 			</h:link>
 			<h:outputText/>
@@ -52,7 +52,7 @@
 					</f:facet>
 					<h:link outcome="/booking/view">
 						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat)}"/>
+						<h:outputText id="forgeviewdisplayitemSeat" value="#{forgeview:display(_item.seat.seatId)}"/>
 					</h:link>
 				</h:column>
 				<h:column>
@@ -61,7 +61,7 @@
 					</f:facet>
 					<h:link outcome="/booking/view">
 						<f:param name="id" value="#{_item.id}"/>
-						<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event)}"/>
+						<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event.datetime)}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

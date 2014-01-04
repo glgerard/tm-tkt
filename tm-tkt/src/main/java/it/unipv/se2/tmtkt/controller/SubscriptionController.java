@@ -18,12 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import it.unipv.se2.tmtkt.model.Booking;
 import it.unipv.se2.tmtkt.model.BookingId;
 import it.unipv.se2.tmtkt.model.Event;
+import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.PaymentMethod;
 import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
 import it.unipv.se2.tmtkt.model.Show;
 import it.unipv.se2.tmtkt.model.Subscription;
+import it.unipv.se2.tmtkt.model.SubscriptionType;
 import it.unipv.se2.tmtkt.model.User;
 import it.unipv.se2.tmtkt.model.Payment;
 
@@ -36,15 +38,17 @@ public class SubscriptionController implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-		private static final short ASSIGNED_SEAT = 1;
-		private static final short FREE_SEAT = 2;
-		private static final short CARNET = 3;
+	private static final short ASSIGNED_SEAT = 1;
+	private static final short FREE_SEAT = 2;
+	private static final short CARNET = 3;
 	
-	private Subscription subscription = new Subscription();
-	private int seatId;
+	private Byte genreId;
+	private Short subscriptionTypeId;
+	private Short seatId;
+	private Short numberOfBookings;
 		
 	private PaymentMethod paymentMethod;
-	
+		
 	@EJB private SubscriptionCounter subscriptionCounter;
 	
 	@EJB private TransactionTestImpl transactionManager;
@@ -64,8 +68,6 @@ public class SubscriptionController implements Serializable {
 
 			this.em.persist(payment);
 
-			Seat seat = this.em.find(Seat.class, seatId);
-
 		    FacesContext context = FacesContext.getCurrentInstance();
 		    HttpServletRequest request = (HttpServletRequest) context.
 		        getExternalContext().getRequest();
@@ -76,40 +78,51 @@ public class SubscriptionController implements Serializable {
 
 			this.em.persist(sale);			
 
-			Subscription newSubscription = new Subscription(subscription.getGenre(),sale,
-					subscription.getSubscriptionType(),subscriptionCounter.incrementCount());
+			Genre genre = this.em.find(Genre.class, this.genreId);
+			SubscriptionType subscriptionType = this.em.find(SubscriptionType.class, this.subscriptionTypeId);
+			Subscription subscription = new Subscription(genre,sale,
+					subscriptionType,subscriptionCounter.incrementCount());
 
-			switch (subscription.getSubscriptionType().getSubscriptionTypeId()) {
+			switch (subscriptionTypeId) {
 			case ASSIGNED_SEAT :
+				Seat seat = this.em.find(Seat.class, seatId);
 				if ( seat == null) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage("A seat is mandatory for an Assigen Seat type subscription"));
 					return null;
 				} else {
-					newSubscription.setSeat(seat);
-					for (Show s: subscription.getGenre().getShows()) {
+					subscription.setSeat(seat);
+					for (Show s: genre.getShows()) {
 						for (Event e : s.getEvents()) {
-							if (e.getDatetime() == s.getFirstEventDate()) {
-								Booking booking = new Booking(
-										new BookingId(e.getEventId(), seat.getSeatId()),
-										seat, sale, e);								
-								this.em.persist(booking);
-								sale.getBookings().add(booking);
+							// check that the date is the same excluding time
+							if ((e.getDatetime().getTime() - s.getFirstEventDate().getTime()) <= (24*3600*1000) ) {
+								BookingId bookingId = new BookingId(e.getEventId(), seat.getSeatId());
+								if (this.em.find(Booking.class, bookingId) == null) {
+									Booking booking = new Booking(
+											bookingId,
+											seat, sale, e);	
+									this.em.persist(booking);
+									sale.getBookings().add(booking);
+									seat.getGenres().add(this.em.find(Genre.class,this.genreId));
+								} else {
+									this.numberOfBookings++;
+								}						
 							}
 						}
 					}
+					subscription.setNumberOfBookings(this.numberOfBookings);
 				}
 				break;
 			case FREE_SEAT :
-				newSubscription.setNumberOfBookings((short)subscription.getGenre().getShows().size());
+				subscription.setNumberOfBookings((short)genre.getShows().size());
 				break;
 			case CARNET :
-				if ( subscription.getNumberOfBookings() == 0 ) {
+				if ( this.numberOfBookings == 0 ) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage("A number of tickets is mandatory for a Carnet type subscription"));
 					return null;
 				} else {
-					newSubscription.setNumberOfBookings(subscription.getNumberOfBookings());
+					subscription.setNumberOfBookings(this.numberOfBookings);
 				}
 				break;
 			}
@@ -128,15 +141,31 @@ public class SubscriptionController implements Serializable {
 			return null;
 		}
 	}
-	
-	public Subscription getSubscription() {
-		return subscription;
+
+	public Short getSubscriptionTypeId() {
+		return subscriptionTypeId;
 	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
+	public void setSubscriptionTypeId(Short subscriptionTypeId) {
+		this.subscriptionTypeId = subscriptionTypeId;
 	}
-	
+
+	public Short getSeatId() {
+		return seatId;
+	}
+
+	public void setSeatId(Short seatId) {
+		this.seatId = seatId;
+	}
+
+	public Short getNumberOfBookings() {
+		return numberOfBookings;
+	}
+
+	public void setNumberOfBookings(Short numberOfBookings) {
+		this.numberOfBookings = numberOfBookings;
+	}
+
 	public PaymentMethod getPaymentMethod() {
 		return paymentMethod;
 	}
@@ -145,4 +174,24 @@ public class SubscriptionController implements Serializable {
 		this.paymentMethod = paymentMethod;
 	}
 
+	public Byte getGenreId() {
+		return genreId;
+	}
+
+	public void setGenreId(Byte genreId) {
+		this.genreId = genreId;
+	}
+
+	public String subscriptionTypeName() {
+		switch (this.subscriptionTypeId) {
+		case ASSIGNED_SEAT:
+			return "assignedSeat";
+		case FREE_SEAT:
+			return "freeSeat";
+		case CARNET:
+			return "carnet";
+		default:
+			return null;
+		}
+	}
 }
