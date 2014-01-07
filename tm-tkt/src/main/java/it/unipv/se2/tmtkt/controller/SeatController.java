@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -29,7 +28,7 @@ public class SeatController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer eventId;
-	
+		
 	@Inject private SeatBean seatBean;
 	
 	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
@@ -43,6 +42,7 @@ public class SeatController implements Serializable {
 	public void paginate() {
 		int removed = 0;
 		pageItems = new ArrayList<Seat>();
+		seatBean.setPage(this.page);
 		seatBean.paginate();
 		List<Seat> seatBeanPageItems = seatBean.getPageItems();
 		if (seatBeanPageItems != null && !seatBeanPageItems.isEmpty()) {

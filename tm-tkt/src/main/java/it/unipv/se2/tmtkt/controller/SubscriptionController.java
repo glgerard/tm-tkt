@@ -43,9 +43,11 @@ public class SubscriptionController implements Serializable {
 	private static final short CARNET = 3;
 	
 	private Byte genreId;
+	private Integer saleId;
 	private Short subscriptionTypeId;
+	private Integer eventId;
 	private Short seatId;
-	private Short numberOfBookings;
+	private Short prepaidTickets;
 		
 	private PaymentMethod paymentMethod;
 		
@@ -53,7 +55,7 @@ public class SubscriptionController implements Serializable {
 	
 	@EJB private TransactionTestImpl transactionManager;
 	
-	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
+	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 
 	public String buy() {
@@ -105,24 +107,24 @@ public class SubscriptionController implements Serializable {
 									sale.getBookings().add(booking);
 									seat.getGenres().add(this.em.find(Genre.class,this.genreId));
 								} else {
-									this.numberOfBookings++;
+									this.prepaidTickets++;
 								}						
 							}
 						}
 					}
-					subscription.setNumberOfBookings(this.numberOfBookings);
+					subscription.setPrepaidTickets(this.prepaidTickets);
 				}
 				break;
 			case FREE_SEAT :
-				subscription.setNumberOfBookings((short)genre.getShows().size());
+				subscription.setPrepaidTickets((short)genre.getShows().size());
 				break;
 			case CARNET :
-				if ( this.numberOfBookings == 0 ) {
+				if ( this.prepaidTickets == 0 ) {
 					FacesContext.getCurrentInstance().addMessage(null,
 							new FacesMessage("A number of tickets is mandatory for a Carnet type subscription"));
 					return null;
 				} else {
-					subscription.setNumberOfBookings(this.numberOfBookings);
+					subscription.setPrepaidTickets(this.prepaidTickets);
 				}
 				break;
 			}
@@ -131,7 +133,7 @@ public class SubscriptionController implements Serializable {
 
 			sale.setSubscription(subscription);
 
-			return "/subscription/search?faces-redirect=true";
+			return "success";
 		} catch (Exception ex) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage("Exception (" + SubscriptionController.class.getName() + "): " +
@@ -142,6 +144,32 @@ public class SubscriptionController implements Serializable {
 		}
 	}
 
+	public String addBooking() {
+
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    HttpServletRequest request = (HttpServletRequest) context.
+	        getExternalContext().getRequest();
+	    
+		String userName = request.getRemoteUser();
+		
+		Sale sale = this.em.find(Sale.class, this.saleId);
+
+		if (userName.contentEquals(sale.getUser().getEmail())) {
+			Seat seat = this.em.find(Seat.class, this.seatId);
+			Event event = this.em.find(Event.class, this.eventId);
+			Booking booking = new Booking(new BookingId(this.eventId, this.seatId), seat, sale, event);
+			sale.getBookings().add(booking);
+			this.em.persist(booking);
+			this.em.persist(sale);
+			sale.getSubscription().setPrepaidTickets((short) (sale.getSubscription().getPrepaidTickets()-(short)1));
+			return "subscriptions";
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("ERROR: this sale id is not associated with your user!"));
+			return null;
+		}
+	}
+	
 	public Short getSubscriptionTypeId() {
 		return subscriptionTypeId;
 	}
@@ -156,14 +184,6 @@ public class SubscriptionController implements Serializable {
 
 	public void setSeatId(Short seatId) {
 		this.seatId = seatId;
-	}
-
-	public Short getNumberOfBookings() {
-		return numberOfBookings;
-	}
-
-	public void setNumberOfBookings(Short numberOfBookings) {
-		this.numberOfBookings = numberOfBookings;
 	}
 
 	public PaymentMethod getPaymentMethod() {
@@ -193,5 +213,37 @@ public class SubscriptionController implements Serializable {
 		default:
 			return null;
 		}
+	}
+
+	public Short getPrepaidTickets() {
+		return prepaidTickets;
+	}
+
+	public void setPrepaidTickets(Short prepaidTickets) {
+		this.prepaidTickets = prepaidTickets;
+	}
+
+	public Integer getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Integer eventId) {
+		this.eventId = eventId;
+	}
+
+	public Event getEvent() {
+		return this.em.getReference(Event.class, eventId);
+	}
+
+	public Seat getSeat() {
+		return this.em.getReference(Seat.class, seatId);
+	}
+
+	public Integer getSaleId() {
+		return saleId;
+	}
+
+	public void setSaleId(Integer saleId) {
+		this.saleId = saleId;
 	}
 }

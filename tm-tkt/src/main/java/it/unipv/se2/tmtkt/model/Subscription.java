@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 4, 2014 12:15:21 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
 
 
 import javax.persistence.Column;
@@ -33,7 +33,7 @@ public class Subscription  implements java.io.Serializable {
      private Sale sale;
      private SubscriptionType subscriptionType;
      private int subscriptionId;
-     private Short numberOfBookings;
+     private Short prepaidTickets;
 
     public Subscription() {
     }
@@ -45,13 +45,13 @@ public class Subscription  implements java.io.Serializable {
         this.subscriptionType = subscriptionType;
         this.subscriptionId = subscriptionId;
     }
-    public Subscription(Seat seat, Genre genre, Sale sale, SubscriptionType subscriptionType, int subscriptionId, Short numberOfBookings) {
+    public Subscription(Seat seat, Genre genre, Sale sale, SubscriptionType subscriptionType, int subscriptionId, Short prepaidTickets) {
        this.seat = seat;
        this.genre = genre;
        this.sale = sale;
        this.subscriptionType = subscriptionType;
        this.subscriptionId = subscriptionId;
-       this.numberOfBookings = numberOfBookings;
+       this.prepaidTickets = prepaidTickets;
     }
    
      @GenericGenerator(name="generator", strategy="foreign", parameters=@Parameter(name="property", value="sale"))@Id @GeneratedValue(generator="generator")
@@ -116,13 +116,13 @@ public class Subscription  implements java.io.Serializable {
     }
 
     
-    @Column(name="NUMBER_OF_BOOKINGS")
-    public Short getNumberOfBookings() {
-        return this.numberOfBookings;
+    @Column(name="PREPAID_TICKETS")
+    public Short getPrepaidTickets() {
+        return this.prepaidTickets;
     }
     
-    public void setNumberOfBookings(Short numberOfBookings) {
-        this.numberOfBookings = numberOfBookings;
+    public void setPrepaidTickets(Short prepaidTickets) {
+        this.prepaidTickets = prepaidTickets;
     }
 
 

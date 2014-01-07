@@ -38,7 +38,7 @@
 			<h:inputHidden id="subscriptionTypeId" value="#{subscriptionController.subscriptionTypeId}" />
 			<h:inputHidden id="genreId" value="#{subscriptionController.genreId}" />
 			<h:inputHidden id="seatId" value="#{subscriptionController.seatId}" />
-			<h:inputHidden id="numberOfBookings" value="#{subscriptionController.numberOfBookings}" />
+			<h:inputHidden id="prepaidTickets" value="#{subscriptionController.prepaidTickets}" />
 			
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 				<h:outputLabel for="paymentBeanPaymentPaymentMethod" value="Payment Method:"/>
@@ -61,7 +61,7 @@
 						<h:commandLink value="Delete" action="#{paymentBean.delete}" styleClass="btn btn-primary"/>
 					</c:when>
 					<c:otherwise>
-						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>
+						<h:link value="Cancel" outcome="choose" styleClass="btn btn-primary"/>
 					</c:otherwise>
 				</c:choose>
 			</div>

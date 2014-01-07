@@ -39,14 +39,14 @@
 			<h:panelGrid id="panel1" columnClasses="label,component,required"
 				columns="3">
 				<h:outputLabel
-					for="subscriptionBeanSubscriptionNumberOfBookings"
-					value="Number Of Bookings:" />
+					for="subscriptionBeanSubscriptionPrepaidTickets"
+					value="Prepaid Tickets:" />
 				<h:panelGroup>
-					<h:inputText id="subscriptionBeanSubscriptionNumberOfBookings"
-						value="#{subscriptionController.numberOfBookings}">
+					<h:inputText id="subscriptionBeanSubscriptionPrepaidTickets"
+						value="#{subscriptionController.prepaidTickets}">
 						<f:validateLongRange minimum="5" maximum="50"/>
 					</h:inputText>
-					<h:message for="subscriptionBeanSubscriptionNumberOfBookings"
+					<h:message for="subscriptionBeanSubscriptionPrepaidTickets"
 						styleClass="error" />
 				</h:panelGroup>
 				<h:outputText />
@@ -64,7 +64,7 @@
 							styleClass="btn btn-primary" />
 					</c:when>
 					<c:otherwise>
-						<h:link value="Cancel" outcome="search"
+						<h:link value="Cancel" outcome="choose"
 							styleClass="btn btn-primary" />
 					</c:otherwise>
 				</c:choose>

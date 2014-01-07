@@ -211,10 +211,16 @@ public class ShowBean implements Serializable
    {
       this.page = 0;
    }
+   
+   private Byte genreId;
 
    public void paginate()
    {
 
+	  if (genreId != null ) {
+		  this.example.setGenre(this.entityManager.find(Genre.class, genreId));
+	  }
+	  
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
 
       // Populate this.count
@@ -356,4 +362,12 @@ public class ShowBean implements Serializable
       this.add = new Show();
       return added;
    }
+
+public Byte getGenreId() {
+	return genreId;
+}
+
+public void setGenreId(Byte genreId) {
+	this.genreId = genreId;
+}
 }

@@ -5,19 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.ConversationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 
 import it.unipv.se2.tmtkt.model.Sale;
-import it.unipv.se2.tmtkt.view.SaleBean;
+import it.unipv.se2.tmtkt.model.User;
 
 @Named
 @Stateful
-@RequestScoped
+@ConversationScoped
 public class SaleController implements Serializable {
 	/**
 	 * 
@@ -25,42 +31,69 @@ public class SaleController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String userName;
-	private char saleType;
+	private char saleType = 'S';
 	
-	@Inject private SaleBean saleBean;
-	
-	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
+	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 	
 	private int page;
 	private long count;
 	private List<Sale> pageItems;
-
+	
 	public void paginate() {
-		int removed = 0;
-		pageItems = new ArrayList<Sale>();
-		saleBean.paginate();
-		List<Sale> saleBeanPageItems = saleBean.getPageItems();
-		if (saleBeanPageItems != null && !saleBeanPageItems.isEmpty()) {
-			for (Sale s : saleBeanPageItems) {
-				String email = s.getUser().getEmail();
-				if (email.equals(this.userName) &&
-					s.getSaleType() == this.saleType)
-					pageItems.add(s);
-				else
-					removed++;
-			}
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletRequest request = (HttpServletRequest) context
+				.getExternalContext().getRequest();
+
+		if (this.userName == null) {
+			this.userName = request.getRemoteUser();
 		}
-		this.count = saleBean.getCount() - removed;
+
+		if (this.saleType != 'S' && this.saleType != 'T') {
+			this.saleType = 'S';
+		}
+
+		CriteriaBuilder builder = this.em.getCriteriaBuilder();
+
+		// Populate this.count
+
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		Root<Sale> root = countCriteria.from(Sale.class);
+		countCriteria = countCriteria.select(builder.count(root)).where(
+				getSearchPredicates(root));
+		this.count = this.em.createQuery(countCriteria).getSingleResult();
+
+		// Populate this.pageItems
+
+		CriteriaQuery<Sale> criteria = builder.createQuery(Sale.class);
+		root = criteria.from(Sale.class);
+		TypedQuery<Sale> query = this.em.createQuery(criteria.select(root)
+				.where(getSearchPredicates(root)));
+		query.setFirstResult(this.page * getPageSize()).setMaxResults(
+				getPageSize());
+		this.pageItems = query.getResultList();
+	}
+
+	private Predicate[] getSearchPredicates(Root<Sale> root) {
+
+		CriteriaBuilder builder = this.em.getCriteriaBuilder();
+		List<Predicate> predicatesList = new ArrayList<Predicate>();
+
+		User user = this.em.getReference(User.class, this.userName);
+		if (user != null) {
+			predicatesList.add(builder.equal(root.get("user"), user));
+		}
+		predicatesList.add(builder.equal(root.get("saleType"), this.saleType));
+
+		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
 		
 	public void search() {
-		saleBean.setPage(0);
 		this.page = 0;
 	}
 	
 	public int getPageSize() {
-		return saleBean.getPageSize();
+		return 10;
 	}
 
 	public int getPage() {

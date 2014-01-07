@@ -265,10 +265,10 @@ public class SubscriptionBean implements Serializable
       {
          predicatesList.add(builder.equal(root.get("subscriptionId"), subscriptionId));
       }
-      Short numberOfBookings = this.example.getNumberOfBookings();
-      if (numberOfBookings != null && numberOfBookings.intValue() != 0)
+      Short prepaidTickets = this.example.getPrepaidTickets();
+      if (prepaidTickets != null && prepaidTickets.intValue() != 0)
       {
-         predicatesList.add(builder.equal(root.get("numberOfBookings"), numberOfBookings));
+         predicatesList.add(builder.equal(root.get("prepaidTickets"), prepaidTickets));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);

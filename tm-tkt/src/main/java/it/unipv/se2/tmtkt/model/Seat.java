@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 4, 2014 12:15:21 PM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;

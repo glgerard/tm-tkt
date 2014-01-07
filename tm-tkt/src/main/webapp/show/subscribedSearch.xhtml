@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/scaffold/pageTemplate.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="saleId" />
+		<f:viewParam name="genreId" value="#{showBean.genreId}"/>
+		<f:viewParam name="page" value="#{showBean.page}"/>
+		<f:event type="preRenderView" listener="#{showBean.paginate}"/>
+	</f:metadata>
+
+	<ui:param name="pageTitle" value="Search Show entities"/>
+
+	<ui:define name="header">
+		Show
+	</ui:define>
+
+	<ui:define name="subheader">
+		<h:outputText value="Search #{showBean.example.genre.name} Shows"/>
+	</ui:define>
+
+	<ui:define name="footer"/>
+
+	<ui:define name="main">
+		<h:form id="search">
+			<f:validateBean disabled="true">
+				<h:panelGroup styleClass="search">
+
+					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="showBeanExampleTitle" value="Title:"/>
+						<h:panelGroup>
+							<h:inputText id="showBeanExampleTitle" maxLength="80" value="#{showBean.example.title}"/>
+							<h:message for="showBeanExampleTitle" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="showBeanExampleAuthorName" value="Author Name:"/>
+						<h:panelGroup>
+							<h:inputText id="showBeanExampleAuthorName" maxLength="80" value="#{showBean.example.authorName}"/>
+							<h:message for="showBeanExampleAuthorName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="showBeanExampleDirectorName" value="Director Name:"/>
+						<h:panelGroup>
+							<h:inputText id="showBeanExampleDirectorName" maxLength="80" value="#{showBean.example.directorName}"/>
+							<h:message for="showBeanExampleDirectorName" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="showBeanExampleFirstEventDate" value="From (Mon d, yyyy):"/>
+						<h:panelGroup>
+						    <p:calendar value="#{showBean.example.firstEventDate}" id="showBeanExampleFirstEventDate"
+						    	pattern="MMM d, yyyy"
+						    	showOn="button"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="showBeanExampleLastEventDate" value="To (Mon dd, yyyy):"/>
+						<h:panelGroup>
+							<p:calendar value="#{showBean.example.lastEventDate}" id="showBeanExampleLastEventDate"
+								pattern="MMM d, yyyy"
+								showOn="button"/>
+						</h:panelGroup>
+						<h:outputText/>
+					</h:panelGrid>
+					<h:panelGroup styleClass="buttons">
+						<h:commandLink value="Search" action="#{showBean.search}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Create New" action="#{showBean.create}" styleClass="btn btn-primary"
+										rendered="#{loginBean.privileged}"/>
+					</h:panelGroup>
+				</h:panelGroup>
+			</f:validateBean>
+			
+			<h:dataTable id="showBeanPageItems" styleClass="data-table" value="#{showBean.pageItems}" var="_item">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Title"/>
+					</f:facet>
+					<h:link outcome="viewShow">
+						<f:param name="saleId" value="#{param['saleId']}" />
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemTitle" value="#{_item.title}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Author"/>
+					</f:facet>
+					<h:link outcome="viewShow">
+						<f:param name="saleId" value="#{param['saleId']}" />
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemAuthorName" value="#{_item.authorName}" />
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="From:"/>
+					</f:facet>
+					<h:link outcome="viewShow">
+						<f:param name="saleId" value="#{param['saleId']}" />
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemFirstEventDate" value="#{_item.firstEventDate}">
+							<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="To:"/>
+					</f:facet>
+					<h:link outcome="viewShow">
+						<f:param name="saleId" value="#{param['saleId']}" />
+						<f:param name="id" value="#{_item.showId}"/>
+						<h:outputText id="itemLastEventDate" value="#{_item.lastEventDate}">
+							<f:convertDateTime type="date" pattern="MMM d, yyyy"/>
+						</h:outputText>
+					</h:link>
+				</h:column>
+			</h:dataTable>
+			<ui:include src="/resources/scaffold/paginator.xhtml">
+				<ui:param name="paginatorBean" value="#{showBean}"/>
+			</ui:include>
+		</h:form>
+			
+	</ui:define>
+
+</ui:composition>

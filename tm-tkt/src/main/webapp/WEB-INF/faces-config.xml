@@ -10,27 +10,6 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <from-view-id>/show/view.xhtml</from-view-id>
-  <navigation-case>
-   <from-outcome>viewEvent</from-outcome>
-   <to-view-id>/event/view.xhtml</to-view-id>
-  </navigation-case>
- </navigation-rule>
- <navigation-rule>
-  <from-view-id>/event/view.xhtml</from-view-id>
-  <navigation-case>
-   <from-outcome>buyTicket</from-outcome>
-   <to-view-id>/ticket/buyTicket.xhtml</to-view-id>
-  </navigation-case>
- </navigation-rule>
- <navigation-rule>
-  <from-view-id>/ticket/buyTicket.xhtml</from-view-id>
-  <navigation-case>
-   <from-outcome>payTicket</from-outcome>
-   <to-view-id>/payment/payTicket.xhtml</to-view-id>
-  </navigation-case>
- </navigation-rule>
- <navigation-rule>
   <from-view-id>/payment/payTicket.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>viewTicket</from-outcome>
@@ -100,6 +79,51 @@
   <navigation-case>
    <from-outcome>showTickets</from-outcome>
    <to-view-id>/sale/tickets.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/payment/paySubscription.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>success</from-outcome>
+   <to-view-id>/sale/subscriptions.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>choose</from-outcome>
+   <to-view-id>/subscription/choose.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/show/view.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>chooseSeat</from-outcome>
+   <to-view-id>/seat/select.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/seat/select.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>payTicket</from-outcome>
+   <to-view-id>/payment/payTicket.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>addBooking</from-outcome>
+   <to-view-id>/subscription/addBooking.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/show/subscribedSearch.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>viewShow</from-outcome>
+   <to-view-id>/show/view.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <navigation-rule>
+  <from-view-id>/subscription/addBooking.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>subscriptions</from-outcome>
+   <to-view-id>/sale/subscriptions.xhtml</to-view-id>
+   <redirect/>
   </navigation-case>
  </navigation-rule>
 </faces-config>

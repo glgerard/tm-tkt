@@ -26,7 +26,8 @@
 
 	<ui:define name="footer"/>
 
-	<ui:define name="main">			
+	<ui:define name="main">		
+		<h:form id="lookup">	
 			<h:dataTable id="saleBeanPageItems" styleClass="data-table" value="#{saleController.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
@@ -66,17 +67,18 @@
 				</h:column>
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="Available Bookings"/>
+						<h:outputText value="Prepaid Tickets"/>
 					</f:facet>
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemSubscriptioNumberOfBookings" value="#{_item.subscription.numberOfBookings}"/>
+						<h:outputText id="itemSubscriptioPrepaidTickets" value="#{_item.subscription.prepaidTickets}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{saleController}"/>
-			</ui:include>			
+			</ui:include>	
+		</h:form>
 	</ui:define>
 
 </ui:composition>

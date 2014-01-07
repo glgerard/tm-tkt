@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
@@ -26,7 +27,7 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
-			<h:outputLabel for="subscriptionBeanSubscriptionSeat" value="Seat:"/>
+			<h:outputLabel for="subscriptionBeanSubscriptionSeat" value="Preferred Seat:"/>
 			<h:link id="subscriptionBeanSubscriptionSeat" outcome="/seat/view" value="#{subscriptionBean.subscription.seat.seatId}">
 				<f:param name="id" value="#{subscriptionBean.subscription.seat.seatId}"/>
 			</h:link>
@@ -69,11 +70,22 @@
 					</h:column>
 					<h:column>
 						<f:facet name="header">
+							<h:outputText value="Show"/>
+						</f:facet>
+						<h:link outcome="/booking/view">
+							<f:param name="id" value="#{_item.id}"/>
+							<h:outputText id="forgeviewdisplayitemShow" value="#{forgeview:display(_item.event.show.title)}"/>
+						</h:link>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
 							<h:outputText value="Event"/>
 						</f:facet>
 						<h:link outcome="/booking/view">
 							<f:param name="id" value="#{_item.id}"/>
-							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event.datetime)}"/>
+							<h:outputText id="forgeviewdisplayitemEvent" value="#{forgeview:display(_item.event.datetime)}">
+								<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
+							</h:outputText>
 						</h:link>
 					</h:column>
 				</h:dataTable>
@@ -88,16 +100,27 @@
 			<h:outputLabel for="subscriptionBeanSubscriptionSubscriptionId" value="Subscription Id:"/>
 			<h:outputText id="subscriptionBeanSubscriptionSubscriptionId" value="#{subscriptionBean.subscription.subscriptionId}"/>
 			<h:outputText/>
-			<h:outputLabel for="subscriptionBeanSubscriptionNumberOfBookings" value="Number Of Bookings:"/>
-			<h:outputText id="subscriptionBeanSubscriptionNumberOfBookings" value="#{subscriptionBean.subscription.numberOfBookings}"/>
+			<h:outputLabel for="subscriptionBeanSubscriptionPrepaidTickets" value="Prepaid Tickets: "/>
+			<h:panelGroup>
+			<h:outputText value="#{subscriptionBean.subscription.prepaidTickets} "/>
+			<h:link id="subscriptionBeanSubscriptionPrepaidTickets" outcome="/show/subscribedSearch">
+				<f:param name="saleId" value="#{subscriptionBean.subscription.saleId}"/>
+				<f:param name="genreId" value="#{subscriptionBean.subscription.genre.genreId}"/>
+				<h:outputText value="Click to Redeem"/>
+			</h:link>
+			</h:panelGroup>
 			<h:outputText/>
 		</h:panelGrid>
 
+		<c:choose>
+		<c:when test="#{loginBean.privileged}">
 		<div class="buttons">
 			<h:link value="View All" outcome="search" styleClass="btn btn-primary"/> 
 			<h:link value="Edit" outcome="create" includeViewParams="true" styleClass="btn btn-primary"/>
 			<h:link value="Create New" outcome="create" styleClass="btn btn-primary"/>
 		</div>
+		</c:when>
+		</c:choose>
 	</ui:define>
 
 </ui:composition>

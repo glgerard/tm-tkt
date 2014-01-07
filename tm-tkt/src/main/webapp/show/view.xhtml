@@ -9,6 +9,7 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
+		<f:viewParam name="saleId" />
 		<f:viewParam name="id" value="#{showBean.id}"/>
 		<f:event type="preRenderView" listener="#{showBean.retrieve}"/>
 	</f:metadata>
@@ -54,14 +55,15 @@
 				<f:convertDateTime type="date"/>
 			</h:outputText>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowEvents" value="Events:"/>
+			<h:outputLabel for="showBeanShowEvents" value="Select a date:"/>
 			<h:dataTable id="showBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(showBean.show.events)}" var="_item">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Datetime"/>
 					</f:facet>
-					<h:link outcome="viewEvent">
-						<f:param name="id" value="#{_item.eventId}"/>
+					<h:link outcome="chooseSeat">
+						<f:param name="saleId" value="#{param['saleId']}" />
+						<f:param name="eventId" value="#{_item.eventId}"/>
 						<h:outputText id="itemDatetime" value="#{_item.datetime}">
 							<f:convertDateTime pattern="MMM d, yyyy hh:mm:ss a" type="both"/>
 						</h:outputText>
