@@ -97,7 +97,13 @@
   PATH="/user/register.xhtml" SHAPE="984,488,50,25"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#sale#tickets.xhtml"
-  PATH="/sale/tickets.xhtml" SHAPE="104,504,50,25" model-entity="JSFProcessGroup"/>
+  PATH="/sale/tickets.xhtml" SHAPE="104,504,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#sale#tickets.xhtml:0" NAME="item"
+   PATH="/sale/tickets.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="view::#sale#view.xhtml" NAME="output"
+    PATH="/sale/view.xhtml" TARGET="rules:#sale#view.xhtml" TITLE="view" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,273,0,0" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
    <PROCESS-ITEM-OUTPUT ID="listShows::#show#search.xhtml" NAME="output"
@@ -143,6 +149,15 @@
    <PROCESS-ITEM-OUTPUT ID="subscriptions::#sale#subscriptions.xhtml"
     NAME="output" PATH="/sale/subscriptions.xhtml"
     TARGET="rules:#sale#subscriptions.xhtml" TITLE="subscriptions" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#sale#view.xhtml" PATH="/sale/view.xhtml"
+  SHAPE="272,496,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#sale#view.xhtml:0" NAME="item"
+   PATH="/sale/view.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="search::#sale#tickets.xhtml" NAME="output"
+    PATH="/sale/tickets.xhtml" TARGET="rules:#sale#tickets.xhtml"
+    TITLE="search" model-entity="JSFProcessItemOutput"/>
   </PROCESS-ITEM>
  </PROCESS-ITEM>
 </PROCESS>

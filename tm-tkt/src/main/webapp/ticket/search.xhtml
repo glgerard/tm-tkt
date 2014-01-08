@@ -38,7 +38,6 @@
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{ticketBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{ticketBean.create}" styleClass="btn btn-primary"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>
@@ -52,6 +51,40 @@
 						<f:param name="id" value="#{_item.saleId}"/>
 						<h:outputText id="itemTicketId" value="#{_item.ticketId}"/>
 					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="User"/>
+					</f:facet>
+					<h:link outcome="/ticket/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemTicketUser" value="#{_item.sale.user.email}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Bookings"/>
+					</f:facet>
+					<h:dataTable value="#{saleController.getListAsSet(_item.sale.bookings)}" var="booking">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Show"/>
+						</f:facet>
+						<h:outputText value="#{booking.event.show.title}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Datetime"/>
+						</f:facet>
+						<h:outputText value="#{booking.event.datetime}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Seat"/>
+						</f:facet>
+						<h:outputText value="#{booking.seat.seatId}"/>
+					</h:column>
+					</h:dataTable>
 				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">

@@ -21,6 +21,8 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -29,6 +31,7 @@ import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
 import it.unipv.se2.tmtkt.model.SubscriptionType;
+import it.unipv.se2.tmtkt.model.User;
 
 /**
  * Backing bean for Subscription entities.
@@ -40,10 +43,10 @@ import it.unipv.se2.tmtkt.model.SubscriptionType;
  * custom base class.
  */
 
-@Named
+@Named(value="subscriptionBean")
 @Stateful
 @ConversationScoped
-public class SubscriptionBean implements Serializable
+public class SubscriptionManager implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
@@ -183,6 +186,7 @@ public class SubscriptionBean implements Serializable
    private List<Subscription> pageItems;
 
    private Subscription example = new Subscription();
+   private String userName;
 
    public int getPage()
    {
@@ -223,6 +227,7 @@ public class SubscriptionBean implements Serializable
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
       Root<Subscription> root = countCriteria.from(Subscription.class);
+//      Join<Subscription,Sale> sale = root.join("sale", JoinType.LEFT);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -232,6 +237,7 @@ public class SubscriptionBean implements Serializable
 
       CriteriaQuery<Subscription> criteria = builder.createQuery(Subscription.class);
       root = criteria.from(Subscription.class);
+//      sale = root.join("sale", JoinType.LEFT);
       TypedQuery<Subscription> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
@@ -265,10 +271,9 @@ public class SubscriptionBean implements Serializable
       {
          predicatesList.add(builder.equal(root.get("subscriptionId"), subscriptionId));
       }
-      Short prepaidTickets = this.example.getPrepaidTickets();
-      if (prepaidTickets != null && prepaidTickets.intValue() != 0)
+      if (this.userName != null)
       {
-         predicatesList.add(builder.equal(root.get("prepaidTickets"), prepaidTickets));
+    		  predicatesList.add(builder.equal(root.get("sale").get("user").get("email"), this.userName));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
@@ -304,7 +309,7 @@ public class SubscriptionBean implements Serializable
    public Converter getConverter()
    {
 
-      final SubscriptionBean ejbProxy = this.sessionContext.getBusinessObject(SubscriptionBean.class);
+      final SubscriptionManager ejbProxy = this.sessionContext.getBusinessObject(SubscriptionManager.class);
 
       return new Converter()
       {
@@ -349,4 +354,12 @@ public class SubscriptionBean implements Serializable
       this.add = new Subscription();
       return added;
    }
+
+public String getUserName() {
+	return userName;
+}
+
+public void setUserName(String userName) {
+	this.userName = userName;
+}
 }

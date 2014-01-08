@@ -37,6 +37,31 @@
 						<h:outputText id="itemSaleId" value="#{_item.ticket.ticketId}"/>
 					</h:link>
 				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Bookings"/>
+					</f:facet>
+					<h:dataTable value="#{saleController.getListAsSet(_item.ticket.sale.bookings)}" var="booking">
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Show"/>
+						</f:facet>
+						<h:outputText value="#{booking.event.show.title}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Datetime"/>
+						</f:facet>
+						<h:outputText value="#{booking.event.datetime}"/>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="Seat"/>
+						</f:facet>
+						<h:outputText value="#{booking.seat.seatId}"/>
+					</h:column>
+					</h:dataTable>
+				</h:column>
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{saleController}"/>

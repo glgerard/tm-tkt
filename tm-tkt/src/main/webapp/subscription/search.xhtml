@@ -30,7 +30,7 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="subscriptionBeanExampleSeat" value="Seat:"/>
+						<h:outputLabel for="subscriptionBeanExampleSeat" value="Preferred seat:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatBean.converter}" id="subscriptionBeanExampleSeat" value="#{subscriptionBean.example.seat}">
 								<f:selectItem/>
@@ -63,16 +63,15 @@
 							<h:message for="subscriptionBeanExampleSubscriptionId" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
-						<h:outputLabel for="subscriptionBeanExamplePrepaidTickets" value="Prepaid Tickets:"/>
+						<h:outputLabel for="subscriptionBeanUserName" value="User name:"/>
 						<h:panelGroup>
-							<h:inputText id="subscriptionBeanExamplePrepaidTickets" value="#{subscriptionBean.example.prepaidTickets}"/>
-							<h:message for="subscriptionBeanExamplePrepaidTickets" styleClass="error"/>
+							<h:inputText id="subscriptionBeanUserName" value="#{subscriptionBean.userName}"/>
+							<h:message for="subscriptionBeanUserName" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
 					<h:panelGroup styleClass="buttons">
 						<h:commandLink value="Search" action="#{subscriptionBean.search}" styleClass="btn btn-primary"/>
-						<h:commandLink value="Create New" action="#{subscriptionBean.create}" styleClass="btn btn-primary"/>
 					</h:panelGroup>
 				</h:panelGroup>
 			</f:validateBean>
@@ -85,6 +84,42 @@
 					<h:link outcome="/subscription/view">
 						<f:param name="id" value="#{_item.saleId}"/>
 						<h:outputText id="itemSubscriptionId" value="#{_item.subscriptionId}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Type"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionType" value="#{_item.subscriptionType.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Seat"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionSeat" value="#{_item.seat.seatId}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Genre"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionGenre" value="#{_item.genre.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="User"/>
+					</f:facet>
+					<h:link outcome="/subscription/view">
+						<f:param name="id" value="#{_item.saleId}"/>
+						<h:outputText id="itemSubscriptionUser" value="#{_item.sale.user.email}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

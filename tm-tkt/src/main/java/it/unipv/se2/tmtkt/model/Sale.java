@@ -133,10 +133,6 @@ public class Sale  implements java.io.Serializable {
     public void setSubscription(Subscription subscription) {
         this.subscription = subscription;
     }
-
-
-
-
 }
 
 

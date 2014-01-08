@@ -3,6 +3,7 @@ package it.unipv.se2.tmtkt.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
@@ -18,6 +19,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 
+import it.unipv.se2.tmtkt.model.Booking;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.User;
 
@@ -135,5 +137,9 @@ public class SaleController implements Serializable {
 	public void setSaleType(char saleType) {
 		this.saleType = saleType;
 	}
+
+    public List<Booking> getListAsSet(Set<Booking> set) {
+    	  return new ArrayList<Booking>(set);
+    }
 
 }

@@ -30,46 +30,46 @@
 			<f:validateBean disabled="true">
 				<h:panelGroup styleClass="search">
 					<h:panelGrid columnClasses="label,component,required" columns="3">
-						<h:outputLabel for="seatBeanExampleSeatId" value="Seat Id:" />
+						<h:outputLabel for="seatControllerExampleSeatId" value="Seat Id:" />
 						<h:panelGroup>
-							<h:inputText id="seatBeanExampleSeatId"
-								value="#{seatBean.example.seatId}" />
-							<h:message for="seatBeanExampleSeatId" styleClass="error" />
+							<h:inputText id="seatControllerExampleSeatId"
+								value="#{seatController.example.seatId}" />
+							<h:message for="seatControllerExampleSeatId" styleClass="error" />
 						</h:panelGroup>
 						<h:outputText />
-						<h:outputLabel for="seatBeanExampleSeatCategory"
+						<h:outputLabel for="seatControllerExampleSeatCategory"
 							value="Seat Category:" />
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seatCategoryBean.converter}"
-								id="seatBeanExampleSeatCategory"
-								value="#{seatBean.example.seatCategory}">
+								id="seatControllerExampleSeatCategory"
+								value="#{seatController.example.seatCategory}">
 								<f:selectItem />
 								<f:selectItems value="#{seatCategoryBean.all}" var="_item"
 									itemValue="#{_item}" itemLabel="#{_item.categoryName}" />
 							</h:selectOneMenu>
-							<h:message for="seatBeanExampleSeatCategory" styleClass="error" />
+							<h:message for="seatControllerExampleSeatCategory" styleClass="error" />
 						</h:panelGroup>
 						<h:outputText />
-						<h:outputLabel for="seatBeanExampleSector" value="Sector:" />
+						<h:outputLabel for="seatControllerExampleSector" value="Sector:" />
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{sectorBean.converter}"
-								id="seatBeanExampleSector" value="#{seatBean.example.sector}">
+								id="seatControllerExampleSector" value="#{seatController.example.sector}">
 								<f:selectItem />
 								<f:selectItems value="#{sectorBean.all}" var="_item"
 									itemValue="#{_item}" itemLabel="#{_item.sectorName}" />
 							</h:selectOneMenu>
-							<h:message for="seatBeanExampleSector" styleClass="error" />
+							<h:message for="seatControllerExampleSector" styleClass="error" />
 						</h:panelGroup>
 						<h:outputText />
-						<h:outputLabel for="seatBeanExampleRow" value="Row:" />
+						<h:outputLabel for="seatControllerExampleRow" value="Row:" />
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{rowBean.converter}"
-								id="seatBeanExampleRow" value="#{seatBean.example.row}">
+								id="seatControllerExampleRow" value="#{seatController.example.row}">
 								<f:selectItem />
 								<f:selectItems value="#{rowBean.all}" var="_item"
 									itemValue="#{_item}" itemLabel="#{_item.rowName}" />
 							</h:selectOneMenu>
-							<h:message for="seatBeanExampleRow" styleClass="error" />
+							<h:message for="seatControllerExampleRow" styleClass="error" />
 						</h:panelGroup>
 						<h:outputText />
 					</h:panelGrid>
@@ -82,7 +82,7 @@
 
 			<c:choose>
 				<c:when test="#{!empty param['saleId']}">
-					<h:dataTable id="seatBeanPageItems" styleClass="data-table"
+					<h:dataTable id="seatControllerPageItems" styleClass="data-table"
 						value="#{seatController.pageItems}" var="_item">
 						<h:column>
 							<f:facet name="header">
@@ -131,7 +131,7 @@
 					</h:dataTable>
 				</c:when>
 				<c:otherwise>
-					<h:dataTable id="seatBeanPageItems" styleClass="data-table"
+					<h:dataTable id="seatControllerPageItems" styleClass="data-table"
 						value="#{seatController.pageItems}" var="_item">
 						<h:column>
 							<f:facet name="header">
