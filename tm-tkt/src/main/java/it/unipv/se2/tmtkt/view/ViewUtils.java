@@ -47,7 +47,17 @@ public final class ViewUtils
             for (Field field : object.getClass().getDeclaredFields())
             {
                // Find the primary key field and display it
-               if (field.getAnnotation(Id.class) != null)
+            	if (field.getName().contentEquals("name")) {
+                    // Find a matching getter and invoke it to display the key
+                    for (Method method : object.getClass().getDeclaredMethods())
+                    {
+                       if (method.equals(new PropertyDescriptor(field.getName(), object.getClass()).getReadMethod()))
+                       {
+                          return method.invoke(object).toString();
+                       }
+                    }
+            	}
+            	else if (field.getAnnotation(Id.class) != null)
                {
                   // Find a matching getter and invoke it to display the key
                   for (Method method : object.getClass().getDeclaredMethods())

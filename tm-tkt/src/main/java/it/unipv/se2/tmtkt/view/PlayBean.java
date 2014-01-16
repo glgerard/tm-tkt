@@ -25,16 +25,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import it.unipv.se2.tmtkt.model.Show;
+import it.unipv.se2.tmtkt.model.Play;
 import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Genre;
 
 import java.util.Iterator;
 
 /**
- * Backing bean for Show entities.
+ * Backing bean for Play entities.
  * <p>
- * This class provides CRUD functionality for all Show entities. It focuses
+ * This class provides CRUD functionality for all Play entities. It focuses
  * purely on Java EE 6 standards (e.g. <tt>&#64;ConversationScoped</tt> for
  * state management, <tt>PersistenceContext</tt> for persistence,
  * <tt>CriteriaBuilder</tt> for searches) rather than introducing a CRUD framework or
@@ -44,13 +44,13 @@ import java.util.Iterator;
 @Named
 @Stateful
 @ConversationScoped
-public class ShowBean implements Serializable
+public class PlayBean implements Serializable
 {
 
    private static final long serialVersionUID = 1L;
 
    /*
-    * Support creating and retrieving Show entities
+    * Support creating and retrieving Play entities
     */
 
    private Short id;
@@ -65,11 +65,11 @@ public class ShowBean implements Serializable
       this.id = id;
    }
 
-   private Show show;
+   private Play Play;
 
-   public Show getShow()
+   public Play getPlay()
    {
-      return this.show;
+      return this.Play;
    }
 
    @Inject
@@ -100,22 +100,22 @@ public class ShowBean implements Serializable
 
       if (this.id == null)
       {
-         this.show = this.example;
+         this.Play = this.example;
       }
       else
       {
-         this.show = findById(getId());
+         this.Play = findById(getId());
       }
    }
 
-   public Show findById(Short id)
+   public Play findById(Short id)
    {
 
-      return this.entityManager.find(Show.class, id);
+      return this.entityManager.find(Play.class, id);
    }
 
    /*
-    * Support updating and deleting Show entities
+    * Support updating and deleting Play entities
     */
 
    public String update()
@@ -126,13 +126,13 @@ public class ShowBean implements Serializable
       {
          if (this.id == null)
          {
-            this.entityManager.persist(this.show);
+            this.entityManager.persist(this.Play);
             return "search?faces-redirect=true";
          }
          else
          {
-            this.entityManager.merge(this.show);
-            return "view?faces-redirect=true&id=" + this.show.getShowId();
+            this.entityManager.merge(this.Play);
+            return "view?faces-redirect=true&id=" + this.Play.getShowId();
          }
       }
       catch (Exception e)
@@ -148,16 +148,16 @@ public class ShowBean implements Serializable
 
       try
       {
-         Show deletableEntity = findById(getId());
+         Play deletableEntity = findById(getId());
          Genre genre = deletableEntity.getGenre();
-         genre.getShows().remove(deletableEntity);
+         genre.getPlays().remove(deletableEntity);
          deletableEntity.setGenre(null);
          this.entityManager.merge(genre);
          Iterator<Event> iterEvents = deletableEntity.getEvents().iterator();
          for (; iterEvents.hasNext();)
          {
             Event nextInEvents = iterEvents.next();
-            nextInEvents.setShow(null);
+            nextInEvents.setPlay(null);
             iterEvents.remove();
             this.entityManager.merge(nextInEvents);
          }
@@ -173,14 +173,14 @@ public class ShowBean implements Serializable
    }
 
    /*
-    * Support searching Show entities with pagination
+    * Support searching Play entities with pagination
     */
 
    private int page;
    private long count;
-   private List<Show> pageItems;
+   private List<Play> pageItems;
 
-   private Show example = new Show();
+   private Play example = new Play();
 
    public int getPage()
    {
@@ -197,12 +197,12 @@ public class ShowBean implements Serializable
       return 10;
    }
 
-   public Show getExample()
+   public Play getExample()
    {
       return this.example;
    }
 
-   public void setExample(Show example)
+   public void setExample(Play example)
    {
       this.example = example;
    }
@@ -212,7 +212,7 @@ public class ShowBean implements Serializable
       this.page = 0;
    }
    
-   private Byte genreId;
+   private Short genreId;
 
    public void paginate()
    {
@@ -226,7 +226,7 @@ public class ShowBean implements Serializable
       // Populate this.count
 
       CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-      Root<Show> root = countCriteria.from(Show.class);
+      Root<Play> root = countCriteria.from(Play.class);
       countCriteria = countCriteria.select(builder.count(root)).where(
             getSearchPredicates(root));
       this.count = this.entityManager.createQuery(countCriteria)
@@ -234,16 +234,16 @@ public class ShowBean implements Serializable
 
       // Populate this.pageItems
 
-      CriteriaQuery<Show> criteria = builder.createQuery(Show.class);
-      root = criteria.from(Show.class);
-      TypedQuery<Show> query = this.entityManager.createQuery(criteria
+      CriteriaQuery<Play> criteria = builder.createQuery(Play.class);
+      root = criteria.from(Play.class);
+      TypedQuery<Play> query = this.entityManager.createQuery(criteria
             .select(root).where(getSearchPredicates(root)));
       query.setFirstResult(this.page * getPageSize()).setMaxResults(
             getPageSize());
       this.pageItems = query.getResultList();
    }
 
-   private Predicate[] getSearchPredicates(Root<Show> root)
+   private Predicate[] getSearchPredicates(Root<Play> root)
    {
 
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
@@ -287,7 +287,7 @@ public class ShowBean implements Serializable
       return predicatesList.toArray(new Predicate[predicatesList.size()]);
    }
 
-   public List<Show> getPageItems()
+   public List<Play> getPageItems()
    {
       return this.pageItems;
    }
@@ -298,17 +298,17 @@ public class ShowBean implements Serializable
    }
 
    /*
-    * Support listing and POSTing back Show entities (e.g. from inside an
+    * Support listing and POSTing back Play entities (e.g. from inside an
     * HtmlSelectOneMenu)
     */
 
-   public List<Show> getAll()
+   public List<Play> getAll()
    {
 
-      CriteriaQuery<Show> criteria = this.entityManager
-            .getCriteriaBuilder().createQuery(Show.class);
+      CriteriaQuery<Play> criteria = this.entityManager
+            .getCriteriaBuilder().createQuery(Play.class);
       return this.entityManager.createQuery(
-            criteria.select(criteria.from(Show.class))).getResultList();
+            criteria.select(criteria.from(Play.class))).getResultList();
    }
 
    @Resource
@@ -317,7 +317,7 @@ public class ShowBean implements Serializable
    public Converter getConverter()
    {
 
-      final ShowBean ejbProxy = this.sessionContext.getBusinessObject(ShowBean.class);
+      final PlayBean ejbProxy = this.sessionContext.getBusinessObject(PlayBean.class);
 
       return new Converter()
       {
@@ -340,7 +340,7 @@ public class ShowBean implements Serializable
                return "";
             }
 
-            return String.valueOf(((Show) value).getShowId());
+            return String.valueOf(((Play) value).getShowId());
          }
       };
    }
@@ -349,25 +349,25 @@ public class ShowBean implements Serializable
     * Support adding children to bidirectional, one-to-many tables
     */
 
-   private Show add = new Show();
+   private Play add = new Play();
 
-   public Show getAdd()
+   public Play getAdd()
    {
       return this.add;
    }
 
-   public Show getAdded()
+   public Play getAdded()
    {
-      Show added = this.add;
-      this.add = new Show();
+      Play added = this.add;
+      this.add = new Play();
       return added;
    }
 
-public Byte getGenreId() {
+public Short getGenreId() {
 	return genreId;
 }
 
-public void setGenreId(Byte genreId) {
+public void setGenreId(Short genreId) {
 	this.genreId = genreId;
 }
 }

@@ -1,0 +1,37 @@
+{
+    "USER_CATEGORY":
+[
+	{
+		"USER_CATEGORY_id" : 0,
+		"DESCRIPTION" : "Admin"
+	},
+	{
+		"USER_CATEGORY_id" : 1,
+		"DESCRIPTION" : "Adult"
+	},
+	{
+		"USER_CATEGORY_id" : 6,
+		"DESCRIPTION" : "Disabled"
+	},
+	{
+		"USER_CATEGORY_id" : 2,
+		"DESCRIPTION" : "Junior"
+	},
+	{
+		"USER_CATEGORY_id" : 3,
+		"DESCRIPTION" : "Senior"
+	},
+	{
+		"USER_CATEGORY_id" : 7,
+		"DESCRIPTION" : "Staff"
+	},
+	{
+		"USER_CATEGORY_id" : 4,
+		"DESCRIPTION" : "Student"
+	},
+	{
+		"USER_CATEGORY_id" : 5,
+		"DESCRIPTION" : "Teacher"
+	}
+]
+}

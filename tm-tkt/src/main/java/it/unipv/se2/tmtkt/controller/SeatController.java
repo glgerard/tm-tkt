@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,20 +16,16 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 
 import it.unipv.se2.tmtkt.model.Booking;
-import it.unipv.se2.tmtkt.model.BookingId;
-import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.Row;
 import it.unipv.se2.tmtkt.model.Seat;
 import it.unipv.se2.tmtkt.model.SeatCategory;
 import it.unipv.se2.tmtkt.model.Sector;
-import it.unipv.se2.tmtkt.view.SeatBean;
 
 @Named
 @Stateful
@@ -40,72 +35,51 @@ public class SeatController implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer eventId;
-			
+
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
-	
+
 	private int page;
 	private long count;
 	private List<Seat> pageItems;
-//	private List<Seat> all = new ArrayList<Seat>();
 
-	public void old_paginate() {
-		/*
-		int removed = 0;
-		pageItems = new ArrayList<Seat>();
-		seatBean.setPage(this.page);
-		seatBean.paginate();
-		List<Seat> seatBeanPageItems = seatBean.getPageItems();
-		if (seatBeanPageItems != null && !seatBeanPageItems.isEmpty()) {
-			for (Seat s : seatBeanPageItems) {
-				if (isFree(s))
-					pageItems.add(s);
-				else
-					removed++;
-			}
-		}
-		this.count = seatBean.getCount() - removed;
-		*/
-	}
+	private Seat example = new Seat();
 
-	   private Seat example = new Seat();
+	public void paginate() {
 
-	   public void paginate()
-	   {
+		CriteriaBuilder builder = this.em.getCriteriaBuilder();
 
-	      CriteriaBuilder builder = this.em.getCriteriaBuilder();
+		// Populate this.count
 
-	      // Populate this.count
-
-	      CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
-	      Root<Seat> root = countCriteria.from(Seat.class);
-	      Subquery<Long> subquery = countCriteria.subquery(Long.class);
+		CriteriaQuery<Long> countCriteria = builder.createQuery(Long.class);
+		Root<Seat> root = countCriteria.from(Seat.class);
+		Subquery<Long> subquery = countCriteria.subquery(Long.class);
 
 		countCriteria = countCriteria.select(builder.count(root)).where(
 				getSearchPredicates(root, subquery));
 		Logger logger = Logger.getLogger(SeatController.class.getName());
 		try {
 			TypedQuery<Long> query = this.em.createQuery(countCriteria);
-//			logger.log(Level.INFO, query
-//					.unwrap(org.hibernate.Query.class).getQueryString());
+			// logger.log(Level.INFO, query
+			// .unwrap(org.hibernate.Query.class).getQueryString());
 			this.count = query.getSingleResult();
 		} catch (Exception ex) {
 			logger.log(Level.SEVERE, null, ex);
 		}
 
-	      // Populate this.pageItems
+		// Populate this.pageItems
 
-	      CriteriaQuery<Seat> criteria = builder.createQuery(Seat.class);
-	      root = criteria.from(Seat.class);
-	      subquery = criteria.subquery(Long.class);
-	      
+		CriteriaQuery<Seat> criteria = builder.createQuery(Seat.class);
+		root = criteria.from(Seat.class);
+		subquery = criteria.subquery(Long.class);
+
 		try {
 			TypedQuery<Seat> query = this.em.createQuery(criteria.select(root)
 					.where(getSearchPredicates(root, subquery)));
-//			logger.log(Level.INFO, query
-//					.unwrap(org.hibernate.Query.class).getQueryString());
+			// logger.log(Level.INFO, query
+			// .unwrap(org.hibernate.Query.class).getQueryString());
 			query.setFirstResult(this.page * getPageSize()).setMaxResults(
 					getPageSize());
 			this.pageItems = query.getResultList();
@@ -113,94 +87,72 @@ public class SeatController implements Serializable {
 			logger.log(Level.SEVERE, null, ex);
 		}
 
-	   }
+	}
 
-	   private Predicate[] getSearchPredicates(Root<Seat> root, Subquery<Long> subquery)
-	   {
+	private Predicate[] getSearchPredicates(Root<Seat> root,
+			Subquery<Long> subquery) {
 
-	      CriteriaBuilder builder = this.em.getCriteriaBuilder();
-	      List<Predicate> predicatesList = new ArrayList<Predicate>();
+		CriteriaBuilder builder = this.em.getCriteriaBuilder();
+		List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-	      short seatId = this.example.getSeatId();
-	      if (seatId != 0)
-	      {
-	         predicatesList.add(builder.equal(root.get("seatId"), seatId));
-	      }
-	      SeatCategory seatCategory = this.example.getSeatCategory();
-	      if (seatCategory != null)
-	      {
-	         predicatesList.add(builder.equal(root.get("seatCategory"), seatCategory));
-	      }
-	      Sector sector = this.example.getSector();
-	      if (sector != null)
-	      {
-	         predicatesList.add(builder.equal(root.get("sector"), sector));
-	      }
-	      Row row = this.example.getRow();
-	      if (row != null)
-	      {
-	         predicatesList.add(builder.equal(root.get("row"), row));
-	      }
-	      if (eventId != null)
-	      {
-		      Root<Seat> seat = subquery.from(Seat.class);
-		      Join<Seat, Booking> booking = seat.join("bookings");
-		      subquery.select(booking.<Long>get("event"));
-		      List<Predicate> subQueryPredicates = new ArrayList<Predicate>(); 
-		      subQueryPredicates.add(builder.equal(root.get("seatId"), booking.get("seat").get("seatId")));
-		      subQueryPredicates.add(builder.equal(booking.get("event").get("eventId"), eventId));
-		      subquery.where(subQueryPredicates.toArray(new Predicate[]{}));
-	    	  predicatesList.add(builder.not(builder.exists(subquery)));
-	      }
-	      
-	      return predicatesList.toArray(new Predicate[predicatesList.size()]);
-	   }
-
-
-	   public List<Seat> getAll(Byte genreId)
-	   {
-
-		   CriteriaBuilder cb = this.em.getCriteriaBuilder();
-	      CriteriaQuery<Seat> criteria = cb.createQuery(Seat.class);
-	      Root<Seat> seat = criteria.from(Seat.class);
-	      criteria.select(seat);
-	      Join<Seat, Genre> genre = seat.join("genres", JoinType.LEFT);
-	      criteria.where(cb.equal(genre.get("genreId"), genreId));
-	      return this.em.createQuery(criteria).getResultList();
-	   }
-
-	   
-	public List<Seat> old_getAll(Byte genreId) {
-		/*
-		List<Seat> allSeats = seatBean.getAll();
-		if (genreId != null) {
-			for (Seat s: allSeats) {
-				if (!s.getGenres().contains(this.em.find(Genre.class, genreId))) {
-					all.add(s);
-				}
-			}
-		} else {
-			all = allSeats;
+		short seatId = this.example.getSeatId();
+		if (seatId != 0) {
+			predicatesList.add(builder.equal(root.get("seatId"), seatId));
 		}
-		return all;
-		*/
-		return null;
+		SeatCategory seatCategory = this.example.getSeatCategory();
+		if (seatCategory != null) {
+			predicatesList.add(builder.equal(root.get("seatCategory"),
+					seatCategory));
+		}
+		Sector sector = this.example.getSector();
+		if (sector != null) {
+			predicatesList.add(builder.equal(root.get("sector"), sector));
+		}
+		Row row = this.example.getRow();
+		if (row != null) {
+			predicatesList.add(builder.equal(root.get("row"), row));
+		}
+		if (eventId != null) {
+			Root<Seat> seat = subquery.from(Seat.class);
+			Join<Seat, Booking> booking = seat.join("bookings");
+			subquery.select(booking.<Long> get("event"));
+			List<Predicate> subQueryPredicates = new ArrayList<Predicate>();
+			subQueryPredicates.add(builder.equal(root.get("seatId"), booking
+					.get("seat").get("seatId")));
+			subQueryPredicates.add(builder.equal(
+					booking.get("event").get("eventId"), eventId));
+			subquery.where(subQueryPredicates.toArray(new Predicate[] {}));
+			predicatesList.add(builder.not(builder.exists(subquery)));
+		}
+
+		return predicatesList.toArray(new Predicate[predicatesList.size()]);
 	}
-	
-	public boolean isFree(Seat s) {
-		Booking booking = this.em.find(Booking.class,
-				new BookingId(eventId, s.getSeatId()));
-		return (booking == null);
+
+	public List<Seat> getAll(Short genreId) {
+		CriteriaBuilder cb = this.em.getCriteriaBuilder();
+		CriteriaQuery<Seat> criteria = cb.createQuery(Seat.class);
+		Root<Seat> root = criteria.from(Seat.class);
+		criteria.select(root);
+		Subquery<Long> subquery = criteria.subquery(Long.class);
+		Root<Seat> seat = subquery.from(Seat.class);
+		Join<Seat, Genre> genre = seat.join("genres");
+		subquery.select(seat.<Long>get("seatId"));
+		List<Predicate> subQueryPredicates = new ArrayList<Predicate>();
+		subQueryPredicates.add(cb.equal(root.get("seatId"), seat.get("seatId")));
+		subQueryPredicates.add(cb.equal(genre.get("genreId"), genreId));
+		subquery.where(subQueryPredicates.toArray(new Predicate[] {}));
+		criteria.where(cb.not(cb.exists(subquery)));
+		return this.em.createQuery(criteria).getResultList();
 	}
-	
+
 	public void search() {
 		this.page = 0;
 	}
-	
+
 	public int getPageSize() {
 		return 10;
 	}
-	
+
 	public Integer getEventId() {
 		return eventId;
 	}

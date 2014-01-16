@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -17,27 +17,28 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="USER_CATEGORY"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="DESCRIPTION") 
 )
 public class UserCategory  implements java.io.Serializable {
 
 
-     private byte userCategoryId;
+     private short userCategoryId;
      private String description;
+     private Set<PriceScheme> priceSchemes = new HashSet<PriceScheme>(0);
      private Set<User> users = new HashSet<User>(0);
 
     public UserCategory() {
     }
 
 	
-    public UserCategory(byte userCategoryId, String description) {
+    public UserCategory(short userCategoryId, String description) {
         this.userCategoryId = userCategoryId;
         this.description = description;
     }
-    public UserCategory(byte userCategoryId, String description, Set<User> users) {
+    public UserCategory(short userCategoryId, String description, Set<PriceScheme> priceSchemes, Set<User> users) {
        this.userCategoryId = userCategoryId;
        this.description = description;
+       this.priceSchemes = priceSchemes;
        this.users = users;
     }
    
@@ -45,11 +46,11 @@ public class UserCategory  implements java.io.Serializable {
 
     
     @Column(name="USER_CATEGORY_id", unique=true, nullable=false)
-    public byte getUserCategoryId() {
+    public short getUserCategoryId() {
         return this.userCategoryId;
     }
     
-    public void setUserCategoryId(byte userCategoryId) {
+    public void setUserCategoryId(short userCategoryId) {
         this.userCategoryId = userCategoryId;
     }
 
@@ -61,6 +62,15 @@ public class UserCategory  implements java.io.Serializable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="userCategory")
+    public Set<PriceScheme> getPriceSchemes() {
+        return this.priceSchemes;
+    }
+    
+    public void setPriceSchemes(Set<PriceScheme> priceSchemes) {
+        this.priceSchemes = priceSchemes;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="userCategory")

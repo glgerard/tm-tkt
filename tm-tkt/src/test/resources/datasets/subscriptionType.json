@@ -1,0 +1,17 @@
+{
+	"SUBSCRIPTION_TYPE":
+[
+	{
+		"SUBSCRIPTION_TYPE_id" : 1,
+		"NAME" : "Assigned Seat"
+	},
+	{
+		"SUBSCRIPTION_TYPE_id" : 2,
+		"NAME" : "Free Seat"
+	},
+	{
+		"SUBSCRIPTION_TYPE_id" : 3,
+		"NAME" : "Carnet"
+	}
+]
+}

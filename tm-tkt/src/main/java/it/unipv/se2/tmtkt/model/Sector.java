@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -17,13 +17,12 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="SECTOR"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="SECTOR_NAME") 
 )
 public class Sector  implements java.io.Serializable {
 
 
-     private byte sectorId;
+     private short sectorId;
      private String sectorName;
      private Set<Seat> seats = new HashSet<Seat>(0);
      private Set<PriceScheme> priceSchemes = new HashSet<PriceScheme>(0);
@@ -32,11 +31,11 @@ public class Sector  implements java.io.Serializable {
     }
 
 	
-    public Sector(byte sectorId, String sectorName) {
+    public Sector(short sectorId, String sectorName) {
         this.sectorId = sectorId;
         this.sectorName = sectorName;
     }
-    public Sector(byte sectorId, String sectorName, Set<Seat> seats, Set<PriceScheme> priceSchemes) {
+    public Sector(short sectorId, String sectorName, Set<Seat> seats, Set<PriceScheme> priceSchemes) {
        this.sectorId = sectorId;
        this.sectorName = sectorName;
        this.seats = seats;
@@ -47,11 +46,11 @@ public class Sector  implements java.io.Serializable {
 
     
     @Column(name="SECTOR_id", unique=true, nullable=false)
-    public byte getSectorId() {
+    public short getSectorId() {
         return this.sectorId;
     }
     
-    public void setSectorId(byte sectorId) {
+    public void setSectorId(short sectorId) {
         this.sectorId = sectorId;
     }
 

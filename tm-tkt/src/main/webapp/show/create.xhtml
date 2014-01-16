@@ -9,8 +9,8 @@
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="id" value="#{showBean.id}"/>
-		<f:event type="preRenderView" listener="#{showBean.retrieve}"/>
+		<f:viewParam name="id" value="#{playBean.id}"/>
+		<f:event type="preRenderView" listener="#{playBean.retrieve}"/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="Create Show"/>
@@ -21,7 +21,7 @@
 
 	<ui:define name="subheader">
 		<c:choose>
-			<c:when test="#{!empty showBean.id}">
+			<c:when test="#{!empty playBean.id}">
 				Edit existing Show
 			</c:when>
 			<c:otherwise>
@@ -37,59 +37,59 @@
 			<h:messages globalOnly="true" styleClass="error"/>
 
 			<h:panelGrid columnClasses="label,component,required" columns="3">
-				<h:outputLabel for="showBeanShowGenre" value="Genre:"/>
+				<h:outputLabel for="playBeanShowGenre" value="Genre:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{genreBean.converter}" id="showBeanShowGenre" value="#{showBean.show.genre}">
+					<h:selectOneMenu converter="#{genreBean.converter}" id="playBeanShowGenre" value="#{playBean.play.genre}">
 						<f:selectItem/>
 						<f:selectItems value="#{genreBean.all}"/>
 					</h:selectOneMenu>
-					<h:message for="showBeanShowGenre" styleClass="error"/>
+					<h:message for="playBeanShowGenre" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowTitle" value="Title:"/>
+				<h:outputLabel for="playBeanShowTitle" value="Title:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowTitle" maxLength="80" required="true" value="#{showBean.show.title}"/>
-					<h:message for="showBeanShowTitle" styleClass="error"/>
+					<h:inputText id="playBeanShowTitle" maxLength="80" required="true" value="#{playBean.play.title}"/>
+					<h:message for="playBeanShowTitle" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText value="*"/>
-				<h:outputLabel for="showBeanShowAuthorName" value="Author Name:"/>
+				<h:outputLabel for="playBeanShowAuthorName" value="Author Name:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowAuthorName" maxLength="80" value="#{showBean.show.authorName}"/>
-					<h:message for="showBeanShowAuthorName" styleClass="error"/>
+					<h:inputText id="playBeanShowAuthorName" maxLength="80" value="#{playBean.play.authorName}"/>
+					<h:message for="playBeanShowAuthorName" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowDirectorName" value="Director Name:"/>
+				<h:outputLabel for="playBeanShowDirectorName" value="Director Name:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowDirectorName" maxLength="80" value="#{showBean.show.directorName}"/>
-					<h:message for="showBeanShowDirectorName" styleClass="error"/>
+					<h:inputText id="playBeanShowDirectorName" maxLength="80" value="#{playBean.play.directorName}"/>
+					<h:message for="playBeanShowDirectorName" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowDescription" value="Description:"/>
+				<h:outputLabel for="playBeanShowDescription" value="Description:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowDescription" maxLength="65535" value="#{showBean.show.description}"/>
-					<h:message for="showBeanShowDescription" styleClass="error"/>
+					<h:inputText id="playBeanShowDescription" maxLength="65535" value="#{playBean.play.description}"/>
+					<h:message for="playBeanShowDescription" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowFirstEventDate" value="First Event Date:"/>
+				<h:outputLabel for="playBeanShowFirstEventDate" value="First Event Date:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowFirstEventDate" maxLength="10" value="#{showBean.show.firstEventDate}">
+					<h:inputText id="playBeanShowFirstEventDate" maxLength="10" value="#{playBean.play.firstEventDate}">
 						<f:convertDateTime type="date"/>
 					</h:inputText>
-					<h:message for="showBeanShowFirstEventDate" styleClass="error"/>
+					<h:message for="playBeanShowFirstEventDate" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowLastEventDate" value="Last Event Date:"/>
+				<h:outputLabel for="playBeanShowLastEventDate" value="Last Event Date:"/>
 				<h:panelGroup>
-					<h:inputText id="showBeanShowLastEventDate" maxLength="10" value="#{showBean.show.lastEventDate}">
+					<h:inputText id="playBeanShowLastEventDate" maxLength="10" value="#{playBean.play.lastEventDate}">
 						<f:convertDateTime type="date"/>
 					</h:inputText>
-					<h:message for="showBeanShowLastEventDate" styleClass="error"/>
+					<h:message for="playBeanShowLastEventDate" styleClass="error"/>
 				</h:panelGroup>
 				<h:outputText/>
-				<h:outputLabel for="showBeanShowEvents" value="Events:"/>
+				<h:outputLabel for="playBeanShowEvents" value="Events:"/>
 				<h:panelGroup>
-					<ui:param name="_collection" value="#{showBean.show.events}"/>
-					<h:dataTable id="showBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
+					<ui:param name="_collection" value="#{playBean.play.events}"/>
+					<h:dataTable id="playBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(_collection)}" var="_item">
 						<h:column>
 							<f:facet name="header">
 								<h:outputText value="Datetime"/>
@@ -110,8 +110,8 @@
 						<h:column footerClass="remove-column" headerClass="remove-column">
 							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
 							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(eventBean.added)}" id="showBeanShowEventsAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{eventBean.add.show}" value="#{showBean.show}"/>
+								<h:commandLink action="#{_collection.add(eventBean.added)}" id="playBeanShowEventsAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{eventBean.add.play}" value="#{playBean.play}"/>
 								</h:commandLink>
 							</f:facet>
 						</h:column>
@@ -121,13 +121,13 @@
 			</h:panelGrid>
 
 			<div class="buttons">
-				<h:commandLink value="Save" action="#{showBean.update}" styleClass="btn btn-primary"/>
+				<h:commandLink value="Save" action="#{playBean.update}" styleClass="btn btn-primary"/>
 				<c:choose>
-					<c:when test="#{!empty showBean.id}">
+					<c:when test="#{!empty playBean.id}">
 						<h:link value="Cancel" outcome="view" styleClass="btn btn-primary">
-							<f:param name="id" value="#{showBean.id}"/>
+							<f:param name="id" value="#{playBean.id}"/>
 						</h:link>
-						<h:commandLink value="Delete" action="#{showBean.delete}" styleClass="btn btn-primary"/>
+						<h:commandLink value="Delete" action="#{playBean.delete}" styleClass="btn btn-primary"/>
 					</c:when>
 					<c:otherwise>
 						<h:link value="Cancel" outcome="search" styleClass="btn btn-primary"/>

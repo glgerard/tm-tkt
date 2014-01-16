@@ -1,0 +1,37 @@
+{
+    "USER":
+[
+	{
+		"EMAIL" : "glgerard@gmail.com",
+		"FIRST_NAME" : "Gianluca",
+		"LAST_NAME" : "Gerard",
+		"MIDDLE_NAME" : "",
+		"PASSWORD" : "gianluca",
+		"USER_CATEGORY_id" : 0
+	},
+	{
+		"EMAIL" : "isiar@dmst.aueb.gr",
+		"FIRST_NAME" : "Ioannis",
+		"LAST_NAME" : "Siarapis",
+		"MIDDLE_NAME" : "[NULL]",
+		"PASSWORD" : "ioannis",
+		"USER_CATEGORY_id" : 1
+	},
+	{
+		"EMAIL" : "oguzmelihpamuk@gmail.com",
+		"FIRST_NAME" : "Oguz",
+		"LAST_NAME" : "Pamuk",
+		"MIDDLE_NAME" : "Melih",
+		"PASSWORD" : "",
+		"USER_CATEGORY_id" : 2
+	},
+	{
+		"EMAIL" : "steffen_hermann@gmx.de",
+		"FIRST_NAME" : "Steffen",
+		"LAST_NAME" : "Hermann",
+		"MIDDLE_NAME" : "[NULL]",
+		"PASSWORD" : "steffen",
+		"USER_CATEGORY_id" : 3
+	}
+]
+}

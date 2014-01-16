@@ -50,7 +50,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanSalePayment" value="#{saleBean.sale.payment}">
 						<f:selectItem/>
-						<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
+						<f:selectItems itemLabel="#{forgeview:display(_item.paymentMethod.paymentName)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
 					</h:selectOneMenu>
 					<h:message for="saleBeanSalePayment" styleClass="error"/>
 				</h:panelGroup>
@@ -115,18 +115,6 @@
 							</f:facet>
 						</h:column>
 					</h:dataTable>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel value="Ticket:"/>
-				<h:panelGroup>
-					<h:commandLink action="#{saleBean.sale.newTicket}" rendered="#{empty saleBean.sale.ticket}" value="Create New Ticket"/>
-					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty saleBean.sale.ticket}"/>
-				</h:panelGroup>
-				<h:outputText/>
-				<h:outputLabel value="Subscription:"/>
-				<h:panelGroup>
-					<h:commandLink action="#{saleBean.sale.newSubscription}" rendered="#{empty saleBean.sale.subscription}" value="Create New Subscription"/>
-					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty saleBean.sale.subscription}"/>
 				</h:panelGroup>
 				<h:outputText/>
 			</h:panelGrid>

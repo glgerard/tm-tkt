@@ -50,14 +50,14 @@ public class SeasonBean implements Serializable
     * Support creating and retrieving Season entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -105,7 +105,7 @@ public class SeasonBean implements Serializable
       }
    }
 
-   public Season findById(Byte id)
+   public Season findById(Short id)
    {
 
       return this.entityManager.find(Season.class, id);
@@ -285,7 +285,7 @@ public class SeasonBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

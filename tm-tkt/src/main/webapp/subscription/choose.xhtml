@@ -59,7 +59,7 @@
 						value="#{subscriptionController.genreId}" required="true" immediate="true">
 						<f:selectItem />
 						<f:selectItems itemLabel="#{_item.name}"
-							itemValue="#{_item.genreId}" value="#{genreBean.all}" var="_item" />
+							itemValue="#{_item.genreId}" value="#{subscriptionController.allGenreOnSchedule}" var="_item" />
 					</h:selectOneMenu>
 					<h:message for="subscriptionBeanSubscriptionGenre"
 						styleClass="error" />

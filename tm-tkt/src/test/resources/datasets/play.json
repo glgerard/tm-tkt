@@ -1,0 +1,45 @@
+{
+	"PLAY":
+[
+	{
+		"SHOW_id" : 1,
+		"TITLE" : "Madama Butterfly",
+		"AUTHOR_NAME" : "Giacomo Puccini",
+		"DIRECTOR_NAME" : "[NULL]",
+		"DESCRIPTION" : "Make way for Puccini\"s opera in three acts and wear waterproof mascara for the dramatic tearjerker of the season. Let the voice of renowned soprano Rosino Storchio and tenor Giovanni Zenatello envelop you under the stars while you sob quietly into your handkerchief! Wine and hard liquor will be available during intermission and after the show for those seeking to drown their sorrows.",
+		"GENRE_id" : 4,
+		"FIRST_EVENT_DATE" : "2013-12-20",
+		"LAST_EVENT_DATE" : "2013-12-27"
+	},
+	{
+		"SHOW_id" : 2,
+		"TITLE" : "Hamlet",
+		"AUTHOR_NAME" : "William Shakespeare",
+		"DIRECTOR_NAME" : "[NULL]",
+		"DESCRIPTION" : "Set in the Kingdom of Denmark, the play dramatizes the revenge Prince Hamlet exacts on his uncle Claudius for murdering King Hamlet, Claudius\"s brother and Prince Hamlet\"s father, and then succeeding to the throne and taking as his wife Gertrude, the old king\"s widow and Prince Hamlet\"s mother. The play vividly portrays both true and feigned madness—from overwhelming grief to seething rage—and explores themes of treachery, revenge, incest, and moral corruption.",
+		"GENRE_id" : 1,
+		"FIRST_EVENT_DATE" : "2013-12-21",
+		"LAST_EVENT_DATE" : "2013-12-21"
+	},
+	{
+		"SHOW_id" : 3,
+		"TITLE" : "Tutu Tchai",
+		"AUTHOR_NAME" : "[NULL]",
+		"DIRECTOR_NAME" : "[NULL]",
+		"DESCRIPTION" : "\nJoin your fellow ballet enthusiasts for the National Ballet Company\"s presentation of Tutu Tchai, a tribute to Pyotr Tchaikovsky\"s and the expressive intensity revealed in his three most famous ballets: The Nutcracker, Swan Lake, and The Sleeping Beauty.",
+		"GENRE_id" : 5,
+		"FIRST_EVENT_DATE" : "2013-12-22",
+		"LAST_EVENT_DATE" : "2013-12-28"
+	},
+	{
+		"SHOW_id" : 4,
+		"TITLE" : "Soweto Gospel Choir",
+		"AUTHOR_NAME" : "[NULL]",
+		"DIRECTOR_NAME" : "[NULL]",
+		"DESCRIPTION" : "Soweto Gospel Choir was formed to celebrate the unique and inspirational power of African Gospel music.\nThe 52-strong choir, under the direction of Beverly Bryer, draws on the best talent from the many churches in and around Soweto.\nThe choir is dedicated to sharing the joy of faith through music with audiences around the world.",
+		"GENRE_id" : 2,
+		"FIRST_EVENT_DATE" : "[NULL]",
+		"LAST_EVENT_DATE" : "[NULL]"
+	}
+]
+}

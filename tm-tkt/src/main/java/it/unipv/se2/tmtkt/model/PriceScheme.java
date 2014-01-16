@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -21,20 +21,23 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="PRICE_SCHEME"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="PRICE_SCHEME_NAME") 
 )
 public class PriceScheme  implements java.io.Serializable {
 
 
      private Short priceSchemeId;
+     private UserCategory userCategory;
+     private Play play;
      private Season season;
      private Genre genre;
      private Sector sector;
      private Timeofday timeofday;
+     private Event event;
      private Dayofweek dayofweek;
      private long price;
      private String priceSchemeName;
+     private Character saleType;
      private Set<Sale> sales = new HashSet<Sale>(0);
 
     public PriceScheme() {
@@ -44,14 +47,18 @@ public class PriceScheme  implements java.io.Serializable {
     public PriceScheme(long price) {
         this.price = price;
     }
-    public PriceScheme(Season season, Genre genre, Sector sector, Timeofday timeofday, Dayofweek dayofweek, long price, String priceSchemeName, Set<Sale> sales) {
+    public PriceScheme(UserCategory userCategory, Play play, Season season, Genre genre, Sector sector, Timeofday timeofday, Event event, Dayofweek dayofweek, long price, String priceSchemeName, Character saleType, Set<Sale> sales) {
+       this.userCategory = userCategory;
+       this.play = play;
        this.season = season;
        this.genre = genre;
        this.sector = sector;
        this.timeofday = timeofday;
+       this.event = event;
        this.dayofweek = dayofweek;
        this.price = price;
        this.priceSchemeName = priceSchemeName;
+       this.saleType = saleType;
        this.sales = sales;
     }
    
@@ -65,6 +72,26 @@ public class PriceScheme  implements java.io.Serializable {
     
     public void setPriceSchemeId(Short priceSchemeId) {
         this.priceSchemeId = priceSchemeId;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="USER_CATEGORY_id")
+    public UserCategory getUserCategory() {
+        return this.userCategory;
+    }
+    
+    public void setUserCategory(UserCategory userCategory) {
+        this.userCategory = userCategory;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="SHOW_id")
+    public Play getPlay() {
+        return this.play;
+    }
+    
+    public void setPlay(Play play) {
+        this.play = play;
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
@@ -108,6 +135,16 @@ public class PriceScheme  implements java.io.Serializable {
     }
 
 @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="EVENT_id")
+    public Event getEvent() {
+        return this.event;
+    }
+    
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="DAYOFWEEK_id")
     public Dayofweek getDayofweek() {
         return this.dayofweek;
@@ -135,6 +172,16 @@ public class PriceScheme  implements java.io.Serializable {
     
     public void setPriceSchemeName(String priceSchemeName) {
         this.priceSchemeName = priceSchemeName;
+    }
+
+    
+    @Column(name="SALE_TYPE", length=1)
+    public Character getSaleType() {
+        return this.saleType;
+    }
+    
+    public void setSaleType(Character saleType) {
+        this.saleType = saleType;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="priceScheme")

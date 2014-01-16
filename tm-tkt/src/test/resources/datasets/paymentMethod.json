@@ -1,0 +1,17 @@
+{
+    "PAYMENT_METHOD":
+[
+	{
+		"PAYMENT_METHOD_id" : 3,
+		"PAYMENT_NAME" : "PayPal"
+	},
+	{
+		"PAYMENT_METHOD_id" : 2,
+		"PAYMENT_NAME" : "PosePay"
+	},
+	{
+		"PAYMENT_METHOD_id" : 1,
+		"PAYMENT_NAME" : "Visa/MasterCard/AMEX"
+	}
+]
+}

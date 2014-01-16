@@ -10,8 +10,8 @@
 
 	<f:metadata>
 		<f:viewParam name="saleId" />
-		<f:viewParam name="id" value="#{showBean.id}"/>
-		<f:event type="preRenderView" listener="#{showBean.retrieve}"/>
+		<f:viewParam name="id" value="#{playBean.id}"/>
+		<f:event type="preRenderView" listener="#{playBean.retrieve}"/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="View Show"/>
@@ -28,35 +28,35 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
-			<h:outputLabel for="showBeanShowGenre" value="Genre:"/>
-			<h:link id="showBeanShowGenre" outcome="/genre/view" value="#{showBean.show.genre.name}">
-				<f:param name="id" value="#{showBean.show.genre.genreId}"/>
+			<h:outputLabel for="playBeanShowGenre" value="Genre:"/>
+			<h:link id="playBeanShowGenre" outcome="/genre/view" value="#{playBean.play.genre.name}">
+				<f:param name="id" value="#{playBean.play.genre.genreId}"/>
 			</h:link>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowTitle" value="Title:"/>
-			<h:outputText id="showBeanShowTitle" value="#{showBean.show.title}"/>
+			<h:outputLabel for="playBeanShowTitle" value="Title:"/>
+			<h:outputText id="playBeanShowTitle" value="#{playBean.play.title}"/>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowAuthorName" value="Author Name:"/>
-			<h:outputText id="showBeanShowAuthorName" value="#{showBean.show.authorName}"/>
+			<h:outputLabel for="playBeanShowAuthorName" value="Author Name:"/>
+			<h:outputText id="playBeanShowAuthorName" value="#{playBean.play.authorName}"/>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowDirectorName" value="Director Name:"/>
-			<h:outputText id="showBeanShowDirectorName" value="#{showBean.show.directorName}"/>
+			<h:outputLabel for="playBeanShowDirectorName" value="Director Name:"/>
+			<h:outputText id="playBeanShowDirectorName" value="#{playBean.play.directorName}"/>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowDescription" value="Description:"/>
-			<h:outputText id="showBeanShowDescription" value="#{showBean.show.description}"/>
+			<h:outputLabel for="playBeanShowDescription" value="Description:"/>
+			<h:outputText id="playBeanShowDescription" value="#{playBean.play.description}"/>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowFirstEventDate" value="First Event Date:"/>
-			<h:outputText id="showBeanShowFirstEventDate" value="#{showBean.show.firstEventDate}">
+			<h:outputLabel for="playBeanShowFirstEventDate" value="First Event Date:"/>
+			<h:outputText id="playBeanShowFirstEventDate" value="#{playBean.play.firstEventDate}">
 				<f:convertDateTime type="date"/>
 			</h:outputText>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowLastEventDate" value="Last Event Date:"/>
-			<h:outputText id="showBeanShowLastEventDate" value="#{showBean.show.lastEventDate}">
+			<h:outputLabel for="playBeanShowLastEventDate" value="Last Event Date:"/>
+			<h:outputText id="playBeanShowLastEventDate" value="#{playBean.play.lastEventDate}">
 				<f:convertDateTime type="date"/>
 			</h:outputText>
 			<h:outputText/>
-			<h:outputLabel for="showBeanShowEvents" value="Select a date:"/>
-			<h:dataTable id="showBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(showBean.show.events)}" var="_item">
+			<h:outputLabel for="playBeanShowEvents" value="Select a date:"/>
+			<h:dataTable id="playBeanShowEvents" styleClass="data-table" value="#{forgeview:asList(playBean.play.events)}" var="_item">
 				<h:column>
 					<f:facet name="header">
 						<h:outputText value="Datetime"/>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+	<datasource jndi-name="java:jboss/datasources/DefaultDS" enabled="true" use-java-context="true" pool-name="DefaultDS">
+		<connection-url>jdbc:mysql://localhost:3306/teatromanzoni</connection-url>
+		<driver>mysql-connector-java-5.1.28-bin.jar</driver>
+		<driver-class>com.mysql.jdbc.Driver</driver-class>
+		<security>
+			<user-name>root</user-name>
+			<password>reverse</password>
+		</security>
+	</datasource>
+</datasources>    

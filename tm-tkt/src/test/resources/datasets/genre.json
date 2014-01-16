@@ -1,0 +1,33 @@
+{
+	"GENRE":
+[
+	{
+		"GENRE_id" : "5",
+		"NAME" : "Ballet"
+	},
+	{
+		"GENRE_id" : "3",
+		"NAME" : "Comedy"
+	},
+	{
+		"GENRE_id" : "6",
+		"NAME" : "Drama"
+	},
+	{
+		"GENRE_id" : "2",
+		"NAME" : "Music"
+	},
+	{
+		"GENRE_id" : "7",
+		"NAME" : "Musical"
+	},
+	{
+		"GENRE_id" : "4",
+		"NAME" : "Opera"
+	},
+	{
+		"GENRE_id" : "1",
+		"NAME" : "Tragedy"
+	}
+]
+}

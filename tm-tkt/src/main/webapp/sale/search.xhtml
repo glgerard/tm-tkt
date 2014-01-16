@@ -43,7 +43,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{paymentBean.converter}" id="saleBeanExamplePayment" value="#{saleBean.example.payment}">
 								<f:selectItem/>
-								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.paymentMethod.paymentName)}" itemValue="#{_item}" value="#{paymentBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="saleBeanExamplePayment" styleClass="error"/>
 						</h:panelGroup>

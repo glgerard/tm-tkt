@@ -53,14 +53,14 @@ public class UserCategoryBean implements Serializable
     * Support creating and retrieving UserCategory entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -108,7 +108,7 @@ public class UserCategoryBean implements Serializable
       }
    }
 
-   public UserCategory findById(Byte id)
+   public UserCategory findById(Short id)
    {
 
       return this.entityManager.find(UserCategory.class, id);
@@ -239,7 +239,7 @@ public class UserCategoryBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      byte userCategoryId = this.example.getUserCategoryId();
+      Short userCategoryId = this.example.getUserCategoryId();
       if (userCategoryId != 0)
       {
          predicatesList.add(builder.equal(root.get("userCategoryId"), userCategoryId));
@@ -293,7 +293,7 @@ public class UserCategoryBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

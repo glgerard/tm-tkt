@@ -39,7 +39,6 @@
 			<h:panelGrid columnClasses="label,component,required" columns="3">
 				<h:outputLabel value="Sale:"/>
 				<h:panelGroup>
-					<h:commandLink action="#{ticketBean.ticket.newSale}" rendered="#{empty ticketBean.ticket.sale}" value="Create New Sale"/>
 					<h:panelGrid columnClasses="label,component,required" columns="3" rendered="#{!empty ticketBean.ticket.sale}">
 						<h:outputLabel for="ticketBeanTicketSaleUser" value="User:"/>
 						<h:panelGroup>

@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import javax.persistence.Column;
@@ -19,7 +19,6 @@ import org.hibernate.annotations.Parameter;
  */
 @Entity
 @Table(name="TICKET"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="TICKET_id") 
 )
 public class Ticket  implements java.io.Serializable {

@@ -28,8 +28,8 @@
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
 			<h:outputLabel for="eventBeanEventShow" value="Show:"/>
-			<h:link id="eventBeanEventShow" outcome="/show/view" value="#{eventBean.event.show.title}">
-				<f:param name="id" value="#{eventBean.event.show.showId}"/>
+			<h:link id="eventBeanEventShow" outcome="/show/view" value="#{eventBean.event.play.title}">
+				<f:param name="id" value="#{eventBean.event.play.showId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="eventBeanEventDatetime" value="Datetime:"/>

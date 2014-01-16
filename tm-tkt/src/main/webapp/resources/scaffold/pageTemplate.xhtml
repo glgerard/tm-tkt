@@ -51,29 +51,30 @@
 				<img src="#{resource['tm-logo.png']}" alt="Teatro Manzoni" border="0" />
 			</h:link>
 			<ul>
-				<li>
-					<h:link outcome="/show/search" value="Show"/>
-					<h:link outcome="/subscription/choose" value="Buy a subscription"/>
-					<c:choose>
-						<c:when test="#{!empty request.remoteUser}">
-							<h:link outcome="showSubscriptions" value="My subscriptions">
-								<f:param name="user" value="#{request.remoteUser}"/>
-								<f:param name="saleType" value="S"/>
- 							</h:link>
- 							<h:link outcome="showTickets" value="My tickets">
-								<f:param name="user" value="#{request.remoteUser}"/>
-								<f:param name="saleType" value="T"/>
- 							</h:link>
- 						</c:when>
- 					</c:choose>
-				</li>
 				<c:choose>
 					<c:when test="#{loginBean.privileged}">
-						<li><h:link outcome="/user/search" value="User" /></li>
-						<li><h:link outcome="/priceScheme/search" value="PriceScheme"/></li>
-						<li><h:link outcome="/subscription/search" value="Subscription" /></li>
-						<li><h:link outcome="/ticket/search" value="Ticket" /></li>
+						<li><h:link outcome="/user/search" value="Users" /></li>
+						<li><h:link outcome="/sale/search" value="Sales"/></li>
+						<li><h:link outcome="/subscription/search" value="Subscriptions" /></li>
+						<li><h:link outcome="/ticket/search" value="Tickets" /></li>
+						<li><h:link outcome="/priceScheme/search" value="Price Schemes" /></li>
 					</c:when>
+					<c:otherwise>
+					<li><h:link outcome="/show/search" value="Show"/></li>
+					<li><h:link outcome="/subscription/choose" value="Buy a subscription"/></li>
+					<c:choose>
+						<c:when test="#{!empty request.remoteUser}">
+							<li><h:link outcome="showSubscriptions" value="My subscriptions">
+								<f:param name="user" value="#{request.remoteUser}"/>
+								<f:param name="saleType" value="S"/>
+ 							</h:link></li>
+ 							<li><h:link outcome="showTickets" value="My tickets">
+								<f:param name="user" value="#{request.remoteUser}"/>
+								<f:param name="saleType" value="T"/>
+ 							</h:link></li>
+ 						</c:when>
+ 					</c:choose>
+				</c:otherwise>
 				</c:choose>
 			</ul>
 		</div>

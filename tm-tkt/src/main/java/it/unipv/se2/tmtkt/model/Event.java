@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.Date;
@@ -24,28 +24,29 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="EVENT"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="DATETIME") 
 )
 public class Event  implements java.io.Serializable {
 
 
      private Integer eventId;
-     private Show show;
+     private Play play;
      private Date datetime;
+     private Set<PriceScheme> priceSchemes = new HashSet<PriceScheme>(0);
      private Set<Booking> bookings = new HashSet<Booking>(0);
 
     public Event() {
     }
 
 	
-    public Event(Show show, Date datetime) {
-        this.show = show;
+    public Event(Play play, Date datetime) {
+        this.play = play;
         this.datetime = datetime;
     }
-    public Event(Show show, Date datetime, Set<Booking> bookings) {
-       this.show = show;
+    public Event(Play play, Date datetime, Set<PriceScheme> priceSchemes, Set<Booking> bookings) {
+       this.play = play;
        this.datetime = datetime;
+       this.priceSchemes = priceSchemes;
        this.bookings = bookings;
     }
    
@@ -61,14 +62,14 @@ public class Event  implements java.io.Serializable {
         this.eventId = eventId;
     }
 
-@ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="SHOW_id", nullable=false)
-    public Show getShow() {
-        return this.show;
+    public Play getPlay() {
+        return this.play;
     }
     
-    public void setShow(Show show) {
-        this.show = show;
+    public void setPlay(Play play) {
+        this.play = play;
     }
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -79,6 +80,15 @@ public class Event  implements java.io.Serializable {
     
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
+    }
+
+@OneToMany(fetch=FetchType.LAZY, mappedBy="event")
+    public Set<PriceScheme> getPriceSchemes() {
+        return this.priceSchemes;
+    }
+    
+    public void setPriceSchemes(Set<PriceScheme> priceSchemes) {
+        this.priceSchemes = priceSchemes;
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="event")

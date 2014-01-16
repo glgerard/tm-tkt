@@ -26,28 +26,37 @@
 
 	<ui:define name="main">
 		<h:panelGrid columnClasses="label,component,required" columns="3">
+			<h:outputLabel for="priceSchemeBeanPriceSchemeUserCategory" value="User Category:"/>
+			<h:outputText value="#{priceSchemeBean.priceScheme.userCategory.description}"/>
+			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemePlay" value="Show:"/>
+			<h:link id="priceSchemeBeanPriceSchemePlay" outcome="/show/view" value="#{priceSchemeBean.priceScheme.play.title}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.play.showId}"/>
+			</h:link>
+			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeSeason" value="Season:"/>
-			<h:link id="priceSchemeBeanPriceSchemeSeason" outcome="/season/view" value="#{priceSchemeBean.priceScheme.season}">
+			<h:link id="priceSchemeBeanPriceSchemeSeason" outcome="/season/view" value="#{priceSchemeBean.priceScheme.season.startDate}">
 				<f:param name="id" value="#{priceSchemeBean.priceScheme.season.seasonId}"/>
 			</h:link>
 			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeGenre" value="Genre:"/>
-			<h:link id="priceSchemeBeanPriceSchemeGenre" outcome="/genre/view" value="#{priceSchemeBean.priceScheme.genre}">
-				<f:param name="id" value="#{priceSchemeBean.priceScheme.genre.genreId}"/>
-			</h:link>
+			<h:outputText value="#{priceSchemeBean.priceScheme.genre.name}"/>
 			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeSector" value="Sector:"/>
-			<h:link id="priceSchemeBeanPriceSchemeSector" outcome="/sector/view" value="#{priceSchemeBean.priceScheme.sector}">
-				<f:param name="id" value="#{priceSchemeBean.priceScheme.sector.sectorId}"/>
-			</h:link>
+			<h:outputText value="#{priceSchemeBean.priceScheme.sector.sectorName}"/>
 			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeTimeofday" value="Timeofday:"/>
-			<h:link id="priceSchemeBeanPriceSchemeTimeofday" outcome="/timeofday/view" value="#{priceSchemeBean.priceScheme.timeofday}">
+			<h:link id="priceSchemeBeanPriceSchemeTimeofday" outcome="/timeofday/view" value="#{priceSchemeBean.priceScheme.timeofday.startTime}">
 				<f:param name="id" value="#{priceSchemeBean.priceScheme.timeofday.timeofdayId}"/>
 			</h:link>
 			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeEvent" value="Event:"/>
+			<h:link id="priceSchemeBeanPriceSchemeEvent" outcome="/event/view" value="#{priceSchemeBean.priceScheme.event.eventId}">
+				<f:param name="id" value="#{priceSchemeBean.priceScheme.event.eventId}"/>
+			</h:link>
+			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeDayofweek" value="Dayofweek:"/>
-			<h:link id="priceSchemeBeanPriceSchemeDayofweek" outcome="/dayofweek/view" value="#{priceSchemeBean.priceScheme.dayofweek}">
+			<h:link id="priceSchemeBeanPriceSchemeDayofweek" outcome="/dayofweek/view" value="#{priceSchemeBean.priceScheme.dayofweek.day}">
 				<f:param name="id" value="#{priceSchemeBean.priceScheme.dayofweek.dayofweekId}"/>
 			</h:link>
 			<h:outputText/>
@@ -57,24 +66,18 @@
 			<h:outputLabel for="priceSchemeBeanPriceSchemePriceSchemeName" value="Price Scheme Name:"/>
 			<h:outputText id="priceSchemeBeanPriceSchemePriceSchemeName" value="#{priceSchemeBean.priceScheme.priceSchemeName}"/>
 			<h:outputText/>
+			<h:outputLabel for="priceSchemeBeanPriceSchemeSaleType" value="Sale Type:"/>
+			<h:outputText id="priceSchemeBeanPriceSchemeSaleType" value="#{priceSchemeBean.priceScheme.saleType}"/>
+			<h:outputText/>
 			<h:outputLabel for="priceSchemeBeanPriceSchemeSales" value="Sales:"/>
 			<h:dataTable id="priceSchemeBeanPriceSchemeSales" styleClass="data-table" value="#{forgeview:asList(priceSchemeBean.priceScheme.sales)}" var="_item">
 				<h:column>
 					<f:facet name="header">
-						<h:outputText value="User"/>
+						<h:outputText value="Sale Type"/>
 					</f:facet>
 					<h:link outcome="/sale/view">
 						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemUser" value="#{_item.user}"/>
-					</h:link>
-				</h:column>
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Payment"/>
-					</f:facet>
-					<h:link outcome="/sale/view">
-						<f:param name="id" value="#{_item.saleId}"/>
-						<h:outputText id="itemPayment" value="#{_item.payment}"/>
+						<h:outputText id="itemSaleType" value="#{_item.saleType}"/>
 					</h:link>
 				</h:column>
 			</h:dataTable>

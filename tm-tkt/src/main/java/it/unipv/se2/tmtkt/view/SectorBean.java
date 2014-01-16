@@ -51,14 +51,14 @@ public class SectorBean implements Serializable
     * Support creating and retrieving Sector entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -106,7 +106,7 @@ public class SectorBean implements Serializable
       }
    }
 
-   public Sector findById(Byte id)
+   public Sector findById(Short id)
    {
 
       return this.entityManager.find(Sector.class, id);
@@ -245,7 +245,7 @@ public class SectorBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      byte sectorId = this.example.getSectorId();
+      Short sectorId = this.example.getSectorId();
       if (sectorId != 0)
       {
          predicatesList.add(builder.equal(root.get("sectorId"), sectorId));
@@ -299,7 +299,7 @@ public class SectorBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

@@ -1,18 +1,23 @@
 package it.unipv.se2.tmtkt.controller;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
 
 import it.unipv.se2.tmtkt.model.Booking;
@@ -23,7 +28,7 @@ import it.unipv.se2.tmtkt.model.PaymentMethod;
 import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
-import it.unipv.se2.tmtkt.model.Show;
+import it.unipv.se2.tmtkt.model.Play;
 import it.unipv.se2.tmtkt.model.Subscription;
 import it.unipv.se2.tmtkt.model.SubscriptionType;
 import it.unipv.se2.tmtkt.model.User;
@@ -42,7 +47,7 @@ public class SubscriptionController implements Serializable {
 	private static final short FREE_SEAT = 2;
 	private static final short CARNET = 3;
 	
-	private Byte genreId;
+	private Short genreId;
 	private Integer saleId;
 	private Short subscriptionTypeId;
 	private Integer eventId;
@@ -51,16 +56,16 @@ public class SubscriptionController implements Serializable {
 		
 	private PaymentMethod paymentMethod;
 		
-	@EJB private SubscriptionCounter subscriptionCounter;
+	@Inject private SubscriptionCounter subscriptionCounter;
 	
-	@EJB private TransactionTestImpl transactionManager;
+	@Inject private TransactionTestImpl transactionManager;
 	
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 
 	public String buy() {
 		try {
-			PriceScheme priceScheme = new PriceScheme(25);
+			PriceScheme priceScheme = new PriceScheme(15*countEventsForGenre());
 
 			this.em.persist(priceScheme);
 
@@ -89,12 +94,12 @@ public class SubscriptionController implements Serializable {
 			case ASSIGNED_SEAT :
 				Seat seat = this.em.find(Seat.class, seatId);
 				if ( seat == null) {
-					FacesContext.getCurrentInstance().addMessage(null,
-							new FacesMessage("A seat is mandatory for an Assigen Seat type subscription"));
+					context.addMessage(null,
+							new FacesMessage("A seat is mandatory for an Assigned Seat type subscription"));
 					return null;
 				} else {
 					subscription.setSeat(seat);
-					for (Show s: genre.getShows()) {
+					for (Play s: genre.getPlays()) {
 						for (Event e : s.getEvents()) {
 							// check that the date is the same excluding time
 							if ((e.getDatetime().getTime() - s.getFirstEventDate().getTime()) <= (24*3600*1000) ) {
@@ -116,15 +121,16 @@ public class SubscriptionController implements Serializable {
 				}
 				break;
 			case FREE_SEAT :
-				subscription.setPrepaidTickets((short)genre.getShows().size());
+				subscription.setPrepaidTickets((short)genre.getPlays().size());
 				break;
 			case CARNET :
 				if ( this.prepaidTickets == 0 ) {
-					FacesContext.getCurrentInstance().addMessage(null,
+					context.addMessage(null,
 							new FacesMessage("A number of tickets is mandatory for a Carnet type subscription"));
 					return null;
 				} else {
-					subscription.setPrepaidTickets(this.prepaidTickets);
+					subscription.setPrepaidTickets((short) (
+							this.prepaidTickets < countEventsForGenre() ? this.prepaidTickets : countEventsForGenre()));
 				}
 				break;
 			}
@@ -194,27 +200,57 @@ public class SubscriptionController implements Serializable {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public Byte getGenreId() {
+	public Short getGenreId() {
 		return genreId;
 	}
 
-	public void setGenreId(Byte genreId) {
+	public void setGenreId(Short genreId) {
 		this.genreId = genreId;
 	}
 
-	public String subscriptionTypeName() {
-		switch (this.subscriptionTypeId) {
-		case ASSIGNED_SEAT:
-			return "assignedSeat";
-		case FREE_SEAT:
-			return "freeSeat";
-		case CARNET:
-			return "carnet";
-		default:
+	public String subscriptionTypeName() {		
+		if (countEventsForGenre() > 0) {
+			switch (this.subscriptionTypeId) {
+			case ASSIGNED_SEAT:
+				return "assignedSeat";
+			case FREE_SEAT:
+				return "freeSeat";
+			case CARNET:
+				return "carnet";
+			default:
+				return null;
+			}
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage("Sorry no Plays with a matching genre found on schedule for this year!"));
 			return null;
 		}
 	}
 
+	private static Short _countEventsForGenre;
+	
+	private int countEventsForGenre() {
+		if (_countEventsForGenre == null) {
+			_countEventsForGenre = 0;
+			Genre genre = this.em.find(Genre.class, genreId);
+			Set<Play> Plays = genre.getPlays();
+			for (Play s : Plays) {
+				_countEventsForGenre = (short) (_countEventsForGenre + s
+						.getEvents().size());
+			}
+		}
+		return _countEventsForGenre;
+	}
+
+	public List<Genre> getAllGenreOnSchedule() {
+		CriteriaBuilder cb = this.em.getCriteriaBuilder();
+		CriteriaQuery<Genre> criteria = cb.createQuery(Genre.class);
+		Root<Genre> root = criteria.from(Genre.class);
+		criteria.select(root);
+		root.join("plays");
+		return this.em.createQuery(criteria).getResultList();
+	}
+	
 	public Short getPrepaidTickets() {
 		return prepaidTickets;
 	}

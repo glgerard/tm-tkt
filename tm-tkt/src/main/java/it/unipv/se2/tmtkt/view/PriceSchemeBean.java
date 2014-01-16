@@ -26,11 +26,14 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Dayofweek;
+import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Genre;
+import it.unipv.se2.tmtkt.model.Play;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Season;
 import it.unipv.se2.tmtkt.model.Sector;
 import it.unipv.se2.tmtkt.model.Timeofday;
+import it.unipv.se2.tmtkt.model.UserCategory;
 import java.util.Iterator;
 
 /**
@@ -151,6 +154,14 @@ public class PriceSchemeBean implements Serializable
       try
       {
          PriceScheme deletableEntity = findById(getId());
+         UserCategory userCategory = deletableEntity.getUserCategory();
+         userCategory.getPriceSchemes().remove(deletableEntity);
+         deletableEntity.setUserCategory(null);
+         this.entityManager.merge(userCategory);
+         Play play = deletableEntity.getPlay();
+         play.getPriceSchemes().remove(deletableEntity);
+         deletableEntity.setPlay(null);
+         this.entityManager.merge(play);
          Season season = deletableEntity.getSeason();
          season.getPriceSchemes().remove(deletableEntity);
          deletableEntity.setSeason(null);
@@ -167,6 +178,10 @@ public class PriceSchemeBean implements Serializable
          timeofday.getPriceSchemes().remove(deletableEntity);
          deletableEntity.setTimeofday(null);
          this.entityManager.merge(timeofday);
+         Event event = deletableEntity.getEvent();
+         event.getPriceSchemes().remove(deletableEntity);
+         deletableEntity.setEvent(null);
+         this.entityManager.merge(event);
          Dayofweek dayofweek = deletableEntity.getDayofweek();
          dayofweek.getPriceSchemes().remove(deletableEntity);
          deletableEntity.setDayofweek(null);
@@ -261,6 +276,16 @@ public class PriceSchemeBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
+      UserCategory userCategory = this.example.getUserCategory();
+      if (userCategory != null)
+      {
+         predicatesList.add(builder.equal(root.get("userCategory"), userCategory));
+      }
+      Play play = this.example.getPlay();
+      if (play != null)
+      {
+         predicatesList.add(builder.equal(root.get("play"), play));
+      }
       Season season = this.example.getSeason();
       if (season != null)
       {
@@ -275,16 +300,6 @@ public class PriceSchemeBean implements Serializable
       if (sector != null)
       {
          predicatesList.add(builder.equal(root.get("sector"), sector));
-      }
-      Timeofday timeofday = this.example.getTimeofday();
-      if (timeofday != null)
-      {
-         predicatesList.add(builder.equal(root.get("timeofday"), timeofday));
-      }
-      Dayofweek dayofweek = this.example.getDayofweek();
-      if (dayofweek != null)
-      {
-         predicatesList.add(builder.equal(root.get("dayofweek"), dayofweek));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);

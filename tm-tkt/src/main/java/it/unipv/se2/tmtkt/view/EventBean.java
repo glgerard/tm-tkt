@@ -26,7 +26,7 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Event;
 import it.unipv.se2.tmtkt.model.Booking;
-import it.unipv.se2.tmtkt.model.Show;
+import it.unipv.se2.tmtkt.model.Play;
 import java.util.Iterator;
 
 /**
@@ -147,10 +147,10 @@ public class EventBean implements Serializable
       try
       {
          Event deletableEntity = findById(getId());
-         Show show = deletableEntity.getShow();
-         show.getEvents().remove(deletableEntity);
-         deletableEntity.setShow(null);
-         this.entityManager.merge(show);
+         Play Play = deletableEntity.getPlay();
+         Play.getEvents().remove(deletableEntity);
+         deletableEntity.setPlay(null);
+         this.entityManager.merge(Play);
          Iterator<Booking> iterBookings = deletableEntity.getBookings().iterator();
          for (; iterBookings.hasNext();)
          {
@@ -241,10 +241,10 @@ public class EventBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      Show show = this.example.getShow();
-      if (show != null)
+      Play Play = this.example.getPlay();
+      if (Play != null)
       {
-         predicatesList.add(builder.equal(root.get("show"), show));
+         predicatesList.add(builder.equal(root.get("Play"), Play));
       }
 
       return predicatesList.toArray(new Predicate[predicatesList.size()]);

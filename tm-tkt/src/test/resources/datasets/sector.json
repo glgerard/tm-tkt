@@ -1,0 +1,29 @@
+{
+    "SECTOR":
+[
+	{
+		"SECTOR_id" : 3,
+		"SECTOR_NAME" : "Palco-A"
+	},
+	{
+		"SECTOR_id" : 4,
+		"SECTOR_NAME" : "Palco-B"
+	},
+	{
+		"SECTOR_id" : 2,
+		"SECTOR_NAME" : "Poltrona"
+	},
+	{
+		"SECTOR_id" : 1,
+		"SECTOR_NAME" : "Poltronissima"
+	},
+	{
+		"SECTOR_id" : 5,
+		"SECTOR_NAME" : "Sala-A"
+	},
+	{
+		"SECTOR_id" : 6,
+		"SECTOR_NAME" : "Sala-B"
+	}
+]
+}

@@ -32,9 +32,9 @@
 					<h:panelGrid columnClasses="label,component,required" columns="3">
 						<h:outputLabel for="eventBeanExampleShow" value="Show:"/>
 						<h:panelGroup>
-							<h:selectOneMenu converter="#{showBean.converter}" id="eventBeanExampleShow" value="#{eventBean.example.show}">
+							<h:selectOneMenu converter="#{playBean.converter}" id="eventBeanExampleShow" value="#{eventBean.example.play}">
 								<f:selectItem/>
-								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{showBean.all}" var="_item"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item)}" itemValue="#{_item}" value="#{playBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="eventBeanExampleShow" styleClass="error"/>
 						</h:panelGroup>

@@ -50,14 +50,14 @@ public class TimeofdayBean implements Serializable
     * Support creating and retrieving Timeofday entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -105,7 +105,7 @@ public class TimeofdayBean implements Serializable
       }
    }
 
-   public Timeofday findById(Byte id)
+   public Timeofday findById(Short id)
    {
 
       return this.entityManager.find(Timeofday.class, id);
@@ -285,7 +285,7 @@ public class TimeofdayBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

@@ -1,0 +1,25 @@
+{
+    "SEAT_CATEGORY":
+[
+	{
+		"SEAT_CATEGORY_id" : 5,
+		"CATEGORY_NAME" : "Disabled"
+	},
+	{
+		"SEAT_CATEGORY_id" : 4,
+		"CATEGORY_NAME" : "Reduced"
+	},
+	{
+		"SEAT_CATEGORY_id" : 3,
+		"CATEGORY_NAME" : "Reserved"
+	},
+	{
+		"SEAT_CATEGORY_id" : 1,
+		"CATEGORY_NAME" : "Standard"
+	},
+	{
+		"SEAT_CATEGORY_id" : 2,
+		"CATEGORY_NAME" : "Unavailable"
+	}
+]
+}

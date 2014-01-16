@@ -28,7 +28,7 @@ import javax.persistence.criteria.Root;
 
 import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.PriceScheme;
-import it.unipv.se2.tmtkt.model.Show;
+import it.unipv.se2.tmtkt.model.Play;
 import it.unipv.se2.tmtkt.model.UserCategory;
 
 import java.util.Iterator;
@@ -55,14 +55,14 @@ public class GenreBean implements Serializable
     * Support creating and retrieving Genre entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -110,7 +110,7 @@ public class GenreBean implements Serializable
       }
    }
 
-   public Genre findById(Byte id)
+   public Genre findById(Short id)
    {
 
       return this.entityManager.find(Genre.class, id);
@@ -151,13 +151,13 @@ public class GenreBean implements Serializable
       try
       {
          Genre deletableEntity = findById(getId());
-         Iterator<Show> iterShows = deletableEntity.getShows().iterator();
-         for (; iterShows.hasNext();)
+         Iterator<Play> iterPlays = deletableEntity.getPlays().iterator();
+         for (; iterPlays.hasNext();)
          {
-            Show nextInShows = iterShows.next();
-            nextInShows.setGenre(null);
-            iterShows.remove();
-            this.entityManager.merge(nextInShows);
+            Play nextInPlays = iterPlays.next();
+            nextInPlays.setGenre(null);
+            iterPlays.remove();
+            this.entityManager.merge(nextInPlays);
          }
          Iterator<PriceScheme> iterPriceSchemes = deletableEntity.getPriceSchemes().iterator();
          for (; iterPriceSchemes.hasNext();)
@@ -298,7 +298,7 @@ public class GenreBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

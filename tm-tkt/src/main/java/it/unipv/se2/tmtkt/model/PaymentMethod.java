@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -17,13 +17,12 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="PAYMENT_METHOD"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="PAYMENT_NAME") 
 )
 public class PaymentMethod  implements java.io.Serializable {
 
 
-     private byte paymentMethodId;
+     private short paymentMethodId;
      private String paymentName;
      private Set<Payment> payments = new HashSet<Payment>(0);
 
@@ -31,11 +30,11 @@ public class PaymentMethod  implements java.io.Serializable {
     }
 
 	
-    public PaymentMethod(byte paymentMethodId, String paymentName) {
+    public PaymentMethod(short paymentMethodId, String paymentName) {
         this.paymentMethodId = paymentMethodId;
         this.paymentName = paymentName;
     }
-    public PaymentMethod(byte paymentMethodId, String paymentName, Set<Payment> payments) {
+    public PaymentMethod(short paymentMethodId, String paymentName, Set<Payment> payments) {
        this.paymentMethodId = paymentMethodId;
        this.paymentName = paymentName;
        this.payments = payments;
@@ -45,11 +44,11 @@ public class PaymentMethod  implements java.io.Serializable {
 
     
     @Column(name="PAYMENT_METHOD_id", unique=true, nullable=false)
-    public byte getPaymentMethodId() {
+    public short getPaymentMethodId() {
         return this.paymentMethodId;
     }
     
-    public void setPaymentMethodId(byte paymentMethodId) {
+    public void setPaymentMethodId(short paymentMethodId) {
         this.paymentMethodId = paymentMethodId;
     }
 

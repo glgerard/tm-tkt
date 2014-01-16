@@ -56,15 +56,15 @@
 								<h:outputText id="itemTitle" value="#{_item.title}"/>
 							</h:link>
 							<f:facet name="footer">
-								<h:inputText id="showBeanAddTitle" maxLength="80" value="#{showBean.add.title}"/>
-								<h:message for="showBeanAddTitle" styleClass="error"/>
+								<h:inputText id="playBeanAddTitle" maxLength="80" value="#{playBean.add.title}"/>
+								<h:message for="playBeanAddTitle" styleClass="error"/>
 							</f:facet>
 						</h:column>
 						<h:column footerClass="remove-column" headerClass="remove-column">
 							<h:commandLink action="#{_collection.remove(_item)}" styleClass="remove-button"/>
 							<f:facet name="footer">
-								<h:commandLink action="#{_collection.add(showBean.added)}" id="genreBeanGenreShowsAdd" styleClass="add-button">
-									<f:setPropertyActionListener target="#{showBean.add.genre}" value="#{genreBean.genre}"/>
+								<h:commandLink action="#{_collection.add(playBean.added)}" id="genreBeanGenreShowsAdd" styleClass="add-button">
+									<f:setPropertyActionListener target="#{playBean.add.genre}" value="#{genreBean.genre}"/>
 								</h:commandLink>
 							</f:facet>
 						</h:column>

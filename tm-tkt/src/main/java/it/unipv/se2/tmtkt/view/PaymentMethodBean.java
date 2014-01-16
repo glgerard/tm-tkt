@@ -50,14 +50,14 @@ public class PaymentMethodBean implements Serializable
     * Support creating and retrieving PaymentMethod entities
     */
 
-   private Byte id;
+   private Short id;
 
-   public Byte getId()
+   public Short getId()
    {
       return this.id;
    }
 
-   public void setId(Byte id)
+   public void setId(Short id)
    {
       this.id = id;
    }
@@ -105,7 +105,7 @@ public class PaymentMethodBean implements Serializable
       }
    }
 
-   public PaymentMethod findById(Byte id)
+   public PaymentMethod findById(Short id)
    {
 
       return this.entityManager.find(PaymentMethod.class, id);
@@ -236,7 +236,7 @@ public class PaymentMethodBean implements Serializable
       CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
       List<Predicate> predicatesList = new ArrayList<Predicate>();
 
-      byte paymentMethodId = this.example.getPaymentMethodId();
+      Short paymentMethodId = this.example.getPaymentMethodId();
       if (paymentMethodId != 0)
       {
          predicatesList.add(builder.equal(root.get("paymentMethodId"), paymentMethodId));
@@ -290,7 +290,7 @@ public class PaymentMethodBean implements Serializable
                UIComponent component, String value)
          {
 
-            return ejbProxy.findById(Byte.valueOf(value));
+            return ejbProxy.findById(Short.valueOf(value));
          }
 
          @Override

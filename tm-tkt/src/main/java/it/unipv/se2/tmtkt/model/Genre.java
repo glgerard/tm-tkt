@@ -1,5 +1,5 @@
 package it.unipv.se2.tmtkt.model;
-// Generated Jan 5, 2014 9:05:06 AM by Hibernate Tools 3.4.0.CR1
+// Generated Jan 15, 2014 2:28:27 PM by Hibernate Tools 3.4.0.CR1
 
 
 import java.util.HashSet;
@@ -20,15 +20,14 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name="GENRE"
-    ,catalog="teatromanzoni"
     , uniqueConstraints = @UniqueConstraint(columnNames="NAME") 
 )
 public class Genre  implements java.io.Serializable {
 
 
-     private Byte genreId;
+     private Short genreId;
      private String name;
-     private Set<Show> shows = new HashSet<Show>(0);
+     private Set<Play> plays = new HashSet<Play>(0);
      private Set<Seat> seats = new HashSet<Seat>(0);
      private Set<PriceScheme> priceSchemes = new HashSet<PriceScheme>(0);
      private Set<Subscription> subscriptions = new HashSet<Subscription>(0);
@@ -40,9 +39,9 @@ public class Genre  implements java.io.Serializable {
     public Genre(String name) {
         this.name = name;
     }
-    public Genre(String name, Set<Show> shows, Set<Seat> seats, Set<PriceScheme> priceSchemes, Set<Subscription> subscriptions) {
+    public Genre(String name, Set<Play> plays, Set<Seat> seats, Set<PriceScheme> priceSchemes, Set<Subscription> subscriptions) {
        this.name = name;
-       this.shows = shows;
+       this.plays = plays;
        this.seats = seats;
        this.priceSchemes = priceSchemes;
        this.subscriptions = subscriptions;
@@ -52,11 +51,11 @@ public class Genre  implements java.io.Serializable {
 
     
     @Column(name="GENRE_id", unique=true, nullable=false)
-    public Byte getGenreId() {
+    public Short getGenreId() {
         return this.genreId;
     }
     
-    public void setGenreId(Byte genreId) {
+    public void setGenreId(Short genreId) {
         this.genreId = genreId;
     }
 
@@ -71,12 +70,12 @@ public class Genre  implements java.io.Serializable {
     }
 
 @OneToMany(fetch=FetchType.LAZY, mappedBy="genre")
-    public Set<Show> getShows() {
-        return this.shows;
+    public Set<Play> getPlays() {
+        return this.plays;
     }
     
-    public void setShows(Set<Show> shows) {
-        this.shows = shows;
+    public void setPlays(Set<Play> plays) {
+        this.plays = plays;
     }
 
 @ManyToMany(fetch=FetchType.LAZY, mappedBy="genres")
@@ -105,10 +104,6 @@ public class Genre  implements java.io.Serializable {
     public void setSubscriptions(Set<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
-
-
-
-
 }
 
 

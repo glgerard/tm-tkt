@@ -4,6 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:forgeview="http://jboss.org/forge/view"
 	template="/resources/scaffold/pageTemplate.xhtml">
 
 	<f:metadata>
@@ -11,14 +12,14 @@
 		<f:event type="preRenderView" listener="#{priceSchemeBean.paginate}"/>
 	</f:metadata>
 
-	<ui:param name="pageTitle" value="Search Price Scheme entities"/>
+	<ui:param name="pageTitle" value="Search Price Schemes"/>
 
 	<ui:define name="header">
-		Price Scheme
+		Price Schemes
 	</ui:define>
 
 	<ui:define name="subheader">
-		Search Price Scheme entities
+		Search Price Schemes
 	</ui:define>
 
 	<ui:define name="footer"/>
@@ -29,11 +30,29 @@
 				<h:panelGroup styleClass="search">
 
 					<h:panelGrid columnClasses="label,component,required" columns="3">
+						<h:outputLabel for="priceSchemeBeanExampleUserCategory" value="User Category:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{userCategoryBean.converter}" id="priceSchemeBeanExampleUserCategory" value="#{priceSchemeBean.example.userCategory}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.description)}" itemValue="#{_item}" value="#{userCategoryBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExampleUserCategory" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
+						<h:outputLabel for="priceSchemeBeanExamplePlay" value="Show:"/>
+						<h:panelGroup>
+							<h:selectOneMenu converter="#{playBean.converter}" id="priceSchemeBeanExamplePlay" value="#{priceSchemeBean.example.play}">
+								<f:selectItem/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.title)}" itemValue="#{_item}" value="#{playBean.all}" var="_item"/>
+							</h:selectOneMenu>
+							<h:message for="priceSchemeBeanExamplePlay" styleClass="error"/>
+						</h:panelGroup>
+						<h:outputText/>
 						<h:outputLabel for="priceSchemeBeanExampleSeason" value="Season:"/>
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{seasonBean.converter}" id="priceSchemeBeanExampleSeason" value="#{priceSchemeBean.example.season}">
 								<f:selectItem/>
-								<f:selectItems value="#{seasonBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.startDate) - forgeview:display(_item.endDate)}" itemValue="#{_item}" value="#{seasonBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="priceSchemeBeanExampleSeason" styleClass="error"/>
 						</h:panelGroup>
@@ -42,7 +61,7 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{genreBean.converter}" id="priceSchemeBeanExampleGenre" value="#{priceSchemeBean.example.genre}">
 								<f:selectItem/>
-								<f:selectItems value="#{genreBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.name)}" itemValue="#{_item}" value="#{genreBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="priceSchemeBeanExampleGenre" styleClass="error"/>
 						</h:panelGroup>
@@ -51,27 +70,9 @@
 						<h:panelGroup>
 							<h:selectOneMenu converter="#{sectorBean.converter}" id="priceSchemeBeanExampleSector" value="#{priceSchemeBean.example.sector}">
 								<f:selectItem/>
-								<f:selectItems value="#{sectorBean.all}"/>
+								<f:selectItems itemLabel="#{forgeview:display(_item.sectorName)}" itemValue="#{_item}" value="#{sectorBean.all}" var="_item"/>
 							</h:selectOneMenu>
 							<h:message for="priceSchemeBeanExampleSector" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="priceSchemeBeanExampleTimeofday" value="Timeofday:"/>
-						<h:panelGroup>
-							<h:selectOneMenu converter="#{timeofdayBean.converter}" id="priceSchemeBeanExampleTimeofday" value="#{priceSchemeBean.example.timeofday}">
-								<f:selectItem/>
-								<f:selectItems value="#{timeofdayBean.all}"/>
-							</h:selectOneMenu>
-							<h:message for="priceSchemeBeanExampleTimeofday" styleClass="error"/>
-						</h:panelGroup>
-						<h:outputText/>
-						<h:outputLabel for="priceSchemeBeanExampleDayofweek" value="Dayofweek:"/>
-						<h:panelGroup>
-							<h:selectOneMenu converter="#{dayofweekBean.converter}" id="priceSchemeBeanExampleDayofweek" value="#{priceSchemeBean.example.dayofweek}">
-								<f:selectItem/>
-								<f:selectItems value="#{dayofweekBean.all}"/>
-							</h:selectOneMenu>
-							<h:message for="priceSchemeBeanExampleDayofweek" styleClass="error"/>
 						</h:panelGroup>
 						<h:outputText/>
 					</h:panelGrid>
@@ -85,6 +86,15 @@
 			<h:dataTable id="priceSchemeBeanPageItems" styleClass="data-table" value="#{priceSchemeBean.pageItems}" var="_item">
 				<h:column>
 					<f:facet name="header">
+						<h:outputText value="Price Scheme"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemSchemeName" value="#{_item.priceSchemeName}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
 						<h:outputText value="Price"/>
 					</f:facet>
 					<h:link outcome="/priceScheme/view">
@@ -92,6 +102,33 @@
 						<h:outputText id="itemPrice" value="#{_item.price}"/>
 					</h:link>
 				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sale Type"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemSaleType" value="#{_item.saleType}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Genre"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemGenre" value="#{_item.genre.name}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Sector"/>
+					</f:facet>
+					<h:link outcome="/priceScheme/view">
+						<f:param name="id" value="#{_item.priceSchemeId}"/>
+						<h:outputText id="itemSector" value="#{_item.sector.sectorName}"/>
+					</h:link>
+				</h:column>				
 			</h:dataTable>
 			<ui:include src="/resources/scaffold/paginator.xhtml">
 				<ui:param name="paginatorBean" value="#{priceSchemeBean}"/>
