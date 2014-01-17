@@ -47,9 +47,9 @@
 				<h:outputText value="*"/>
 				<h:outputLabel for="userBeanUserUserCategory" value="User Category:"/>
 				<h:panelGroup>
-					<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanUserUserCategory" value="#{userBean.user.userCategory}">
+					<h:selectOneMenu id="userBeanUserUserCategory" value="#{userBean.user.userCategory}">
 						<f:selectItem/>
-						<f:selectItems value="#{userCategoryBean.all}"/>
+						<f:selectItems value="#{userCategoryBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.description}"/>
 					</h:selectOneMenu>
 					<h:message for="userBeanUserUserCategory" styleClass="error"/>
 				</h:panelGroup>

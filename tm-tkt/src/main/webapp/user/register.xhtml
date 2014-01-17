@@ -48,7 +48,7 @@
 				<h:panelGroup>
 					<h:selectOneMenu converter="#{userCategoryBean.converter}" id="userBeanUserUserCategory" value="#{userBean.user.userCategory}">
 						<f:selectItem/>
-						<f:selectItems value="#{userCategoryBean.userCategoryItems}" from="1"/>
+						<f:selectItems value="#{userCategoryBean.all}" var="_item" itemValue="#{_item}" itemLabel="#{_item.description}" from="1"/>
 					</h:selectOneMenu>
 					<h:message for="userBeanUserUserCategory" styleClass="error"/>
 				</h:panelGroup>
@@ -92,7 +92,7 @@
 						</h:link>
 					</c:when>
 					<c:otherwise>
-						<h:link value="Cancel" outcome="index" styleClass="btn btn-primary"/>
+						<h:link value="Cancel" outcome="login" styleClass="btn btn-primary"/>
 					</c:otherwise>
 				</c:choose>
 			</div>
