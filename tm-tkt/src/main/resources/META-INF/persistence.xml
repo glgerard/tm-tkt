@@ -12,7 +12,7 @@
          <property name="hibernate.hbm2ddl.auto" value="create-drop" />
          -->
       <!-- Print's out the SQL statement Hibernate is using to the console, useful for debugging -->
-      <property name="hibernate.show_sql" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
       <property name="hibernate.format_sql" value="false"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </properties>

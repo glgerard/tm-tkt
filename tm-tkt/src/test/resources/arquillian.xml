@@ -13,7 +13,7 @@
     	<property name="defaultDataSource">java:jboss/datasources/TestDS</property>
 		<property name="scriptsToExecuteBeforeTest">SET REFERENTIAL_INTEGRITY FALSE;</property>
         <property name="userTransactionJndi">java:jboss/UserTransaction</property>
-        <property name="dumpData">true</property>
+        <property name="dumpData">false</property>
         <property name="dumpDirectory">/tmp/showcase</property>
     </extension>
 </arquillian>

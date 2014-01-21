@@ -94,8 +94,13 @@
   PATH="/sale/subscriptions.xhtml" SHAPE="168,440,50,25"
   model-entity="JSFProcessGroup" persistent="true"/>
  <PROCESS-ITEM NAME="rules:#user#register.xhtml"
-  PATH="/user/register.xhtml" SHAPE="984,488,50,25"
-  model-entity="JSFProcessGroup" persistent="true"/>
+  PATH="/user/register.xhtml" SHAPE="984,488,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#user#register.xhtml:0" NAME="item"
+   PATH="/user/register.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="login::#login.xhtml" NAME="output"
+    PATH="/login.xhtml" TARGET="rules:#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#sale#tickets.xhtml"
   PATH="/sale/tickets.xhtml" SHAPE="104,504,50,25" model-entity="JSFProcessGroup">
   <PROCESS-ITEM ID="rules:#sale#tickets.xhtml:0" NAME="item"

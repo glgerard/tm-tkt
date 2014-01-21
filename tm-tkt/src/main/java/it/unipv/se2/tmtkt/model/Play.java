@@ -148,7 +148,7 @@ public class Play  implements java.io.Serializable {
         this.priceSchemes = priceSchemes;
     }
 
-@OneToMany(fetch=FetchType.LAZY, mappedBy="play")
+@OneToMany(fetch=FetchType.EAGER, mappedBy="play")
     public Set<Event> getEvents() {
         return this.events;
     }
