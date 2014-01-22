@@ -10,7 +10,7 @@
 
 	<f:metadata>
 		<f:viewParam name="id" value="#{paymentBean.id}"/>
-		<f:event type="preRenderView" listener="#{paymentBean.retrieve}"/>
+		<f:event type="preRenderView" listener="#{subscriptionController.create}"/>
 	</f:metadata>
 
 	<ui:param name="pageTitle" value="Complete Payment"/>
@@ -33,6 +33,10 @@
 	<ui:define name="footer"/>
 
 	<ui:define name="main">
+		<h4>
+			Subscription price: <h:outputText value="#{subscriptionController.price}"/> EUR
+		</h4>
+		<br/>
 		<h:form id="create">
 			<h:messages globalOnly="true" styleClass="error"/>
 			<h:inputHidden id="subscriptionTypeId" value="#{subscriptionController.subscriptionTypeId}" />

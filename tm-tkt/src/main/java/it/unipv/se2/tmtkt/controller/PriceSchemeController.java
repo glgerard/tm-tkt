@@ -55,7 +55,7 @@ public class PriceSchemeController implements Serializable {
 				"play",
 				"genre",
 				"sector",
-				"user"
+				"userCategory"
 		};
 		
 		constraintsList = Arrays.asList(constraints);
@@ -63,17 +63,17 @@ public class PriceSchemeController implements Serializable {
 		return findPriceScheme();
 	}
 	
-	public PriceScheme subscriptionPrice(Genre genre, Seat seat, User user) {
+	public PriceScheme subscriptionPrice(Genre genre, Sector sector, User user) {
 		example.setSaleType('S');
 		example.setGenre(genre);
-		example.setSector(seat.getSector());
+		example.setSector(sector);
 		example.setUserCategory(user.getUserCategory());
 		
 		String[] constraints = {
 				"saleType",
 				"genre",
 				"sector",
-				"user"
+				"userCategory"
 		};
 		
 		constraintsList = Arrays.asList(constraints);
@@ -101,10 +101,8 @@ public class PriceSchemeController implements Serializable {
 				constraintsIter.hasNext(); )
 		{			
 			Predicate predicate = constraintsMap.get(constraintsIter.next());
-			countCriteria = countCriteria.select(builder.count(root)).where(
-					getSearchPredicates(root).get(predicate));
-			resultsCount = this.em.createQuery(countCriteria)
-					.getSingleResult();		
+			countCriteria = countCriteria.select(builder.count(root)).where(predicate);
+			resultsCount = this.em.createQuery(countCriteria).getSingleResult();		
 			if (resultsCount >= 1) {
 				predicatesList.add(predicate);
 			}
@@ -114,7 +112,7 @@ public class PriceSchemeController implements Serializable {
 				.createQuery(PriceScheme.class);
 		root = criteria.from(PriceScheme.class);
 		TypedQuery<PriceScheme> query = this.em.createQuery(criteria.select(
-				root).where(getSearchPredicates(root).get(predicatesList.toArray(new Predicate[predicatesList.size()]))));
+				root).where(predicatesList.toArray(new Predicate[predicatesList.size()])));
 
 		return query.getSingleResult();
 	}

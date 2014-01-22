@@ -1,0 +1,117 @@
+{
+	"PRICE_SCHEME":
+[
+	{
+		"PRICE_SCHEME_id" : 1,
+		"PRICE" : 40,
+		"PRICE_SCHEME_NAME" : "Tragedy Std Tkt",
+		"GENRE_id" : 1,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "T",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 2,
+		"PRICE" : 35,
+		"PRICE_SCHEME_NAME" : "Music Std Tkt",
+		"GENRE_id" : 2,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "T",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 3,
+		"PRICE" : 40,
+		"PRICE_SCHEME_NAME" : "Opera Std Tkt",
+		"GENRE_id" : 4,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "T",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 4,
+		"PRICE" : 35,
+		"PRICE_SCHEME_NAME" : "Ballet Std Tkt",
+		"GENRE_id" : 5,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "T",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 5,
+		"PRICE" : 35,
+		"PRICE_SCHEME_NAME" : "Tragedy Std Sub",
+		"GENRE_id" : 1,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "S",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 6,
+		"PRICE" : 30,
+		"PRICE_SCHEME_NAME" : "Music Std Sub",
+		"GENRE_id" : 2,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "S",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 7,
+		"PRICE" : 35,
+		"PRICE_SCHEME_NAME" : "Opera Std Sub",
+		"GENRE_id" : 4,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "S",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	},
+	{
+		"PRICE_SCHEME_id" : 8,
+		"PRICE" : 30,
+		"PRICE_SCHEME_NAME" : "Ballet Std Sub",
+		"GENRE_id" : 5,
+		"SEASON_id" : "[NULL]",
+		"DAYOFWEEK_id" : "[NULL]",
+		"TIMEOFDAY_id" : "[NULL]",
+		"SECTOR_id" : "[NULL]",
+		"USER_CATEGORY_id" : "[NULL]",
+		"SALE_TYPE" : "S",
+		"EVENT_id" : "[NULL]",
+		"SHOW_id" : "[NULL]"
+	}
+]
+}

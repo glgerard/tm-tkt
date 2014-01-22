@@ -29,6 +29,7 @@ import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Sale;
 import it.unipv.se2.tmtkt.model.Seat;
 import it.unipv.se2.tmtkt.model.Play;
+import it.unipv.se2.tmtkt.model.Sector;
 import it.unipv.se2.tmtkt.model.Subscription;
 import it.unipv.se2.tmtkt.model.SubscriptionType;
 import it.unipv.se2.tmtkt.model.User;
@@ -55,19 +56,51 @@ public class SubscriptionController implements Serializable {
 	private Short prepaidTickets;
 		
 	private PaymentMethod paymentMethod;
+	
+	private Genre genre;
+	private Sector sector;
+	private User user;
+	private PriceScheme priceScheme;
 		
 	@Inject private SubscriptionCounter subscriptionCounter;
 	
 	@Inject private TransactionTestImpl transactionManager;
 	
+    @Inject private PriceSchemeController priceSchemeController;
+
 	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	private EntityManager em;
 
+	public void create() {
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    HttpServletRequest request = (HttpServletRequest) context.
+	        getExternalContext().getRequest();
+	    
+	    String userId = request.getRemoteUser();
+	    this.user = this.em.find(User.class, userId );
+		this.genre = this.em.find(Genre.class, this.genreId);
+		
+		if (seatId != null) {
+			this.sector = this.em.find(Seat.class, seatId).getSector();
+		} else {
+			this.sector = this.em.find(Sector.class, (short)1);
+		}
+	    
+		this.priceScheme = priceSchemeController.subscriptionPrice(genre, sector, user);	
+	}
+	
+	public long getPrice() {
+		if (this.priceScheme == null)
+			create();
+		return this.priceScheme.getPrice()*countEventsForGenre();
+	}
+	
 	public String buy() {
 		try {
-			PriceScheme priceScheme = new PriceScheme(15*countEventsForGenre());
+		    FacesContext context = FacesContext.getCurrentInstance();
 
-			this.em.persist(priceScheme);
+			if (this.priceScheme == null)
+				create();
 
 			String transactionID = String.valueOf(transactionManager.getTransaction());
 
@@ -75,19 +108,12 @@ public class SubscriptionController implements Serializable {
 
 			this.em.persist(payment);
 
-		    FacesContext context = FacesContext.getCurrentInstance();
-		    HttpServletRequest request = (HttpServletRequest) context.
-		        getExternalContext().getRequest();
-		    
-			Sale sale = new Sale(
-					this.em.find(User.class, request.getRemoteUser()),
-					payment, priceScheme, 'S');
+			Sale sale = new Sale(this.user, payment, this.priceScheme, 'S');
 
 			this.em.persist(sale);			
 
-			Genre genre = this.em.find(Genre.class, this.genreId);
 			SubscriptionType subscriptionType = this.em.find(SubscriptionType.class, this.subscriptionTypeId);
-			Subscription subscription = new Subscription(genre,sale,
+			Subscription subscription = new Subscription(this.genre,sale,
 					subscriptionType,subscriptionCounter.incrementCount());
 
 			switch (subscriptionTypeId) {
@@ -99,7 +125,7 @@ public class SubscriptionController implements Serializable {
 					return null;
 				} else {
 					subscription.setSeat(seat);
-					for (Play s: genre.getPlays()) {
+					for (Play s: this.genre.getPlays()) {
 						for (Event e : s.getEvents()) {
 							// check that the date is the same excluding time
 							if ((e.getDatetime().getTime() - s.getFirstEventDate().getTime()) <= (24*3600*1000) ) {
@@ -121,7 +147,7 @@ public class SubscriptionController implements Serializable {
 				}
 				break;
 			case FREE_SEAT :
-				subscription.setPrepaidTickets((short)genre.getPlays().size());
+				subscription.setPrepaidTickets((short)this.genre.getPlays().size());
 				break;
 			case CARNET :
 				if ( this.prepaidTickets == 0 ) {
@@ -227,10 +253,11 @@ public class SubscriptionController implements Serializable {
 		}
 	}
 
-	private static Short _countEventsForGenre;
+	private static Long _countEventsForGenre;
 	
-	private int countEventsForGenre() {
+	private Long countEventsForGenre() {
 		if (_countEventsForGenre == null) {
+			/*
 			_countEventsForGenre = 0;
 			Genre genre = this.em.find(Genre.class, genreId);
 			Set<Play> Plays = genre.getPlays();
@@ -238,6 +265,16 @@ public class SubscriptionController implements Serializable {
 				_countEventsForGenre = (short) (_countEventsForGenre + s
 						.getEvents().size());
 			}
+			*/
+			Genre genre = this.em.find(Genre.class, genreId);
+
+			CriteriaBuilder cb = this.em.getCriteriaBuilder();
+			CriteriaQuery<Long> countCriteria = cb.createQuery(Long.class);
+			Root<Play> root = countCriteria.from(Play.class);
+			countCriteria = countCriteria.select(cb.count(root)).where(cb.equal(root.get("genre"), genre));
+			
+			_countEventsForGenre = this.em.createQuery(countCriteria).getSingleResult();		
+
 		}
 		return _countEventsForGenre;
 	}

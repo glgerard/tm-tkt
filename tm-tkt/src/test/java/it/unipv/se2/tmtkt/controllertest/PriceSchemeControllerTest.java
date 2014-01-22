@@ -5,8 +5,10 @@ import java.io.File;
 import it.unipv.se2.tmtkt.controller.PriceSchemeController;
 import it.unipv.se2.tmtkt.controller.SubscriptionController;
 import it.unipv.se2.tmtkt.model.Event;
+import it.unipv.se2.tmtkt.model.Genre;
 import it.unipv.se2.tmtkt.model.PriceScheme;
 import it.unipv.se2.tmtkt.model.Seat;
+import it.unipv.se2.tmtkt.model.Sector;
 import it.unipv.se2.tmtkt.model.Subscription;
 import it.unipv.se2.tmtkt.model.User;
 import it.unipv.se2.tmtkt.modeltest.GenericModelTest;
@@ -22,6 +24,7 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit.InSequence;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -58,13 +61,13 @@ public class PriceSchemeControllerTest {
     
     @Inject private PriceSchemeController priceSchemeController;
     
-    @Test
+    @Test @InSequence(1)
     @UsingDataSet({"datasets/genre.json","datasets/play.json","datasets/event.json",
-    	"datasets/paymentMethod.json", "datasets/user.json", "datasets/userCategory.json",
+    	"datasets/user.json", "datasets/userCategory.json",
     	"datasets/subscriptionType.json", "datasets/sector.json", "datasets/row.json",
-    	"datasets/seatCategory.json", "datasets/seat.json"})
-    public void shouldReturnPriceScheme() {
-    	Event event = this.em.find(Event.class, (short)1);
+    	"datasets/seatCategory.json", "datasets/seat.json", "datasets/priceScheme.json"})
+    public void shouldReturnTicketPrice() {
+    	Event event = this.em.find(Event.class, 1);
     	Seat seat = this.em.find(Seat.class, (short)1);
     	User user = this.em.find(User.class, "steffen_hermann@gmx.de");
     	
@@ -72,5 +75,19 @@ public class PriceSchemeControllerTest {
     	
         Assert.assertTrue( priceScheme.getPrice() > 0);
     }
+    
+    @Test @InSequence(2)
+    @UsingDataSet({"datasets/genre.json", "datasets/user.json", "datasets/userCategory.json",
+    	"datasets/subscriptionType.json", "datasets/sector.json", "datasets/row.json",
+    	"datasets/seatCategory.json", "datasets/seat.json", "datasets/priceScheme.json"})
+    public void shouldReturnSubscriptionPrice() {
+    	Genre genre = this.em.find(Genre.class, (short)1);
+    	Sector sector = this.em.find(Sector.class, (short)1);
+    	User user = this.em.find(User.class, "steffen_hermann@gmx.de");
+    	
+    	PriceScheme priceScheme = priceSchemeController.subscriptionPrice(genre, sector, user);
+    	
+        Assert.assertTrue( priceScheme.getPrice() > 0);
+    }  
     
 }

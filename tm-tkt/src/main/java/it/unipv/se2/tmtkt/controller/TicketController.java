@@ -9,6 +9,7 @@ import javax.ejb.Stateful;
 import javax.enterprise.context.*;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,18 +44,45 @@ public class TicketController implements Serializable {
 	
 	private PaymentMethod paymentMethod;
 	
-	@EJB private TicketCounter ticketCounter;
+	private Event event;
+	private Seat seat;
+	private User user;
+	private PriceScheme priceScheme;
 	
-	@EJB private TransactionTestImpl transactionManager;
+	@Inject private TicketCounter ticketCounter;
 	
+	@Inject private TransactionTestImpl transactionManager;
+	
+    @Inject private PriceSchemeController priceSchemeController;
+
 	@PersistenceContext(type = PersistenceContextType.TRANSACTION)
 	private EntityManager em;
 
+	public void create() {
+	    FacesContext context = FacesContext.getCurrentInstance();
+	    HttpServletRequest request = (HttpServletRequest) context.
+	        getExternalContext().getRequest();
+	    
+	    String userId = request.getRemoteUser();
+	    
+    	this.event = this.em.find(Event.class, eventId);
+    	this.seat = this.em.find(Seat.class, seatId);
+    	this.user = this.em.find(User.class, userId );
+    	
+    	this.priceScheme = priceSchemeController.ticketPrice(event, seat, user);		
+	}
+	
+	public long getPrice() {
+		if (this.priceScheme == null)
+			create();
+		return this.priceScheme.getPrice();
+	}
+	
 	public String buy() {
 		try {
-			PriceScheme priceScheme = new PriceScheme(25);
-
-			this.em.persist(priceScheme);
+	    	if (this.priceScheme == null)
+	    		create();
+	    	// this.em.persist(priceScheme);
 
 			String transactionID = String.valueOf(transactionManager.getTransaction());
 
@@ -62,22 +90,13 @@ public class TicketController implements Serializable {
 
 			this.em.persist(payment);
 
-			Event event = this.em.find(Event.class, eventId);
-			Seat seat = this.em.find(Seat.class, seatId);
-
-		    FacesContext context = FacesContext.getCurrentInstance();
-		    HttpServletRequest request = (HttpServletRequest) context.
-		        getExternalContext().getRequest();
-		    
-			Sale sale = new Sale(
-					this.em.find(User.class, request.getRemoteUser()),
-					payment, priceScheme, 'T');
+			Sale sale = new Sale(this.user, payment, priceScheme, 'T');
 
 			this.em.persist(sale);			
 
 			Booking booking = new Booking(
 					new BookingId(eventId, seatId),
-					seat, sale, event);
+					this.seat, sale, this.event);
 			
 			this.em.persist(booking);
 
