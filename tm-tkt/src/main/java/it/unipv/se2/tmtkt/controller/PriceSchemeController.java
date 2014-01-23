@@ -101,10 +101,14 @@ public class PriceSchemeController implements Serializable {
 				constraintsIter.hasNext(); )
 		{			
 			Predicate predicate = constraintsMap.get(constraintsIter.next());
-			countCriteria = countCriteria.select(builder.count(root)).where(predicate);
-			resultsCount = this.em.createQuery(countCriteria).getSingleResult();		
-			if (resultsCount >= 1) {
-				predicatesList.add(predicate);
+			if (predicate != null) {
+				countCriteria = countCriteria.select(builder.count(root))
+						.where(predicate);
+				resultsCount = this.em.createQuery(countCriteria)
+						.getSingleResult();
+				if (resultsCount >= 1) {
+					predicatesList.add(predicate);
+				}
 			}
 		}
 		
