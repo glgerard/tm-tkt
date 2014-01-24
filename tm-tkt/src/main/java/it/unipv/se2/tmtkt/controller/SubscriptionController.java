@@ -2,7 +2,6 @@ package it.unipv.se2.tmtkt.controller;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,15 +77,18 @@ public class SubscriptionController implements Serializable {
 	    
 	    String userId = request.getRemoteUser();
 	    this.user = this.em.find(User.class, userId );
-		this.genre = this.em.find(Genre.class, this.genreId);
-		
-		if (seatId != null) {
-			this.sector = this.em.find(Seat.class, seatId).getSector();
-		} else {
-			this.sector = this.em.find(Sector.class, (short)1);
-		}
-	    
-		this.priceScheme = priceSchemeController.subscriptionPrice(genre, sector, user);	
+	    if (this.genreId != null ) {
+			this.genre = this.em.find(Genre.class, this.genreId);
+
+			if (seatId != null && seatId.intValue() != 0) {
+				this.sector = this.em.find(Seat.class, seatId).getSector();
+			} else {
+				this.sector = this.em.find(Sector.class, (short) 1);
+			}
+
+			this.priceScheme = priceSchemeController.subscriptionPrice(genre,
+					sector, user);	
+	    }
 	}
 	
 	public long getPrice() {
